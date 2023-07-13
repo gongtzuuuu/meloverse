@@ -57,6 +57,25 @@ const PostCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
       <p className="font-inter text-sm blue_gradient cursor-pointer">
         {post.tag}
       </p>
+
+      {/* Check (1) If the current login user is the creator of the post */}
+      {/* Check (2) If the user is currently in the profile page */}
+      {session?.user.id === post.creator._id && pathName === "/profile" && (
+        <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
+          <p
+            className="font-inter text-sm green_gradient cursor-pointer"
+            onClick={handleEdit}
+          >
+            Edit
+          </p>
+          <p
+            className="font-inter text-sm orange_gradient cursor-pointer"
+            onClick={handleDelete}
+          >
+            Delete
+          </p>
+        </div>
+      )}
     </div>
   );
 };
