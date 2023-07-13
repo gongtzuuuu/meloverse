@@ -1,9 +1,8 @@
 import Post from "@models/post.model";
 import { connectToDB } from "@utils/database";
 
-export const POST = async (req, res) => {
-  //console.log("Request from /api/post/new POST route", req);
-  const { userId, post, tag } = await req.json();
+export const POST = async (request) => {
+  const { userId, post, tag } = await request.json();
 
   try {
     //1. Check if it has connected to DB
