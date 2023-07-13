@@ -15,8 +15,8 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
           <PostCard
             key={post._id}
             post={post}
-            handleEdit={handleEdit && handleEdit(post)}
-            handleDelete={handleDelete && handleDelete(post)}
+            handleEdit={() => handleEdit && handleEdit(post)} // It has to be a callback, or it will execute right away
+            handleDelete={() => handleDelete && handleDelete(post)}
           />
         ))}
       </div>

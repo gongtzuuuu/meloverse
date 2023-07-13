@@ -7,22 +7,26 @@ import { useRouter } from "next/navigation";
 import Profile from "@components/Profile";
 
 const MyProfile = () => {
+  const router = useRouter();
   const { data: session } = useSession();
 
   const [myPosts, setMyPosts] = useState([]);
 
-  const fetchPosts = async () => {
-    const reponse = await fetch(`/api/users/${session?.user.id}/posts`);
-    const data = await reponse.json();
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const reponse = await fetch(`/api/users/${session?.user.id}/posts`);
+      const data = await reponse.json();
 
-    setMyPosts(data);
+      setMyPosts(data);
+    };
+
+    if (session?.user.id) fetchPosts();
+  }, [session?.user.id]);
+
+  const handleEdit = (post) => {
+    router.push(`/update-post?id=${post._id}`);
   };
 
-  useEffect(() => {
-    if (session?.user.id) fetchPosts();
-  }, []);
-
-  const handleEdit = () => {};
   const handleDelete = () => {};
 
   return (
