@@ -14,11 +14,13 @@ const PostCardList = ({ data, handleTagClick }) => {
 };
 
 const Feed = () => {
-  //Fetch all posts
+  // Fetch all posts
   const [allPosts, setAllPosts] = useState([]);
 
-  //Search states
+  // Search states
   const [searchText, setSearchText] = useState("");
+  const [searchTimeOut, setSearchTimeOut] = useState(null);
+  const [searchResults, setSearchResults] = useState("");
 
   const fetchPosts = async () => {
     const reponse = await fetch("/api/post");
