@@ -28,8 +28,9 @@ const MyProfile = () => {
   };
 
   const handleDelete = async (post) => {
-    const hasConfirmed = confirm("Are you sure you want to delete this post?");
     // This confirm prompt is built into the browser API
+    const hasConfirmed = confirm("Are you sure you want to delete this post?");
+    console.log("post from delete post function:", post);
 
     if (hasConfirmed) {
       try {
@@ -39,6 +40,7 @@ const MyProfile = () => {
 
         // Filter the post that has been deleted, and update myPosts
         const filteredPosts = myPosts.filter((p) => p._id !== post._id);
+        console.log("filteredPosts:", filteredPosts);
         setMyPosts(filteredPosts);
       } catch (error) {
         console.log(error);
