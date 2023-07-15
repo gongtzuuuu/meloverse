@@ -3,8 +3,6 @@ import { connectToDB } from "@utils/database";
 
 // 1. GET (read)
 export const GET = async (request, { params }) => {
-  // console.log("params from single post api (get)", params);
-
   try {
     await connectToDB();
     const post = await Post.findById(params.id).populate("creator");
@@ -21,8 +19,6 @@ export const GET = async (request, { params }) => {
 
 // 2. PATCH (update)
 export const PATCH = async (request, { params }) => {
-  console.log("request from single post api (patch)", request);
-  console.log("params from single post api (patch)", params);
   const { post, tag } = await request.json();
 
   try {
@@ -46,8 +42,6 @@ export const PATCH = async (request, { params }) => {
 
 // 3. DELETE (delete)
 export const DELETE = async (request, { params }) => {
-  // console.log("params from single post api (delete)", params);
-
   try {
     await connectToDB();
     // Find the prompt by ID and remove it
