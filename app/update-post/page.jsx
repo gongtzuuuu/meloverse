@@ -29,7 +29,7 @@ const EditPost = () => {
         tag: data.tag,
       });
     };
-    // Only when postId exists then execute getPostDetails function
+    // Only when postId exists then execute getPostDetails()
     if (postId) getPostDetails();
   }, [postId]);
 

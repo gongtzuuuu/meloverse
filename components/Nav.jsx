@@ -8,6 +8,7 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 const Nav = () => {
   //Show different nav links according to login status with session
   const { data: session } = useSession();
+  console.log(session);
 
   //Get the currently configured authentication providers from /api/auth/providers
   const [providers, setProviders] = useState(null);
