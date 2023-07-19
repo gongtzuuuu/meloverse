@@ -5,7 +5,7 @@ import PostCard from "./PostCard";
 
 const PostCardList = ({ data, handleTagClick }) => {
   return (
-    <div className="mt-16 prompt_layout">
+    <div className="mt-5 prompt_layout">
       {data.map((post) => (
         <PostCard key={post._id} post={post} handleTagClick={handleTagClick} />
       ))}
@@ -13,25 +13,11 @@ const PostCardList = ({ data, handleTagClick }) => {
   );
 };
 
-const Feed = () => {
-  // Fetch all posts
-  const [allPosts, setAllPosts] = useState([]);
-
+const Feed = ({ data, text }) => {
   // Search states
   const [searchText, setSearchText] = useState("");
   const [searchTimeOut, setSearchTimeOut] = useState(null);
   const [searchResults, setSearchResults] = useState("");
-
-  const fetchPosts = async () => {
-    const reponse = await fetch("/api/post");
-    const data = await reponse.json();
-
-    setAllPosts(data);
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   const handleSearchChange = (e) => {};
 
@@ -41,7 +27,7 @@ const Feed = () => {
 
   return (
     <section className="feed">
-      <form className="relatve w-full flex-center">
+      {/* <form className="relatve w-full flex-center">
         <input
           type="text"
           placeholder="Search for a post, username or a tag"
@@ -50,8 +36,9 @@ const Feed = () => {
           required
           className="search_input peer"
         />
-      </form>
-      <PostCardList data={allPosts} handleTagClick={handleTagClick} />
+      </form> */}
+      <h1>{text}</h1>
+      <PostCardList data={data} handleTagClick={handleTagClick} />
     </section>
   );
 };

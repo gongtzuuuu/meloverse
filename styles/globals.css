@@ -173,4 +173,9 @@
   .flex-between {
     @apply flex justify-between items-center;
   }
+
+  /* Player Component */
+  .player {
+    @apply fixed bottom-0 h-32 w-full z-20 bg-white flex justify-between items-center gap-2 p-6 pb-4;
+  }
 }
