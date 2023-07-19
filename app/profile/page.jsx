@@ -84,7 +84,7 @@ const MyProfile = () => {
         handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
-      <Playlist data={myPlaylists} />
+      <Playlist myPlaylists={myPlaylists} />
     </>
   );
 };

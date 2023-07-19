@@ -1,13 +1,13 @@
 /* A re-usable playlist component */
 import PlaylistCard from "./PlaylistCard";
 
-const Playlist = ({ data }) => {
+const Playlist = ({ myPlaylists }) => {
   return (
     <>
       <h1>My Playlist</h1>
 
       <div className="mt-10 prompt_layout">
-        {data.map((playlist) => (
+        {myPlaylists.map((playlist) => (
           <PlaylistCard key={playlist.id} playlist={playlist} />
         ))}
       </div>
