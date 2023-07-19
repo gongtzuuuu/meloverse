@@ -5,51 +5,47 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Profile from "@components/Profile";
-import Playlist from "@components/Playlist";
-
-// import getUserPlaylist from "@lib/spotify";
 
 const MyProfile = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const [myPlaylists, setMyPlaylists] = useState([]);
+  const [mySavedTracks, setMySavedTracks] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
 
-  // Fetch User's playlists
-  useEffect(() => {
-    const getPlaylists = async () => {
-      if (session && session.accessToken) {
-        try {
-          const response = await fetch(
-            "https://api.spotify.com/v1/me/playlists",
-            {
-              headers: {
-                Authorization: `Bearer ${session.accessToken}`,
-              },
-            }
-          );
-          const data = await response.json();
-          setMyPlaylists(data.items);
-        } catch (error) {
-          console.log("Error from fetching user's playlist");
-        }
+  // Fetch saved tracks from the user
+  const fetchMySavedTracks = async () => {
+    if (session && session.accessToken) {
+      try {
+        const response = await fetch("https://api.spotify.com/v1/me/tracks", {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+          },
+        });
+        const data = await response.json();
+        console.log("fetching saved tracks", data);
+        setMySavedTracks(data.items);
+      } catch (error) {
+        console.log("Error from fetching user's playlist");
       }
-    };
-    getPlaylists();
-    console.log("data from fetching Soptify API", myPlaylists);
+    }
+  };
+
+  // Fetch posts from the user
+  const fetchMyPosts = async () => {
+    const reponse = await fetch(`/api/users/${session?.user.id}/posts`);
+    const data = await reponse.json();
+
+    setMyPosts(data);
+  };
+
+  useEffect(() => {
+    fetchMySavedTracks();
   }, [session]);
 
   // Fetch User's posts
   useEffect(() => {
-    const fetchPosts = async () => {
-      const reponse = await fetch(`/api/users/${session?.user.id}/posts`);
-      const data = await reponse.json();
-
-      setMyPosts(data);
-    };
-
-    if (session?.user.id) fetchPosts();
+    if (session?.user.id) fetchMyPosts();
   }, [session?.user.id]);
 
   const handleEdit = (post) => {
@@ -80,11 +76,12 @@ const MyProfile = () => {
       <Profile
         name="My"
         desc="Welcome to my personalised profile page"
-        data={myPosts} // It would be a list of posts
+        myPosts={myPosts} // It would be a list of posts
+        mySavedTracks={mySavedTracks} // It would be a list of saved songs
         handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
-      <Playlist myPlaylists={myPlaylists} />
+      <div className="h-32"></div>
     </>
   );
 };

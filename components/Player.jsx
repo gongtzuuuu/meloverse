@@ -7,11 +7,12 @@ import {
   PlayCircleIcon,
   PauseCircleIcon,
   PlusCircleIcon,
+  HeartIcon,
 } from "@heroicons/react/24/solid";
-import { set } from "mongoose";
 
 const Player = () => {
   const { data: session } = useSession();
+  console.log("data from session", session);
   const [globalCurrentSong, setGlobalCurrentSong] = useState({
     id: "",
     name: "",
@@ -63,22 +64,71 @@ const Player = () => {
   // Handle play or pause the song
   const handlePlayPause = async () => {
     setIsPlaying((prev) => !prev);
-    // try {
-    //   // If a user logged in, then get the current playing song
-    //   if (session && session.accessToken) {
-    //     const data = await getCurrentlyPlaying();
-    //     console.log("Current playing song from hte looged in user", data);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
+
+  const isLiked = async () => {
+    try {
+      const response = await fetch(`/api/users/${session.user.id}/songs-liked`);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLikeSong = async () => {
+    try {
+      const response = await fetch(
+        `/api/users/${session.user.id}/songs-liked`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({
+            id: globalCurrentSong.id,
+            name: globalCurrentSong.name,
+            artist: globalCurrentSong.artist,
+            image_url: globalCurrentSong.albumImage_url,
+          }),
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("Successfully like the song");
+    }
+  };
+
+  // Play a song
+  // async function playSong(track) {
+  //   setGlobalCurrentSongId(track.id);
+  //   setGlobalIsTrackPlaying(true);
+  //   if (session && session.accessToken) {
+  //     const response = await fetch(
+  //       "https://api.spotify.com/v1/me/player/play",
+  //       {
+  //         method: "PUT",
+  //         headers: {
+  //           Authorization: `Bearer ${session.accessToken}`,
+  //         },
+  //         body: JSON.stringify({
+  //           uris: [track.uri],
+  //         }),
+  //       }
+  //     );
+  //     console.log("on play", response.status);
+  //   }
+  // }
 
   useEffect(() => {
     if (session && session.accessToken) {
       getCurrentlyPlaying();
     }
   }, [session]);
+
+  useEffect(() => {
+    isLiked();
+  }, [globalCurrentSong]);
 
   return (
     <section className="player" style={{ border: "1px solid black" }}>
@@ -87,6 +137,7 @@ const Player = () => {
           <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
             <Image
               src={globalCurrentSong.albumImage_url}
+              alt="album_image"
               width={30}
               height={30}
             />
@@ -107,6 +158,9 @@ const Player = () => {
             </div>
             <div className="copy_btn" onClick={handlePlayPause}>
               <PlusCircleIcon className="h-40 w-40 cursor-pointer" />
+            </div>
+            <div className="copy_btn" onClick={handleLikeSong}>
+              <HeartIcon className="h-40 w-40 cursor-pointer" />
             </div>
           </div>
         ) : (

@@ -1,8 +1,42 @@
 /* Not a profile page but a re-usable profile component */
 
 import PostCard from "./PostCard";
+import SongCard from "./SongCard";
 
-const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
+const SongCardList = ({ mySavedTracks }) => {
+  return (
+    <div className="mt-10 prompt_layout">
+      {mySavedTracks.map((eachTrack) => (
+        <SongCard key={eachTrack.track.id} eachTrack={eachTrack} />
+      ))}
+    </div>
+  );
+};
+
+const PostCardList = ({ myPosts, handleEdit, handleDelete }) => {
+  console.log("PostCardList from PostCardList", myPosts);
+  return (
+    <div className="mt-10 prompt_layout">
+      {myPosts.map((eachPost) => (
+        <PostCard
+          key={eachPost._id}
+          eachPost={eachPost}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
+      ))}
+    </div>
+  );
+};
+
+const Profile = ({
+  name,
+  desc,
+  myPosts,
+  mySavedTracks,
+  handleEdit,
+  handleDelete,
+}) => {
   return (
     <section className="w-full">
       <h1 className="head_text text-left">
@@ -10,16 +44,12 @@ const Profile = ({ name, desc, data, handleEdit, handleDelete }) => {
       </h1>
       <p className="desc text-left">{desc}</p>
 
-      <div className="mt-10 prompt_layout">
-        {data.map((post) => (
-          <PostCard
-            key={post._id}
-            post={post}
-            handleEdit={() => handleEdit && handleEdit(post)} // It has to be a callback, or it will execute right away
-            handleDelete={() => handleDelete && handleDelete(post)}
-          />
-        ))}
-      </div>
+      <PostCardList
+        myPosts={myPosts}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+      <SongCardList mySavedTracks={mySavedTracks} />
     </section>
   );
 };
