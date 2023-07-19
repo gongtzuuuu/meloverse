@@ -73,14 +73,19 @@ const MyProfile = () => {
 
   return (
     <>
-      <Profile
-        name="My"
-        desc="Welcome to my personalised profile page"
-        myPosts={myPosts} // It would be a list of posts
-        mySavedTracks={mySavedTracks} // It would be a list of saved songs
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-      />
+      {session && session?.user ? (
+        <Profile
+          name="My"
+          desc="Welcome to my personalised profile page"
+          myPosts={myPosts} // It would be a list of posts
+          mySavedTracks={mySavedTracks} // It would be a list of saved songs
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
+      ) : (
+        <h1>Please login</h1>
+      )}
+
       <div className="h-32"></div>
     </>
   );

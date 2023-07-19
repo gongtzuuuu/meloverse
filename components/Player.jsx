@@ -66,14 +66,13 @@ const Player = () => {
     setIsPlaying((prev) => !prev);
   };
 
-  const isLiked = async () => {
-    try {
-      const response = await fetch(`/api/users/${session.user.id}/songs-liked`);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const isLiked = async () => {
+  //   try {
+  //     const response = await fetch(`/api/users/${session.user.id}/songs-liked`);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleLikeSong = async () => {
     try {
@@ -126,9 +125,9 @@ const Player = () => {
     }
   }, [session]);
 
-  useEffect(() => {
-    isLiked();
-  }, [globalCurrentSong]);
+  // useEffect(() => {
+  //   isLiked();
+  // }, [globalCurrentSong]);
 
   return (
     <section className="player" style={{ border: "1px solid black" }}>
