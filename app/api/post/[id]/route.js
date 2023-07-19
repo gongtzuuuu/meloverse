@@ -1,6 +1,8 @@
 import Post from "@models/post.model";
 import { connectToDB } from "@utils/database";
 
+/* localhost:300/api/post/:id */
+
 // 1. GET (read)
 export const GET = async (request, { params }) => {
   try {

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 
-const PostCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
+const PostCard = ({ eachPost, handleEdit, handleDelete }) => {
   const { data: session } = useSession();
   const pathName = usePathname();
   const router = useRouter();
@@ -13,8 +13,8 @@ const PostCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
   const [copiedText, setCopiedText] = useState("");
 
   const handleCopy = () => {
-    setCopiedText(post.post);
-    navigator.clipboard.writeText(post.post);
+    setCopiedText(eachPost.post);
+    navigator.clipboard.writeText(eachPost.post);
     setTimeout(() => setCopiedText(false), 3000); //Why do we set false here?
   };
 
@@ -24,7 +24,7 @@ const PostCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
         <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
           {/* Creator detail display - image */}
           <Image
-            src={post.creator.image}
+            src={eachPost.creator.image}
             alt="user_image"
             width={40}
             height={40}
@@ -33,10 +33,10 @@ const PostCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
           {/* Creator detail display - username, email */}
           <div className="flex flex-col">
             <h3 className="font-satoshi font-semibold text-gray-900">
-              {post.creator.username}
+              {eachPost.creator.username}
             </h3>
             <p className="font-inter text-sm text-gray-500">
-              {post.creator.email}
+              {eachPost.creator.email}
             </p>
           </div>
         </div>
@@ -46,21 +46,21 @@ const PostCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
             src={
               copiedText ? "/assets/icons/tick.svg" : "/assets/icons/copy.svg"
             }
-            alt={copiedText === post.post ? "tick_icon" : "copy_icon"}
+            alt={copiedText === eachPost.post ? "tick_icon" : "copy_icon"}
             width={12}
             height={12}
           />
         </div>
       </div>
 
-      <p className="my-4 font-satoshi text-sm text-gray-700">{post.post}</p>
+      <p className="my-4 font-satoshi text-sm text-gray-700">{eachPost.post}</p>
       <p className="font-inter text-sm blue_gradient cursor-pointer">
-        {post.tag}
+        {eachPost.tag}
       </p>
 
       {/* Check (1) If the current login user is the creator of the post */}
       {/* Check (2) If the user is currently in the profile page */}
-      {session?.user.id === post.creator._id && pathName === "/profile" && (
+      {session?.user.id === eachPost.creator._id && pathName === "/profile" && (
         <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
           <p
             className="font-inter text-sm green_gradient cursor-pointer"

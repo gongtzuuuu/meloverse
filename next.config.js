@@ -10,6 +10,7 @@ const nextConfig = {
       "i.scdn.co",
       "mosaic.scdn.co",
       "wrapped-images.spotifycdn.com",
+      "images-ak.spotifycdn.com",
     ],
   },
   webpack(config) {
