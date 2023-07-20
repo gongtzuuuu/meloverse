@@ -3,17 +3,21 @@
 import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
 
-const PostCardList = ({ data, handleTagClick }) => {
+const PostCardList = ({ postData, handleTagClick }) => {
   return (
     <div className="mt-5 prompt_layout">
-      {data.map((post) => (
-        <PostCard key={post._id} post={post} handleTagClick={handleTagClick} />
+      {postData.map((post) => (
+        <PostCard
+          key={post._id}
+          postData={post}
+          handleTagClick={handleTagClick}
+        />
       ))}
     </div>
   );
 };
 
-const Feed = ({ data, text }) => {
+const Feed = ({ postData, text }) => {
   // Search states
   const [searchText, setSearchText] = useState("");
   const [searchTimeOut, setSearchTimeOut] = useState(null);
@@ -27,18 +31,12 @@ const Feed = ({ data, text }) => {
 
   return (
     <section className="feed">
-      {/* <form className="relatve w-full flex-center">
-        <input
-          type="text"
-          placeholder="Search for a post, username or a tag"
-          value={searchText}
-          onChange={handleSearchChange}
-          required
-          className="search_input peer"
-        />
-      </form> */}
       <h1>{text}</h1>
-      <PostCardList data={data} handleTagClick={handleTagClick} />
+      {postData ? (
+        <PostCardList postData={postData} handleTagClick={handleTagClick} />
+      ) : (
+        <></>
+      )}
     </section>
   );
 };
