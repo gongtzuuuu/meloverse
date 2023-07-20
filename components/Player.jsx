@@ -12,7 +12,6 @@ import {
 
 const Player = () => {
   const { data: session } = useSession();
-  console.log("data from session", session);
   const [globalCurrentSong, setGlobalCurrentSong] = useState({
     id: "",
     name: "",
@@ -52,10 +51,7 @@ const Player = () => {
         artist: data.item.artists[0].name,
         albumImage_url: data.item.album.images[0].url,
       };
-
       setGlobalCurrentSong(theSong);
-
-      console.log("globalCurrentSong", globalCurrentSong);
     } catch (error) {
       console.log(error);
     }
