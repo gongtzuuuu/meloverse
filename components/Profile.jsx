@@ -13,14 +13,13 @@ const SongCardList = ({ mySavedTracks }) => {
   );
 };
 
-const PostCardList = ({ myPosts, handleEdit, handleDelete }) => {
-  console.log("PostCardList from PostCardList", myPosts);
+const PostCardList = ({ postData, handleEdit, handleDelete }) => {
   return (
     <div className="mt-10 prompt_layout">
-      {myPosts.map((eachPost) => (
+      {postData.map((eachPost) => (
         <PostCard
           key={eachPost._id}
-          eachPost={eachPost}
+          postData={eachPost}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
         />
@@ -43,13 +42,18 @@ const Profile = ({
         <span className="blue_gradient">{name} Profile</span>
       </h1>
       <p className="desc text-left">{desc}</p>
-
-      <PostCardList
-        myPosts={myPosts}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-      />
-      <SongCardList mySavedTracks={mySavedTracks} />
+      <div className="feed">
+        <h1>Your post...</h1>
+        <PostCardList
+          postData={myPosts}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
+      </div>
+      <div className="feed">
+        <h1>Liked songs...</h1>
+        <SongCardList mySavedTracks={mySavedTracks} />
+      </div>
     </section>
   );
 };

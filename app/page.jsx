@@ -30,9 +30,13 @@ const Home = () => {
 
   // Fetch all posts
   const fetchAllPosts = async () => {
-    const reponse = await fetch("/api/post");
-    const data = await reponse.json();
-    setAllPosts(data);
+    try {
+      const reponse = await fetch("/api/post");
+      const data = await reponse.json();
+      setAllPosts(data);
+    } catch (error) {
+      console.log("Error from page.jsx - fetching all posts", error);
+    }
   };
 
   // Fetch my posts
@@ -66,7 +70,7 @@ const Home = () => {
             It is a long established fact that a reader will be distracted by
             the readable content of a page when looking at its layout.
           </p>
-          <Feed data={myPosts} text={"Your post..."} />
+          <Feed postData={myPosts} text={"Your post..."} />
         </div>
       ) : (
         <div>
@@ -80,7 +84,7 @@ const Home = () => {
           </p>
         </div>
       )}
-      <Feed data={allPosts} text={"Explore more..."} />
+      <Feed postData={allPosts} text={"Explore more..."} />
       <div className="h-32"></div>
     </section>
   );

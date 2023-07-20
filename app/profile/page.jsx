@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import Profile from "@components/Profile";
@@ -74,14 +74,23 @@ const MyProfile = () => {
   return (
     <>
       {session && session?.user ? (
-        <Profile
-          name="My"
-          desc="Welcome to my personalised profile page"
-          myPosts={myPosts} // It would be a list of posts
-          mySavedTracks={mySavedTracks} // It would be a list of saved songs
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-        />
+        <>
+          <Profile
+            name="My"
+            desc="Welcome to my personalised profile page"
+            myPosts={myPosts} // It would be a list of posts
+            mySavedTracks={mySavedTracks} // It would be a list of saved songs
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
+          <button
+            type="button"
+            onClick={signOut}
+            className="mt-5 black_btn mb-6"
+          >
+            Sign Out
+          </button>
+        </>
       ) : (
         <h1>Please login</h1>
       )}

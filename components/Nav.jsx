@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { signIn, useSession, getProviders } from "next-auth/react";
 
 const Nav = () => {
   //Show different nav links according to login status with session
@@ -14,6 +14,11 @@ const Nav = () => {
 
   //Set toggle Dropdown function for mobile nav menu
   const [toggleDropdown, setToggleDropdown] = useState(false);
+
+  const [searchText, setSearchText] = useState(null);
+  const handleSearchChange = () => {
+    console.log("handleSearchChange clicked");
+  };
 
   useEffect(() => {
     const setUpProviders = async () => {
@@ -37,17 +42,30 @@ const Nav = () => {
       </Link>
 
       {/* Desktop Navigation */}
-      <div className="sm:flex hidden">
+      <div className="sm:flex">
         {session?.user ? (
-          <div className="flex gap-3 md:gap-5">
-            <Link href="/create-post" className="black_btn">
-              Create Post
-            </Link>
-
-            <button type="button" onClick={signOut} className="outline_btn">
-              Sign Out
+          <div className="flex gap-3 md:gap-5 relative">
+            <button
+              className="outline_btn"
+              onClick={() => {
+                setToggleDropdown((prev) => !prev);
+              }}
+            >
+              Search
             </button>
-
+            {toggleDropdown && (
+              <form className="dropdown relatve w-full flex-center">
+                <input
+                  type="text"
+                  placeholder="Search for a post, username or a tag"
+                  value={searchText}
+                  onChange={handleSearchChange}
+                  required
+                  className="search_input peer"
+                />
+              </form>
+            )}
+            {/* If the profile picture is clicked */}
             <Link href="/profile">
               <Image
                 src={session?.user.image}
@@ -57,68 +75,6 @@ const Nav = () => {
                 className="rounded-full"
               />
             </Link>
-          </div>
-        ) : (
-          <>
-            {/* Check if we have provider */}
-            {providers &&
-              Object.values(providers).map((provider) => (
-                <button
-                  type="button"
-                  key={provider.name}
-                  onClick={() => signIn(provider.id)}
-                  className="black_btn"
-                >
-                  Sign In
-                </button>
-              ))}
-          </>
-        )}
-      </div>
-
-      {/* Mobile Navigation */}
-      <div className="sm:hidden flex relative">
-        {session?.user ? (
-          <div className="flex">
-            <Image
-              src={session?.user.image}
-              alt="profile"
-              width={37}
-              height={37}
-              className="rounded-full"
-              onClick={() => {
-                setToggleDropdown((prev) => !prev);
-              }}
-            />
-            {/* If the profile picture is clicked */}
-            {toggleDropdown && (
-              <div className="dropdown">
-                <Link
-                  href="/profile"
-                  className="dropdown_link"
-                  onClick={() => setToggleDropdown(false)}
-                >
-                  My Profile
-                </Link>
-                <Link
-                  href="/create-post"
-                  className="dropdown_link"
-                  onClick={() => setToggleDropdown(false)}
-                >
-                  Create Post
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setToggleDropdown(false);
-                    signOut();
-                  }}
-                  className="mt-5 w-full black_btn"
-                >
-                  Sign Out
-                </button>
-              </div>
-            )}
           </div>
         ) : (
           <>
