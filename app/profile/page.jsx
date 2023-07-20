@@ -23,7 +23,6 @@ const MyProfile = () => {
           },
         });
         const data = await response.json();
-        console.log("fetching saved tracks", data);
         setMySavedTracks(data.items);
       } catch (error) {
         console.log("Error from fetching user's playlist");
