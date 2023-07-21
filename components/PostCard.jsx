@@ -25,7 +25,7 @@ const PostCard = ({ postData, handleEdit, handleDelete }) => {
           <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
             {/*Creator detail display - image */}
             <Image
-              src={postData.creator.image}
+              src={postData.userId.image}
               alt="user_image"
               width={40}
               height={40}
@@ -34,10 +34,10 @@ const PostCard = ({ postData, handleEdit, handleDelete }) => {
             {/* Creator detail display - username, email */}
             <div className="flex flex-col">
               <h3 className="font-satoshi font-semibold text-gray-900">
-                {postData.creator.username}
+                {postData.userId.username}
               </h3>
               <p className="font-inter text-sm text-gray-500">
-                {postData.creator.email}
+                {postData.userId.email}
               </p>
             </div>
           </div>
@@ -63,7 +63,7 @@ const PostCard = ({ postData, handleEdit, handleDelete }) => {
 
         {/* Check (1) If the current login user is the creator of the post
         {/* Check (2) If the user is currently in the profile page */}
-        {session?.user.id === postData.creator._id &&
+        {session?.user.id === postData.userId._id &&
           pathName === "/profile" && (
             <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
               <p

@@ -2,23 +2,24 @@ import Post from "@models/post.model";
 import { connectToDB } from "@utils/database";
 
 export const POST = async (request) => {
-  const { userId, post, tag } = await request.json();
+  const { userId, songId, post, tag } = await request.json();
 
   try {
-    //1. Check if it has connected to DB
+    // 1.Check if it has connected to DB
     await connectToDB();
 
-    //2. Create a new post
+    // 2.Create a new post
     const newPost = new Post({
-      creator: userId,
-      post,
-      tag,
+      userId: userId,
+      songId: songId,
+      post: post,
+      tag: tag,
     });
 
-    //3. Save it to the DB
+    // 3.Save it to the DB
     await newPost.save();
 
-    //4. Return a response and a 201 status
+    // 4.Return a response and a 201 status
     return new Response(JSON.stringify(newPost), {
       status: 201,
     });

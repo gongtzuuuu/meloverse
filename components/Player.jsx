@@ -146,16 +146,28 @@ const Player = () => {
             </div>
             <div className="copy_btn" onClick={handlePlayPause}>
               {isPlaying ? (
-                <PauseCircleIcon className="h-40 w-40 cursor-pointer" />
+                <PauseCircleIcon
+                  width={30}
+                  height={30}
+                  className="cursor-pointer"
+                />
               ) : (
-                <PlayCircleIcon className="h-40 w-40 cursor-pointer" />
+                <PlayCircleIcon
+                  width={30}
+                  height={30}
+                  className="cursor-pointer"
+                />
               )}
             </div>
             <div className="copy_btn" onClick={handlePlayPause}>
-              <PlusCircleIcon className="h-40 w-40 cursor-pointer" />
+              <PlusCircleIcon
+                width={30}
+                height={30}
+                className="cursor-pointer"
+              />
             </div>
             <div className="copy_btn" onClick={handleLikeSong}>
-              <HeartIcon className="h-40 w-40 cursor-pointer" />
+              <HeartIcon width={30} height={30} className="cursor-pointer" />
             </div>
           </div>
         ) : (
