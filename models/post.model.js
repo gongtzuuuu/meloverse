@@ -1,9 +1,13 @@
 import { Schema, model, models } from "mongoose";
 
 const PostSchema = new Schema({
-  creator: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
+  },
+  songId: {
+    type: String,
+    required: true,
   },
   post: {
     type: String,

@@ -6,7 +6,7 @@ import { connectToDB } from "@utils/database";
 export const GET = async (request, { params }) => {
   try {
     await connectToDB();
-    const posts = await Post.find({ creator: params.id }).populate("creator");
+    const posts = await Post.find({ userId: params.id }).populate("userId");
     return new Response(JSON.stringify(posts), { status: 200 });
   } catch (error) {
     return new Response("Failed to fetch all posts", { status: 500 });
