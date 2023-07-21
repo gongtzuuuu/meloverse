@@ -48,7 +48,8 @@ const MyProfile = () => {
   }, [session?.user.id]);
 
   const handleEdit = (post) => {
-    router.push(`/update-post?id=${post._id}`);
+    console.log("Post to edit", post);
+    // router.push(`/update-post?id=${post._id}`);
   };
 
   const handleDelete = async (post) => {

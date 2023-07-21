@@ -1,10 +1,4 @@
-const Form = ({
-  newPost,
-  setNewPost,
-  isSubmitting,
-  handleSubmit,
-  setToggleShow,
-}) => {
+const Form = ({ post, setPost, isSubmitting, handleSubmit, setToggleShow }) => {
   return (
     <>
       <form
@@ -16,8 +10,8 @@ const Form = ({
             Your story
           </span>
           <textarea
-            value={newPost.post}
-            onChange={(e) => setNewPost({ ...newPost, post: e.target.value })}
+            value={post.post}
+            onChange={(e) => setPost({ ...post, post: e.target.value })}
             placeholder="Write your story about this song..."
             required
             className="form_textarea "
@@ -28,8 +22,8 @@ const Form = ({
             Tag{" "}
           </span>
           <input
-            value={newPost.tag}
-            onChange={(e) => setNewPost({ ...newPost, tag: e.target.value })}
+            value={post.tag}
+            onChange={(e) => setPost({ ...post, tag: e.target.value })}
             type="text"
             placeholder="#motivation, #lovestory, #idea, etc."
             required

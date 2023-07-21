@@ -15,7 +15,7 @@ const Details = ({ params }) => {
   // Get form's info
   const [toggleShow, setToggleShow] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [newPost, setNewPost] = useState({
+  const [post, setPost] = useState({
     songId: params.id,
     post: "",
     tag: "",
@@ -42,7 +42,7 @@ const Details = ({ params }) => {
   };
 
   // Handle submitting
-  const handleSubmit = async (e) => {
+  const createPost = async (e) => {
     // Prevent browser default behaviour: reload the page
     e.preventDefault();
     setIsSubmitting(true);
@@ -54,9 +54,9 @@ const Details = ({ params }) => {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user.id, // We have to check if there's an user
-          songId: newPost.songId,
-          post: newPost.post,
-          tag: newPost.tag,
+          songId: post.songId,
+          post: post.post,
+          tag: post.tag,
         }),
       });
       console.log("response", response);
@@ -80,11 +80,11 @@ const Details = ({ params }) => {
       <SongDetail songInfo={songInfo} setToggleShow={setToggleShow} />
       {toggleShow && (
         <Form
-          newPost={newPost}
-          setNewPost={setNewPost}
+          post={post}
+          setPost={setPost}
           isSubmitting={isSubmitting}
           setToggleShow={setToggleShow}
-          handleSubmit={handleSubmit}
+          handleSubmit={createPost}
         />
       )}
       <div className="h-32"></div>
