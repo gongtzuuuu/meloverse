@@ -10,25 +10,7 @@ const MyProfile = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const [mySavedTracks, setMySavedTracks] = useState([]);
   const [myPosts, setMyPosts] = useState([]);
-
-  // Fetch saved tracks from the user
-  const fetchMySavedTracks = async () => {
-    if (session && session.accessToken) {
-      try {
-        const response = await fetch("https://api.spotify.com/v1/me/tracks", {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-          },
-        });
-        const data = await response.json();
-        setMySavedTracks(data.items);
-      } catch (error) {
-        console.log("Error from fetching user's playlist");
-      }
-    }
-  };
 
   // Fetch posts from the user
   const fetchMyPosts = async () => {
@@ -37,10 +19,6 @@ const MyProfile = () => {
 
     setMyPosts(data);
   };
-
-  useEffect(() => {
-    fetchMySavedTracks();
-  }, [session]);
 
   // Fetch User's posts
   useEffect(() => {
@@ -79,7 +57,6 @@ const MyProfile = () => {
             name="My"
             desc="Welcome to my personalised profile page"
             myPosts={myPosts} // It would be a list of posts
-            mySavedTracks={mySavedTracks} // It would be a list of saved songs
             handleEdit={handleEdit}
             handleDelete={handleDelete}
           />

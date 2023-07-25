@@ -4,8 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, useSession, getProviders } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
+  const router = useRouter();
   //Show different nav links according to login status with session
   const { data: session } = useSession();
 
@@ -16,9 +18,8 @@ const Nav = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   const [searchText, setSearchText] = useState(null);
-  const handleSearchChange = () => {
-    console.log("handleSearchChange clicked");
-  };
+
+  const handleSearch = () => {};
 
   useEffect(() => {
     const setUpProviders = async () => {
@@ -59,7 +60,7 @@ const Nav = () => {
                   type="text"
                   placeholder="Search for a post, username or a tag"
                   value={searchText}
-                  onChange={handleSearchChange}
+                  onSubmit={handleSearch}
                   required
                   className="search_input peer"
                 />

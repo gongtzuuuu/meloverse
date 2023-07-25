@@ -1,8 +1,10 @@
 import "@styles/globals.css";
 
-import Nav from "@components/Nav";
 import Provider from "@components/Provider";
+import GlobalSongProvider from "@components/GlobalSongProvider";
+import Nav from "@components/Nav";
 import Player from "@components/Player";
+
 /* Next auth doesn't just use the frontend files within the app for authentication */
 /* It uses the next.js API backend endpoints as well */
 
@@ -21,9 +23,11 @@ const RootLayout = ({ children }) => {
           </div>
           <main className="app">
             <Nav />
-            {children}
+            <GlobalSongProvider>
+              {children}
+              <Player />
+            </GlobalSongProvider>
           </main>
-          <Player />
         </Provider>
       </body>
     </html>
