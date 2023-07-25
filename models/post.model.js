@@ -9,6 +9,9 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
+  songDetail: {
+    type: Object,
+  },
   post: {
     type: String,
     required: [true, "Post is required."],

@@ -12,8 +12,6 @@ const Home = () => {
   const [myPosts, setMyPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
 
-  const [globalCurrentSongId, setGlobalCurrentSongId] = useState(null);
-
   // Change greetings on homepage
   const greetings = () => {
     const currentTime = new Date().getHours();
@@ -33,6 +31,7 @@ const Home = () => {
     try {
       const reponse = await fetch("/api/post");
       const data = await reponse.json();
+      // console.log("Data from fetching all posts on homepage", data);
       setAllPosts(data);
     } catch (error) {
       console.log("Error from page.jsx - fetching all posts", error);

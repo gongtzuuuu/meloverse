@@ -2,7 +2,7 @@ import Post from "@models/post.model";
 import { connectToDB } from "@utils/database";
 
 export const POST = async (request) => {
-  const { userId, songId, post, tag } = await request.json();
+  const { userId, songId, songDetail, post, tag } = await request.json();
 
   try {
     // 1.Check if it has connected to DB
@@ -12,6 +12,11 @@ export const POST = async (request) => {
     const newPost = new Post({
       userId: userId,
       songId: songId,
+      songDetail: {
+        name: songDetail.name,
+        artist: songDetail.artist,
+        album_img: songDetail.album_img,
+      },
       post: post,
       tag: tag,
     });

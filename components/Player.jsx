@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useEffect, useState, useContext } from "react";
+import { GlobalSongContext } from "./GlobalSongProvider";
 import Image from "next/image";
 import {
   PlayCircleIcon,
@@ -11,13 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 
 const Player = () => {
-  const { data: session } = useSession();
-  const [globalCurrentSong, setGlobalCurrentSong] = useState({
-    id: "",
-    name: "",
-    artist: "",
-    albumImage_url: "",
-  });
+  const { globalPlaySong, setGlobalPlaySong } = useContext(GlobalSongContext);
   const [songInfo, setSongInfo] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -32,43 +26,10 @@ const Player = () => {
     setSongInfo(data);
   };
 
-  // Get current playing song
-  const getCurrentlyPlaying = async () => {
-    try {
-      const response = await fetch(
-        "https://api.spotify.com/v1/me/player/currently-playing",
-        {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-          },
-        }
-      );
-      const data = await response.json();
-
-      const theSong = {
-        id: data.item.id,
-        name: data.item.name,
-        artist: data.item.artists[0].name,
-        albumImage_url: data.item.album.images[0].url,
-      };
-      setGlobalCurrentSong(theSong);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // Handle play or pause the song
   const handlePlayPause = async () => {
     setIsPlaying((prev) => !prev);
   };
-
-  // const isLiked = async () => {
-  //   try {
-  //     const response = await fetch(`/api/users/${session.user.id}/songs-liked`);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const handleLikeSong = async () => {
     try {
@@ -95,53 +56,53 @@ const Player = () => {
   };
 
   // Play a song
-  // async function playSong(track) {
-  //   setGlobalCurrentSongId(track.id);
-  //   setGlobalIsTrackPlaying(true);
-  //   if (session && session.accessToken) {
-  //     const response = await fetch(
-  //       "https://api.spotify.com/v1/me/player/play",
-  //       {
-  //         method: "PUT",
-  //         headers: {
-  //           Authorization: `Bearer ${session.accessToken}`,
-  //         },
-  //         body: JSON.stringify({
-  //           uris: [track.uri],
-  //         }),
-  //       }
-  //     );
-  //     console.log("on play", response.status);
-  //   }
-  // }
-
-  useEffect(() => {
+  const playSong = async (songId) => {
+    setGlobalCurrentSongId(track.id);
+    setGlobalIsTrackPlaying(true);
     if (session && session.accessToken) {
-      getCurrentlyPlaying();
+      const response = await fetch(
+        "https://api.spotify.com/v1/me/player/play",
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+          },
+          body: JSON.stringify({
+            uris: [track.uri],
+          }),
+        }
+      );
+      console.log("on play", response.status);
     }
-  }, [session]);
+  };
 
+  // let { globalPlaySong, setGlobalPlaySong } = useContext(GlobalSongContext);
   // useEffect(() => {
-  //   isLiked();
-  // }, [globalCurrentSong]);
+  //   console.log(globalPlaySong);
+  //   setGlobalPlaySong("new song");
+  //   console.log(globalPlaySong);
+  //   if (session && session.accessToken) {
+  //     getCurrentlyPlaying();
+  //   }
+  // }, []);
 
   return (
     <section className="player" style={{ border: "1px solid black" }}>
       <div className="flex justify-between items-start gap-5">
-        {session?.user ? (
+        {globalPlaySong ? (
           <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer">
             <Image
-              src={globalCurrentSong.albumImage_url}
+              src={globalPlaySong.item.album.images[0].url}
               alt="album_image"
               width={30}
               height={30}
             />
             <div className="flex flex-col">
               <h3 className="font-satoshi font-semibold text-gray-900">
-                {globalCurrentSong.name}
+                {globalPlaySong.item.name}
               </h3>
               <p className="font-inter text-sm text-gray-500">
-                {globalCurrentSong.artist}
+                {globalPlaySong.item.artists[0].name}
               </p>
             </div>
             <div className="copy_btn" onClick={handlePlayPause}>
@@ -171,7 +132,7 @@ const Player = () => {
             </div>
           </div>
         ) : (
-          <h1>User doesn't login in</h1>
+          <h1>No current playing song on Spotify</h1>
         )}
       </div>
     </section>

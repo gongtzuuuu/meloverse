@@ -1,14 +1,16 @@
 "use client";
 
+import { useContext } from "react";
+import { GlobalSongContext } from "./GlobalSongProvider";
 import Image from "next/image";
-import { useState } from "react";
 import {
   PlayCircleIcon,
   PlusCircleIcon,
   HeartIcon,
 } from "@heroicons/react/24/solid";
 
-const SongDetail = ({ songInfo, setToggleShow }) => {
+const SongDetail = ({ songId, songInfo, setToggleShow }) => {
+  const { setGlobalPlaySong } = useContext(GlobalSongContext);
   if (songInfo)
     return (
       <>
@@ -27,6 +29,10 @@ const SongDetail = ({ songInfo, setToggleShow }) => {
                 width={30}
                 height={30}
                 className="cursor-pointer"
+                onClick={() => {
+                  setGlobalPlaySong(songId);
+                  console.log(globalPlaySong);
+                }}
               />
             </div>
             <div className="copy_btn">
