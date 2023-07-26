@@ -10,7 +10,13 @@ const SongCardList = () => {
     return (
       <div className="mt-10 prompt_layout">
         {mySavedSongs.map((eachTrack) => (
-          <SongCard key={eachTrack.track.id} eachTrack={eachTrack} />
+          <SongCard
+            key={eachTrack.track.id}
+            id={eachTrack.track.id}
+            name={eachTrack.track.name}
+            artist={eachTrack.track.artists[0].name}
+            albumImg={eachTrack.track.album.images[0].url}
+          />
         ))}
       </div>
     );
