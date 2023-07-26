@@ -1,25 +1,18 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, useSession, getProviders } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import SearchBar from "./SearchBar";
 
 const Nav = () => {
-  const router = useRouter();
   //Show different nav links according to login status with session
   const { data: session } = useSession();
-
   //Get the currently configured authentication providers from /api/auth/providers
   const [providers, setProviders] = useState(null);
-
   //Set toggle Dropdown function for mobile nav menu
   const [toggleDropdown, setToggleDropdown] = useState(false);
-
-  const [searchText, setSearchText] = useState(null);
-
-  const handleSearch = () => {};
 
   useEffect(() => {
     const setUpProviders = async () => {
@@ -55,16 +48,7 @@ const Nav = () => {
               Search
             </button>
             {toggleDropdown && (
-              <form className="dropdown relatve w-full flex-center">
-                <input
-                  type="text"
-                  placeholder="Search for a post, username or a tag"
-                  value={searchText}
-                  onSubmit={handleSearch}
-                  required
-                  className="search_input peer"
-                />
-              </form>
+              <SearchBar setToggleDropdown={setToggleDropdown} />
             )}
             {/* If the profile picture is clicked */}
             <Link href="/profile">
