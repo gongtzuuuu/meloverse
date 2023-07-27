@@ -3,20 +3,17 @@
 import { useState, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
 import Profile from "@components/Profile";
 
 const MyProfile = () => {
   const router = useRouter();
   const { data: session } = useSession();
-
   const [myPosts, setMyPosts] = useState([]);
 
   // Fetch posts from the user
   const fetchMyPosts = async () => {
     const reponse = await fetch(`/api/users/${session?.user.id}/posts`);
     const data = await reponse.json();
-
     setMyPosts(data);
   };
 
@@ -56,7 +53,7 @@ const MyProfile = () => {
           <Profile
             name="My"
             desc="Welcome to my personalised profile page"
-            myPosts={myPosts} // It would be a list of posts
+            postData={myPosts}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
           />
@@ -71,7 +68,6 @@ const MyProfile = () => {
       ) : (
         <h1>Please login</h1>
       )}
-
       <div className="h-32"></div>
     </>
   );

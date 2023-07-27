@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Feed from "@components/Feed";
+import PostFeed from "@components/PostFeed";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -69,7 +69,7 @@ const Home = () => {
             It is a long established fact that a reader will be distracted by
             the readable content of a page when looking at its layout.
           </p>
-          <Feed postData={myPosts} text={"Your post..."} />
+          <PostFeed postData={myPosts} text={"Your post..."} />
         </div>
       ) : (
         <div>
@@ -83,7 +83,7 @@ const Home = () => {
           </p>
         </div>
       )}
-      <Feed postData={allPosts} text={"Explore more..."} />
+      <PostFeed postData={allPosts} text={"Explore more..."} />
       <div className="h-32"></div>
     </section>
   );
