@@ -55,7 +55,7 @@ const SearchResult = () => {
   return (
     <section className="w-full">
       <h1 className="head_text text-left">
-        <span className="blue_gradient">Search result</span>
+        <span className="blue_gradient">Search result: {query}</span>
       </h1>
       <SearchResultList searchResult={searchResult} />
       <div className="h-32"></div>
