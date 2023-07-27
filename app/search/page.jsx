@@ -58,6 +58,7 @@ const SearchResult = () => {
         <span className="blue_gradient">Search result</span>
       </h1>
       <SearchResultList searchResult={searchResult} />
+      <div className="h-32"></div>
     </section>
   );
 };

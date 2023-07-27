@@ -14,7 +14,8 @@ const PostCardList = ({ postData, handleTagClick }) => {
   );
 };
 
-const Feed = ({ postData, text }) => {
+/* PostFeed: text + postcards */
+const PostFeed = ({ postData, text }) => {
   const handleTagClick = () => {
     console.log("handle tag clicked!");
   };
@@ -25,10 +26,10 @@ const Feed = ({ postData, text }) => {
       {postData ? (
         <PostCardList postData={postData} handleTagClick={handleTagClick} />
       ) : (
-        <></>
+        <p>Loading...</p>
       )}
     </section>
   );
 };
 
-export default Feed;
+export default PostFeed;

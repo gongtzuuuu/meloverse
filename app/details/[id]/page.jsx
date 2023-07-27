@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SongDetail from "@components/SongDetail";
-import Feed from "@components/Feed";
+import PostFeed from "@components/PostFeed";
 import Form from "@components/Form";
 
 const Details = ({ params, globalPlaySong, setGlobalPlaySong }) => {
@@ -121,8 +121,8 @@ const Details = ({ params, globalPlaySong, setGlobalPlaySong }) => {
           handleSubmit={createPost}
         />
       )}
-      <Feed postData={myPosts} text={"My stories"} />
-      <Feed postData={otherPosts} text={"Other stories"} />
+      <PostFeed postData={myPosts} text={"My stories"} />
+      <PostFeed postData={otherPosts} text={"Other stories"} />
       <div className="h-32"></div>
     </section>
   );

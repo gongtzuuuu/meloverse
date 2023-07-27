@@ -25,7 +25,7 @@ const PostCard = ({ postData, handleEdit, handleDelete }) => {
                   height={40}
                 />
                 <div className="flex flex-col ml-4">
-                  <p className="font-satoshi text-sm font-semibold text-gray-700">
+                  <p className="font-satoshi text-sm font-semibold">
                     {postData.songDetail.name}
                   </p>
                   <p className="font-satoshi text-sm text-gray-700">
@@ -43,7 +43,7 @@ const PostCard = ({ postData, handleEdit, handleDelete }) => {
             </p>
           </div>
           {/* Post creator */}
-          <Link href="/">
+          <Link href={`/profile/${postData.userId._id}`}>
             <div className="flex-1 flex justify-start items-center gap-3">
               <Image
                 src={postData.userId.image}
