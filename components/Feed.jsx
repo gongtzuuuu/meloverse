@@ -1,6 +1,3 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import PostCard from "./PostCard";
 
 const PostCardList = ({ postData, handleTagClick }) => {
@@ -18,13 +15,6 @@ const PostCardList = ({ postData, handleTagClick }) => {
 };
 
 const Feed = ({ postData, text }) => {
-  // Search states
-  const [searchText, setSearchText] = useState("");
-  const [searchTimeOut, setSearchTimeOut] = useState(null);
-  const [searchResults, setSearchResults] = useState("");
-
-  const handleSearchChange = (e) => {};
-
   const handleTagClick = () => {
     console.log("handle tag clicked!");
   };
