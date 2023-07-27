@@ -52,8 +52,6 @@ const GlobalSongProvider = ({ children }) => {
       fetchMySavedSongs();
       getCurrentlyPlaying();
     }
-    console.log("mySavedSongs", mySavedSongs);
-    console.log("globalPlaySong", globalPlaySong);
   }, [session]);
 
   return (

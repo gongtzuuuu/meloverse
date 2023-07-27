@@ -22,7 +22,9 @@ const PostFeed = ({ postData, text }) => {
 
   return (
     <section className="feed">
-      <h1>{text}</h1>
+      <h1 className="font-satoshi font-semibold text-lg green_gradient">
+        {text}
+      </h1>
       {postData ? (
         <PostCardList postData={postData} handleTagClick={handleTagClick} />
       ) : (

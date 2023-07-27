@@ -24,7 +24,9 @@ const SongCardList = () => {
 const SongFeed = ({ text }) => {
   return (
     <section className="feed">
-      <h1>{text}</h1>
+      <h1 className="font-satoshi font-semibold text-lg orange_gradient">
+        {text}
+      </h1>
       <SongCardList />
     </section>
   );

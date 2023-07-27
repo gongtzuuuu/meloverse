@@ -71,7 +71,6 @@ const Details = ({ params, globalPlaySong, setGlobalPlaySong }) => {
     // Prevent browser default behaviour: reload the page
     e.preventDefault();
     setIsSubmitting(true);
-
     // Create a post
     try {
       // 1. Call API
@@ -105,27 +104,30 @@ const Details = ({ params, globalPlaySong, setGlobalPlaySong }) => {
     fetchSongPosts();
   }, [session]);
 
-  return (
-    <section className="w-full">
-      <SongDetail
-        songId={params.id}
-        songInfo={songInfo}
-        setToggleShow={setToggleShow}
-      />
-      {toggleShow && (
-        <Form
-          post={post}
-          setPost={setPost}
-          isSubmitting={isSubmitting}
+  if (songInfo)
+    return (
+      <section className="feed">
+        <SongDetail
+          id={params.id}
+          name={songInfo.name}
+          artist={songInfo.artists[0].name}
+          albumImg={songInfo.album.images[0].url}
           setToggleShow={setToggleShow}
-          handleSubmit={createPost}
         />
-      )}
-      <PostFeed postData={myPosts} text={"My stories"} />
-      <PostFeed postData={otherPosts} text={"Other stories"} />
-      <div className="h-32"></div>
-    </section>
-  );
+        {toggleShow && (
+          <Form
+            post={post}
+            setPost={setPost}
+            isSubmitting={isSubmitting}
+            setToggleShow={setToggleShow}
+            handleSubmit={createPost}
+          />
+        )}
+        <PostFeed postData={myPosts} text={"My stories"} />
+        <PostFeed postData={otherPosts} text={"Other stories"} />
+        <div className="h-32"></div>
+      </section>
+    );
 };
 
 export default Details;
