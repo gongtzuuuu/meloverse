@@ -20,7 +20,7 @@ const PostFeed = ({ postData, text }) => {
     console.log("handle tag clicked!");
   };
 
-  if (postData)
+  if (postData && postData.length !== 0)
     return (
       <section className="feed">
         <h1 className="font-satoshi font-semibold text-lg green_gradient">

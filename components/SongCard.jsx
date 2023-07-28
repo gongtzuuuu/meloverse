@@ -12,5 +12,4 @@ const SongCard = ({ id, name, artist, albumImg }) => {
     </Link>
   );
 };
-
 export default SongCard;
