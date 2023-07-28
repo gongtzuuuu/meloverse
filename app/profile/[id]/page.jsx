@@ -26,6 +26,7 @@ const UserProfile = ({ params }) => {
         name={username}
         desc={`Welcome to ${username} profile page`}
         postData={userPosts} // It would be a list of posts
+        text={"User's posts"}
       />
       <div className="h-32"></div>
     </>

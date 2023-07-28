@@ -1,4 +1,6 @@
 import { useContext } from "react";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import { GlobalSongContext } from "@components/GlobalSongProvider";
 import SongCard from "@components//SongCard";
 
@@ -22,13 +24,19 @@ const SongCardList = () => {
 
 /* Feed: text + postcards */
 const SongFeed = ({ text }) => {
+  const pathName = usePathname();
+
   return (
-    <section className="feed">
-      <h1 className="font-satoshi font-semibold text-lg orange_gradient">
-        {text}
-      </h1>
-      <SongCardList />
-    </section>
+    <>
+      {pathName === "/profile" && (
+        <section className="feed">
+          <h1 className="font-satoshi font-semibold text-lg orange_gradient">
+            {text}
+          </h1>
+          <SongCardList />
+        </section>
+      )}
+    </>
   );
 };
 

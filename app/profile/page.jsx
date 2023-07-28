@@ -54,6 +54,7 @@ const MyProfile = () => {
             name="My"
             desc="Welcome to my personalised profile page"
             postData={myPosts}
+            text={"Your posts"}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
           />
