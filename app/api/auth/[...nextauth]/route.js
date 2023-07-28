@@ -13,9 +13,8 @@ const scopes = [
   "user-library-read",
   "user-library-modify",
   "user-read-currently-playing",
+  "user-read-recently-played",
   "user-modify-playback-state",
-  "playlist-read-private",
-  "playlist-read-collaborative",
   "streaming",
 ].join(",");
 
@@ -47,7 +46,7 @@ const refreshAccessToken = async (token) => {
     ...token,
     accessToken: data.access_token,
     refreshToken: data.refresh_token ?? token.refreshToken,
-    accessTokenExpires: Date.now() + data.expires_in * 1000,
+    accessTokenExpires: Date.now() + data.expires_in * 10000,
   };
 };
 

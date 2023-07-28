@@ -20,18 +20,15 @@ const PostFeed = ({ postData, text }) => {
     console.log("handle tag clicked!");
   };
 
-  return (
-    <section className="feed">
-      <h1 className="font-satoshi font-semibold text-lg green_gradient">
-        {text}
-      </h1>
-      {postData ? (
+  if (postData)
+    return (
+      <section className="feed">
+        <h1 className="font-satoshi font-semibold text-lg green_gradient">
+          {text}
+        </h1>
         <PostCardList postData={postData} handleTagClick={handleTagClick} />
-      ) : (
-        <p>Loading...</p>
-      )}
-    </section>
-  );
+      </section>
+    );
 };
 
 export default PostFeed;
