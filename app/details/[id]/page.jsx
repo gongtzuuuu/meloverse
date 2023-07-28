@@ -7,7 +7,7 @@ import SongDetail from "@components/SongDetail";
 import PostFeed from "@components/PostFeed";
 import Form from "@components/Form";
 
-const Details = ({ params, globalPlaySong, setGlobalPlaySong }) => {
+const Details = ({ params }) => {
   const router = useRouter();
   // Get user's info
   const { data: session } = useSession();
@@ -17,7 +17,7 @@ const Details = ({ params, globalPlaySong, setGlobalPlaySong }) => {
   const [myPosts, setMyPosts] = useState(null);
   const [otherPosts, setOtherPosts] = useState(null);
   // Get form's info
-  const [toggleShow, setToggleShow] = useState(false);
+  const [toggleShow, setToggleShow] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [post, setPost] = useState({
     songId: params.id,
@@ -51,16 +51,6 @@ const Details = ({ params, globalPlaySong, setGlobalPlaySong }) => {
       const response = await fetch(`/api/songs/${params.id}/posts`);
       const data = await response.json();
       setSongPosts(data);
-      // Filter my songs
-      const filteredMyPosts = songPosts.filter(
-        (post) => post.userId._id === session?.user.id
-      );
-      setMyPosts(filteredMyPosts);
-      // Filter other songs
-      const filteredOtherPosts = songPosts.filter(
-        (post) => post.userId._id !== session?.user.id
-      );
-      setOtherPosts(filteredOtherPosts);
     } catch (error) {
       console.log("Error from fetching song's posts", error);
     }
@@ -104,10 +94,26 @@ const Details = ({ params, globalPlaySong, setGlobalPlaySong }) => {
     fetchSongPosts();
   }, [session]);
 
+  useEffect(() => {
+    if (songPosts) {
+      // Filter my songs
+      const filteredMyPosts = songPosts.filter(
+        (post) => post.userId._id === session?.user.id
+      );
+      setMyPosts(filteredMyPosts);
+      // Filter other songs
+      const filteredOtherPosts = songPosts.filter(
+        (post) => post.userId._id !== session?.user.id
+      );
+      setOtherPosts(filteredOtherPosts);
+    }
+  }, [songPosts]);
+
   if (songInfo)
     return (
       <section className="feed">
         <SongDetail
+          session={session}
           id={params.id}
           name={songInfo.name}
           artist={songInfo.artists[0].name}
