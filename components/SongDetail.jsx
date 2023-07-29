@@ -7,19 +7,6 @@ import {
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
-// globalPlaySong,
-// setGlobalPlaySong,
-// isPlaying,
-// setIsPlaying,
-// mySavedSongs,
-// setMySavedSongs,
-// /* */
-// handleLikeSong,
-// handlePlay,
-// handlePause,
-// addToQueue,
-// skipToNext,
-
 const SongDetail = ({ id, name, artist, albumImg, setToggleShow }) => {
   const {
     setGlobalPlaySong,
@@ -29,25 +16,6 @@ const SongDetail = ({ id, name, artist, albumImg, setToggleShow }) => {
     addToQueue,
     skipToNext,
   } = useContext(GlobalSongContext);
-
-  // handle to like the song
-  // const handleLikeSong = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `https://api.spotify.com/v1/me/tracks?ids=${id}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${session.accessToken}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //         method: "PUT",
-  //       }
-  //     );
-  //     console.log("", response);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <div className="flex items-center">

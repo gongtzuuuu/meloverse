@@ -35,9 +35,13 @@ const PostCard = ({ postData, handleEdit, handleDelete }) => {
           {/* Post Detail */}
           <div className="my-4 flex flex-col">
             <p className="my-4 font-satoshi text-gray-700">{postData.post}</p>
-            <p className="my-4 font-inter text-sm blue_gradient cursor-pointer">
-              {postData.tag}
-            </p>
+            <div className="flex flex-wrap">
+              {postData.tag.map((eachTag) => (
+                <p className="my-4 mr-2 font-inter text-sm blue_gradient cursor-pointer">
+                  #{eachTag}
+                </p>
+              ))}
+            </div>
           </div>
           {/* Post creator */}
           <Link href={`/profile/${postData.userId._id}`}>
