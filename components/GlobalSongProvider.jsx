@@ -83,6 +83,109 @@ const GlobalSongProvider = ({ children }) => {
     }
   };
 
+  // handle to like the song
+  const handleLikeSong = async (id) => {
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/me/tracks?ids=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${session.accessToken}`,
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+        }
+      );
+      console.log("", response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Handle to play the song
+  const handlePlay = async () => {
+    if (session && session.accessToken) {
+      try {
+        const response = await fetch(
+          "https://api.spotify.com/v1/me/player/play",
+          {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${session.accessToken}`,
+            },
+          }
+        );
+        if (response.status == 204) {
+          setIsPlaying(true);
+        }
+      } catch (error) {
+        console.log("Error from playing the song", error);
+      }
+    }
+  };
+
+  // Handle to pause the song
+  const handlePause = async () => {
+    if (session && session.accessToken) {
+      try {
+        const response = await fetch(
+          "https://api.spotify.com/v1/me/player/pause",
+          {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${session.accessToken}`,
+            },
+          }
+        );
+        if (response.status == 204) {
+          setIsPlaying(false);
+        }
+      } catch (error) {
+        console.log("Error from pausing the song", error);
+      }
+    }
+  };
+
+  // Add the song to playback queue
+  const addToQueue = async (id) => {
+    if (session && session.accessToken) {
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${session.accessToken}`,
+            },
+            method: "POST",
+          }
+        );
+        return response;
+      } catch (error) {
+        console.log("Error from adding the song to playback queue", error);
+      }
+    }
+  };
+
+  // Skips to next track in the user’s queue
+  const skipToNext = async () => {
+    if (session && session.accessToken) {
+      try {
+        const response = await fetch(
+          "https://api.spotify.com/v1/me/player/next",
+          {
+            headers: {
+              Authorization: `Bearer ${session.accessToken}`,
+            },
+            method: "POST",
+          }
+        );
+        return response;
+      } catch (error) {
+        console.log("Error from skipping to next track", error);
+      }
+    }
+  };
+
   useEffect(() => {
     if (session && session.accessToken) {
       getCurrentlyPlaying();
@@ -110,6 +213,12 @@ const GlobalSongProvider = ({ children }) => {
         setIsPlaying,
         mySavedSongs,
         setMySavedSongs,
+        /* */
+        handleLikeSong,
+        handlePlay,
+        handlePause,
+        addToQueue,
+        skipToNext,
       }}
     >
       {children}

@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState, useContext } from "react";
-import { useSession } from "next-auth/react";
+import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { GlobalSongContext } from "@components/GlobalSongProvider";
 import Image from "next/image";
@@ -14,67 +13,17 @@ import {
 
 const Player = () => {
   const router = useRouter();
-  const { data: session } = useSession();
-  const { globalPlaySong, setGlobalPlaySong, isPlaying, setIsPlaying } =
-    useContext(GlobalSongContext);
+  const {
+    globalPlaySong,
+    isPlaying,
+    setIsPlaying,
+    handleLikeSong,
+    handlePlay,
+    handlePause,
+  } = useContext(GlobalSongContext);
 
   const handleAddPost = () => {
     router.push(`/details/${globalPlaySong.id}`);
-  };
-
-  // handle to like the song
-  const handleLikeSong = async () => {
-    try {
-      const response = await fetch(
-        `https://api.spotify.com/v1/me/tracks?ids=${globalPlaySong.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-            "Content-Type": "application/json",
-          },
-          method: "PUT",
-        }
-      );
-      console.log("", response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Handle to play or pause the song
-  const handlePlayPause = async () => {
-    setGlobalPlaySong(globalPlaySong);
-    setIsPlaying((prev) => !prev);
-
-    if (session && session.accessToken) {
-      if (isPlaying) {
-        const response = await fetch(
-          "https://api.spotify.com/v1/me/player/pause",
-          {
-            method: "PUT",
-            headers: {
-              Authorization: `Bearer ${session.accessToken}`,
-            },
-          }
-        );
-        if (response.status == 204) {
-          setIsPlaying(false);
-        }
-      } else {
-        const response = await fetch(
-          "https://api.spotify.com/v1/me/player/play",
-          {
-            method: "PUT",
-            headers: {
-              Authorization: `Bearer ${session.accessToken}`,
-            },
-          }
-        );
-        if (response.status == 204) {
-          setIsPlaying(true);
-        }
-      }
-    }
   };
 
   return (
@@ -107,24 +56,38 @@ const Player = () => {
             {/* Button Area */}
             {/* ----------- */}
             <div className="flex justify-center items-center sm:gap-3">
-              <div className="copy_btn" onClick={handlePlayPause}>
-                {/* ---------------------- */}
-                {/* Play or pause the song */}
-                {/* ---------------------- */}
-                {isPlaying ? (
+              {/* ---------------------- */}
+              {/* Play or pause the song */}
+              {/* ---------------------- */}
+              {isPlaying ? (
+                <div
+                  className="copy_btn"
+                  onClick={() => {
+                    handlePause();
+                    setIsPlaying(false);
+                  }}
+                >
                   <PauseCircleIcon
                     width={30}
                     height={30}
                     className="cursor-pointer"
                   />
-                ) : (
+                </div>
+              ) : (
+                <div
+                  className="copy_btn"
+                  onClick={() => {
+                    handlePlay();
+                    setIsPlaying(true);
+                  }}
+                >
                   <PlayCircleIcon
                     width={30}
                     height={30}
                     className="cursor-pointer"
                   />
-                )}
-              </div>
+                </div>
+              )}
               {/* --------------- */}
               {/* Add Post Button */}
               {/* --------------- */}
@@ -138,13 +101,16 @@ const Player = () => {
               {/* ------------- */}
               {/* Like the song */}
               {/* ------------- */}
-              <div className="copy_btn" onClick={handleLikeSong}>
+              <div
+                className="copy_btn"
+                onClick={() => handleLikeSong(globalPlaySong.id)}
+              >
                 <HeartIcon width={30} height={30} className="cursor-pointer" />
               </div>
             </div>
           </div>
         ) : (
-          <h1>No current playing song on Spotify</h1>
+          <h1>Please login with Spotify account</h1>
         )}
       </div>
     </section>
