@@ -22,7 +22,7 @@ const Details = ({ params }) => {
   const [post, setPost] = useState({
     songId: params.id,
     post: "",
-    tag: "",
+    tag: [],
   });
 
   // Fetch song's info

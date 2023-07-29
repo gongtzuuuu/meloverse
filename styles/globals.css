@@ -132,7 +132,19 @@
   }
 
   .form_input {
-    @apply w-full flex rounded-lg mt-2 p-3 text-sm text-gray-500 outline-0;
+    @apply w-full flex grow rounded-lg mt-2 p-3 text-sm text-gray-500 outline-0;
+  }
+
+  .form_tag {
+    @apply inline-block font-satoshi rounded-lg mr-2 mb-2 p-2 text-gray-700 bg-neutral-200;
+  }
+
+  .form_span {
+    @apply inline-flex w-5 h-5 justify-center rounded-full text-white bg-neutral-500 ml-2 cursor-pointer;
+  }
+
+  .form_tag_display {
+    @apply w-full mt-3 flex flex-wrap items-center rounded-lg text-sm text-gray-500 outline-0;
   }
 
   /* Nav Component */
