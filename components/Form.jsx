@@ -2,12 +2,6 @@
 
 import { useState, useEffect } from "react";
 
-// post = { post };
-// setPost = { setPost };
-// isSubmitting = { isSubmitting };
-// setToggleShow = { setToggleShow };
-// handleSubmit = { createPost };
-
 const Form = ({ post, setPost, isSubmitting, handleSubmit, setToggleShow }) => {
   const [inputValue, setInputValue] = useState("");
   const [tags, setTags] = useState([]);
@@ -56,7 +50,6 @@ const Form = ({ post, setPost, isSubmitting, handleSubmit, setToggleShow }) => {
           Tag{" "}
         </span>
         <input
-          // value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           type="text"
