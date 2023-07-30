@@ -10,6 +10,7 @@ const Home = () => {
 
   // Get posts
   const [myPosts, setMyPosts] = useState([]);
+  const [otherPosts, setOtherPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
 
   // Change greetings on homepage
@@ -31,7 +32,6 @@ const Home = () => {
     try {
       const reponse = await fetch("/api/post");
       const data = await reponse.json();
-      // console.log("Data from fetching all posts on homepage", data);
       setAllPosts(data);
     } catch (error) {
       console.log("Error from page.jsx - fetching all posts", error);
@@ -55,6 +55,13 @@ const Home = () => {
   useEffect(() => {
     if (session?.user.id) fetchMyPosts();
   }, [session?.user.id]);
+
+  useEffect(() => {
+    const filteredPosts = allPosts.filter(
+      (eachPost) => session?.user.id !== eachPost.userId._id
+    );
+    setOtherPosts(filteredPosts);
+  }, [allPosts, myPosts]);
 
   return (
     <section className="w-full flex-center flex-col">
@@ -83,7 +90,7 @@ const Home = () => {
           </p>
         </div>
       )}
-      <PostFeed postData={allPosts} text={"Explore more..."} />
+      <PostFeed postData={otherPosts} text={"Explore more..."} />
       <div className="h-32"></div>
     </section>
   );

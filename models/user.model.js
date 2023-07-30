@@ -1,24 +1,5 @@
 import { Schema, model, models } from "mongoose";
 
-const subSchema = new Schema({
-  spotify_id: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  artist: {
-    type: String,
-    required: true,
-  },
-  image_url: {
-    type: String,
-    required: true,
-  },
-});
-
 const UserSchema = new Schema({
   email: {
     type: String,
@@ -35,14 +16,6 @@ const UserSchema = new Schema({
   },
   image: {
     type: String,
-  },
-  likedSong: {
-    type: [subSchema],
-    default: [],
-  },
-  playedSong: {
-    type: [subSchema],
-    default: [],
   },
 });
 
