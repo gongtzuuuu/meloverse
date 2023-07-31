@@ -201,7 +201,7 @@ const GlobalSongProvider = ({ children }) => {
   }, [currentlyPlaying, recentlyPlayed]);
 
   useEffect(() => {
-    console.log("globalPlaySong", globalPlaySong);
+    // console.log("globalPlaySong", globalPlaySong);
   }, [globalPlaySong]);
 
   return (

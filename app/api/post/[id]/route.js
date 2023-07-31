@@ -7,7 +7,7 @@ import { connectToDB } from "@utils/database";
 export const GET = async (request, { params }) => {
   try {
     await connectToDB();
-    const post = await Post.findById(params.id).populate("creator");
+    const post = await Post.findById(params.id).populate("userId");
 
     // If the post doesn't exist
     if (!post) return new Response("Post not found", { status: 404 });

@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { v4 as uuidv4 } from "uuid";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-const PostCard = ({ postData, handleEdit, handleDelete }) => {
+const PostCard = ({ postData, handleDelete }) => {
   const { data: session } = useSession();
   const pathName = usePathname();
 
@@ -37,7 +38,7 @@ const PostCard = ({ postData, handleEdit, handleDelete }) => {
             <p className="my-4 font-satoshi text-gray-700">{postData.post}</p>
             <div className="flex flex-wrap">
               {postData.tag.map((eachTag) => (
-                <Link href={`/search/${eachTag}`}>
+                <Link key={uuidv4()} href={`/search/${eachTag}`}>
                   <p className="my-4 mr-2 font-inter text-sm blue_gradient cursor-pointer">
                     #{eachTag}
                   </p>
@@ -66,12 +67,14 @@ const PostCard = ({ postData, handleEdit, handleDelete }) => {
           {session?.user.id === postData.userId._id &&
             pathName === "/profile" && (
               <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
-                <p className="outline_btn cursor-pointer" onClick={handleEdit}>
-                  Edit
-                </p>
+                <Link href={`/post/${postData._id}`}>
+                  <p className="outline_btn cursor-pointer">Edit</p>
+                </Link>
                 <p
                   className="outline_btn cursor-pointer"
-                  onClick={handleDelete}
+                  onClick={() => {
+                    handleDelete(postData);
+                  }}
                 >
                   Delete
                 </p>

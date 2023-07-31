@@ -1,7 +1,7 @@
 import PostFeed from "@components/PostFeed";
 import SongFeed from "@components/SongFeed";
 
-const Profile = ({ name, desc, postData, text, handleEdit, handleDelete }) => {
+const Profile = ({ name, desc, postData, text, handleDelete }) => {
   return (
     <section className="w-full">
       {/* Title and description */}
@@ -10,7 +10,7 @@ const Profile = ({ name, desc, postData, text, handleEdit, handleDelete }) => {
       </h1>
       <p className="desc text-left">{desc}</p>
       {/* Feeds */}
-      <PostFeed postData={postData} text={text} />
+      <PostFeed postData={postData} text={text} handleDelete={handleDelete} />
       <SongFeed text="Liked songs..." />
     </section>
   );

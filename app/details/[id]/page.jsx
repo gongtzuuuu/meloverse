@@ -18,6 +18,7 @@ const Details = ({ params }) => {
   const [otherPosts, setOtherPosts] = useState(null);
   // Get form's info
   const [toggleShow, setToggleShow] = useState(true);
+  const [submitStatus, setSubmitStatus] = useState("Create");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [post, setPost] = useState({
     songId: params.id,
@@ -124,9 +125,10 @@ const Details = ({ params }) => {
           <Form
             post={post}
             setPost={setPost}
+            submitStatus={submitStatus}
             isSubmitting={isSubmitting}
-            setToggleShow={setToggleShow}
             handleSubmit={createPost}
+            setToggleShow={setToggleShow}
           />
         )}
         <PostFeed postData={myPosts} text={"My stories"} />
