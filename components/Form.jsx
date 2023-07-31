@@ -2,7 +2,15 @@
 
 import { useState, useEffect } from "react";
 
-const Form = ({ post, setPost, isSubmitting, handleSubmit, setToggleShow }) => {
+const Form = ({
+  post,
+  setPost,
+  submitStatus,
+  isSubmitting,
+  handleSubmit,
+  setToggleShow,
+}) => {
+  const [button, setButton] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [tags, setTags] = useState([]);
 
@@ -15,9 +23,9 @@ const Form = ({ post, setPost, isSubmitting, handleSubmit, setToggleShow }) => {
         e.target.value = "";
       }
       setTags(post.tag);
-      console.log("New tag added", post.tag);
     }
   };
+
   // Remove tags
   const removeTag = (index) => {
     const newTagArr = post.tag.filter((e, i) => i !== index);
@@ -27,6 +35,18 @@ const Form = ({ post, setPost, isSubmitting, handleSubmit, setToggleShow }) => {
   useEffect(() => {
     setTags(post.tag);
   }, [post]);
+
+  useEffect(() => {
+    if (submitStatus === "Create" && isSubmitting) {
+      setButton("Creating");
+    } else if (submitStatus === "Create" && !isSubmitting) {
+      setButton("Create");
+    } else if (submitStatus === "Update" && isSubmitting) {
+      setButton("Updating");
+    } else if (submitStatus === "Update" && !isSubmitting) {
+      setButton("Update");
+    }
+  }, [submitStatus && isSubmitting]);
 
   return (
     <form
@@ -83,7 +103,7 @@ const Form = ({ post, setPost, isSubmitting, handleSubmit, setToggleShow }) => {
           disabled={isSubmitting}
           className="px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white"
         >
-          {isSubmitting ? "Submitting" : "Submit"}
+          {button}
         </button>
       </div>
     </form>
