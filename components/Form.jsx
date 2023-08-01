@@ -101,7 +101,7 @@ const Form = ({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-5 py-1.5 text-sm bg-primary-orange rounded-full text-white"
+          className="px-5 py-1.5 text-sm rounded-full text-white bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500"
         >
           {button}
         </button>

@@ -40,8 +40,8 @@ const Player = () => {
                 <Image
                   src={globalPlaySong.albumImg}
                   alt="album_image"
-                  width={30}
-                  height={30}
+                  width={40}
+                  height={40}
                 />
               </div>
               <div className="flex flex-col">

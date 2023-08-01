@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { HomeIcon } from "@heroicons/react/24/solid";
 
-export default function NotFound() {
+const NotFound = () => {
   return (
     <section className="w-full">
       <h1></h1>
@@ -17,4 +17,6 @@ export default function NotFound() {
       </Link>
     </section>
   );
-}
+};
+
+export default NotFound;
