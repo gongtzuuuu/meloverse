@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import SongDetail from "@components/SongDetail";
 import PostFeed from "@components/PostFeed";
 import Form from "@components/Form";
+import NotLogin from "@components/NotLogin";
 
 const Details = ({ params }) => {
   const router = useRouter();
@@ -110,32 +111,39 @@ const Details = ({ params }) => {
     }
   }, [songPosts]);
 
-  if (songInfo)
-    return (
-      <section className="feed">
-        <SongDetail
-          session={session}
-          id={params.id}
-          name={songInfo.name}
-          artist={songInfo.artists[0].name}
-          albumImg={songInfo.album.images[0].url}
-          setToggleShow={setToggleShow}
-        />
-        {toggleShow && (
-          <Form
-            post={post}
-            setPost={setPost}
-            submitStatus={submitStatus}
-            isSubmitting={isSubmitting}
-            handleSubmit={createPost}
-            setToggleShow={setToggleShow}
-          />
-        )}
-        <PostFeed postData={myPosts} text={"My stories"} />
-        <PostFeed postData={otherPosts} text={"Other stories"} />
-        <div className="h-32"></div>
-      </section>
-    );
+  return (
+    <section className="w-full">
+      {session?.user && songInfo ? (
+        <>
+          <div className="flex flex-col justify-center items-center">
+            <SongDetail
+              session={session}
+              id={params.id}
+              name={songInfo.name}
+              artist={songInfo.artists[0].name}
+              albumImg={songInfo.album.images[0].url}
+              setToggleShow={setToggleShow}
+            />
+            {toggleShow && (
+              <Form
+                post={post}
+                setPost={setPost}
+                submitStatus={submitStatus}
+                isSubmitting={isSubmitting}
+                handleSubmit={createPost}
+                setToggleShow={setToggleShow}
+              />
+            )}
+          </div>
+          <PostFeed postData={myPosts} text={"My stories"} />
+          <PostFeed postData={otherPosts} text={"Other stories"} />
+        </>
+      ) : (
+        <NotLogin />
+      )}
+      <div className="h-32"></div>
+    </section>
+  );
 };
 
 export default Details;

@@ -5,8 +5,7 @@ import { signIn, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import SearchBar from "@components/SearchBar";
-import logo1 from "../public/assets/images/meloverse.png";
-import logo2 from "../public/assets/images/meloverse2.png";
+import logo from "../public/assets/images/meloverse2.png";
 
 const Nav = () => {
   //Show different nav links according to login status with session
@@ -28,7 +27,7 @@ const Nav = () => {
     <nav className="flex-between w-full mb-16 pt-3">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
-          src={logo2}
+          src={logo}
           alt="meloverse Logo"
           width={45}
           height={45}
@@ -74,7 +73,7 @@ const Nav = () => {
                   onClick={() => signIn(provider.id)}
                   className="black_btn"
                 >
-                  Sign In
+                  Login
                 </button>
               ))}
           </>

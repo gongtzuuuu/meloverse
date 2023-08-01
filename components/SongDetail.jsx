@@ -22,8 +22,10 @@ const SongDetail = ({ id, name, artist, albumImg, setToggleShow }) => {
       {/* ------------ */}
       {/* Song details */}
       {/* ------------ */}
-      <Image src={albumImg} alt="album image" width={150} height={150} />
-      <div className="prompt_card">
+      <div>
+        <Image src={albumImg} alt="album image" width={150} height={150} />
+      </div>
+      <div className="prompt_card ml-2">
         <p className="my-2 font-satoshi text-md font-semibold">{name}</p>
         <p className="my-2 font-satoshi text-md text-gray-700">{artist}</p>
         {/* ----------- */}

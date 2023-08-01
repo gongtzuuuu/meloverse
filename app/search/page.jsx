@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 import SongCard from "@components/SongCard";
+import NotLogin from "@components/NotLogin";
 
 const SearchResultList = ({ searchResult }) => {
   if (searchResult)
@@ -54,10 +55,17 @@ const SearchResult = () => {
 
   return (
     <section className="w-full">
-      <h1 className="head_text text-left">
-        <span className="blue_gradient">Search result: {query}</span>
-      </h1>
-      <SearchResultList searchResult={searchResult} />
+      {session?.user ? (
+        <>
+          <h1 className="head_text text-left">
+            <span className="blue_gradient">Search result: {query}</span>
+          </h1>
+          <SearchResultList searchResult={searchResult} />
+        </>
+      ) : (
+        <NotLogin />
+      )}
+
       <div className="h-32"></div>
     </section>
   );

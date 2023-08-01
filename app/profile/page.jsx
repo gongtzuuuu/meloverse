@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Profile from "@components/Profile";
+import NotLogin from "@components/NotLogin";
 
 const MyProfile = () => {
   const router = useRouter();
@@ -63,11 +64,11 @@ const MyProfile = () => {
             onClick={signOut}
             className="mt-5 black_btn mb-6"
           >
-            Sign Out
+            Logout
           </button>
         </>
       ) : (
-        <h1>Please login</h1>
+        <NotLogin />
       )}
       <div className="h-32"></div>
     </>
