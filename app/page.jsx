@@ -75,7 +75,6 @@ const Home = () => {
           <p className="desc">
             Welcome to Meloverse, the ultimate app for music enthusiasts.
           </p>
-          <PostFeed postData={myPosts} text={"Your post..."} />
         </div>
       ) : (
         <div>
@@ -88,6 +87,11 @@ const Home = () => {
             Spotify songs. Join now and share your melodic journey!
           </p>
         </div>
+      )}
+      {session?.user ? (
+        <PostFeed postData={myPosts} text={"Your post..."} />
+      ) : (
+        <></>
       )}
       <PostFeed postData={otherPosts} text={"Explore more..."} />
       <div className="h-32"></div>

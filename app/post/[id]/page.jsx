@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SongDetail from "@components/SongDetail";
 import Form from "@components/Form";
+import NotLogin from "@components/notLogin";
 
 const PostDetails = ({ params }) => {
   const router = useRouter();
@@ -60,20 +61,26 @@ const PostDetails = ({ params }) => {
   if (post)
     return (
       <section className="feed">
-        <SongDetail
-          session={session}
-          id={post.songId}
-          name={post.songDetail.name}
-          artist={post.songDetail.artist}
-          albumImg={post.songDetail.album_img}
-        />
-        <Form
-          post={post}
-          setPost={setPost}
-          submitStatus={submitStatus}
-          isSubmitting={isSubmitting}
-          handleSubmit={updatePost}
-        />
+        {session?.user ? (
+          <>
+            <SongDetail
+              session={session}
+              id={post.songId}
+              name={post.songDetail.name}
+              artist={post.songDetail.artist}
+              albumImg={post.songDetail.album_img}
+            />
+            <Form
+              post={post}
+              setPost={setPost}
+              submitStatus={submitStatus}
+              isSubmitting={isSubmitting}
+              handleSubmit={updatePost}
+            />
+          </>
+        ) : (
+          <NotLogin />
+        )}
         <div className="h-32"></div>
       </section>
     );

@@ -112,7 +112,7 @@ const Player = () => {
           </div>
         ) : (
           <div>
-            <h1 className="inline-flex items-center">
+            <h1 className="inline-flex flex-wrap items-center">
               This app is seamlessly integrated with{" "}
               <span>
                 <Image

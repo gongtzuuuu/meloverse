@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+
 import PostCard from "@components/PostCard";
+import NotLogin from "@components/NotLogin";
 
 const SearchHashtagResultList = ({ searchResult }) => {
   if (searchResult)
@@ -15,6 +18,7 @@ const SearchHashtagResultList = ({ searchResult }) => {
 };
 
 const SearchHashtagResult = ({ params }) => {
+  const { data: session } = useSession();
   const [searchResult, setSearchResult] = useState(null);
   const handleSearch = async () => {
     try {
@@ -32,10 +36,17 @@ const SearchHashtagResult = ({ params }) => {
 
   return (
     <section className="w-full">
-      <h1 className="head_text text-left">
-        <span className="blue_gradient">#{params.hashtag}</span>
-      </h1>
-      <SearchHashtagResultList searchResult={searchResult} />
+      {session?.user ? (
+        <>
+          <h1 className="head_text text-left">
+            <span className="blue_gradient">#{params.hashtag}</span>
+          </h1>
+          <SearchHashtagResultList searchResult={searchResult} />
+        </>
+      ) : (
+        <NotLogin />
+      )}
+
       <div className="h-32"></div>
     </section>
   );
