@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SongDetail from "@components/SongDetail";
 import Form from "@components/Form";
-import NotLogin from "@components/notLogin";
+import NotLogin from "@components/NotLogin";
 
 const PostDetails = ({ params }) => {
   const router = useRouter();
