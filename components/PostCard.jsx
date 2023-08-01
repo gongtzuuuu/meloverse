@@ -15,13 +15,15 @@ const PostCard = ({ postData, handleDelete }) => {
           {/* Song Detail */}
           {pathName !== `/details/${postData.songId}` && (
             <Link href={`/details/${postData.songId}`}>
-              <div className="flex relative">
-                <Image
-                  src={postData.songDetail.album_img}
-                  alt="album image"
-                  width={40}
-                  height={40}
-                />
+              <div className="flex items-center relative">
+                <div>
+                  <Image
+                    src={postData.songDetail.album_img}
+                    alt="album image"
+                    width={40}
+                    height={40}
+                  />
+                </div>
                 <div className="flex flex-col ml-4">
                   <p className="font-satoshi text-sm font-semibold">
                     {postData.songDetail.name}
