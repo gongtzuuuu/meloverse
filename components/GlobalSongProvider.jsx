@@ -96,7 +96,9 @@ const GlobalSongProvider = ({ children }) => {
           method: "PUT",
         }
       );
-      console.log("", response);
+      if (response.status === 200) {
+        confirm("The song is liked! Check out your profile page.");
+      }
     } catch (error) {
       console.log(error);
     }
