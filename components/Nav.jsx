@@ -34,7 +34,7 @@ const Nav = () => {
           height={45}
           className="object-contain rounded-full"
         />
-        <p className="logo_text">meloverse</p>
+        <p className="logo_text black_gradient">meloverse</p>
       </Link>
 
       {/* Desktop Navigation */}
