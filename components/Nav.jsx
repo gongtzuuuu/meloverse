@@ -5,7 +5,7 @@ import { signIn, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import SearchBar from "@components/SearchBar";
-import logo from "../public/assets/images/meloverse2.png";
+import logo from "../public/favicon.png";
 
 const Nav = () => {
   //Show different nav links according to login status with session

@@ -9,13 +9,16 @@ import Player from "@components/Player";
 /* It uses the next.js API backend endpoints as well */
 
 export const metadata = {
-  title: "MeloVerse",
+  title: "meloverse",
   description: "",
 };
 
 const RootLayout = ({ children }) => {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" />
+      </head>
       <body>
         <Provider>
           <div className="main">
