@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import { signIn, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import SearchBar from "./SearchBar";
+import SearchBar from "@components/SearchBar";
+import logo1 from "../public/assets/images/meloverse.png";
+import logo2 from "../public/assets/images/meloverse2.png";
 
 const Nav = () => {
   //Show different nav links according to login status with session
@@ -26,13 +28,13 @@ const Nav = () => {
     <nav className="flex-between w-full mb-16 pt-3">
       <Link href="/" className="flex gap-2 flex-center">
         <Image
-          src="/assets/images/logo.svg"
-          alt="MeloVerse Logo"
-          width={30}
-          height={30}
-          className="object-contain"
+          src={logo2}
+          alt="meloverse Logo"
+          width={45}
+          height={45}
+          className="object-contain rounded-full"
         />
-        <p className="logo_text">MeloVerse</p>
+        <p className="logo_text">meloverse</p>
       </Link>
 
       {/* Desktop Navigation */}

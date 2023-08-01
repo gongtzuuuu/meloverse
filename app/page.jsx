@@ -73,8 +73,7 @@ const Home = () => {
             <span className="orange_gradient">{session.user.name}</span>
           </h1>
           <p className="desc">
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
+            Welcome to Meloverse, the ultimate app for music enthusiasts.
           </p>
           <PostFeed postData={myPosts} text={"Your post..."} />
         </div>
@@ -85,8 +84,8 @@ const Home = () => {
             <span className="orange_gradient">your meloverse</span>
           </h1>
           <p className="desc">
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
+            Express with Music! Compose captivating posts with your favorite
+            Spotify songs. Join now and share your melodic journey!
           </p>
         </div>
       )}

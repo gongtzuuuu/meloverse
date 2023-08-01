@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { GlobalSongContext } from "@components/GlobalSongProvider";
+import spotifyLogo from "../public/assets/images/Spotify_Logo.png";
 import Image from "next/image";
 import {
   PlayCircleIcon,
@@ -110,7 +111,21 @@ const Player = () => {
             </div>
           </div>
         ) : (
-          <h1>Please login with Spotify account</h1>
+          <div>
+            <h1 className="inline-flex items-center">
+              This app is seamlessly integrated with{" "}
+              <span>
+                <Image
+                  src={spotifyLogo}
+                  alt="Spotify Logo"
+                  height={40}
+                  width={80}
+                  className="mx-2"
+                />
+              </span>{" "}
+              API. Login to unlock the ultimate service.
+            </h1>
+          </div>
         )}
       </div>
     </section>
