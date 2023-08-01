@@ -88,12 +88,16 @@ const Home = () => {
           </p>
         </div>
       )}
-      {session?.user ? (
+      {session?.user && myPosts ? (
         <PostFeed postData={myPosts} text={"Your post..."} />
       ) : (
         <></>
       )}
-      <PostFeed postData={otherPosts} text={"Explore more..."} />
+      {otherPosts ? (
+        <PostFeed postData={otherPosts} text={"Explore more..."} />
+      ) : (
+        <></>
+      )}
       <div className="h-32"></div>
     </section>
   );
