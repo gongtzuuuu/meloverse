@@ -88,12 +88,12 @@ const Home = () => {
           </p>
         </div>
       )}
-      {session?.user && myPosts ? (
+      {session?.user && myPosts.length > 0 ? (
         <PostFeed postData={myPosts} text={"Your post..."} />
       ) : (
         <></>
       )}
-      {otherPosts ? (
+      {otherPosts.length > 0 ? (
         <PostFeed postData={otherPosts} text={"Explore more..."} />
       ) : (
         <></>
