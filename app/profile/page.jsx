@@ -1,29 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { GlobalPostContext } from "@components/GlobalPostProvider";
 import Profile from "@components/Profile";
 import NotLogin from "@components/NotLogin";
 
 const MyProfile = () => {
   const router = useRouter();
   const { data: session } = useSession();
-  const [myPosts, setMyPosts] = useState([]);
-
-  // Fetch posts from the user
-  const fetchMyPosts = async () => {
-    const response = await fetch(`/api/users/${session?.user.id}/posts`);
-    if (response) {
-      const data = await response.json();
-      Array.isArray(data) ? setMyPosts(data) : setMyPosts([]);
-    }
-  };
-
-  // Fetch User's posts
-  useEffect(() => {
-    if (session?.user.id) fetchMyPosts();
-  }, [session?.user.id]);
+  const { myPosts, setMyPosts } = useContext(GlobalPostContext);
 
   const handleEdit = (postId) => {
     console.log("Post to edit", postId);
@@ -39,7 +26,6 @@ const MyProfile = () => {
         await fetch(`/api/post/${post._id.toString()}`, {
           method: "DELETE",
         });
-
         // Filter the post that has been deleted, and update myPosts
         const filteredPosts = myPosts.filter((p) => p._id !== post._id);
         setMyPosts(filteredPosts);
@@ -70,9 +56,7 @@ const MyProfile = () => {
           </button>
         </>
       ) : (
-        <NotLogin
-          text={"Something wrong, please login again or refresh the page."}
-        />
+        <NotLogin />
       )}
       <div className="h-32"></div>
     </>
