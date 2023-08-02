@@ -1,17 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { GlobalPostContext } from "@components/GlobalPostProvider";
 import SongDetail from "@components/SongDetail";
 import PostFeed from "@components/PostFeed";
 import Form from "@components/Form";
 import NotLogin from "@components/NotLogin";
 
 const Details = ({ params }) => {
-  const router = useRouter();
   // Get user's info
+  const router = useRouter();
   const { data: session } = useSession();
+  const { fetchMyPosts } = useContext(GlobalPostContext);
   // Get song's info
   const [songInfo, setSongInfo] = useState(null);
   const [songPosts, setSongPosts] = useState([]);
@@ -85,6 +87,7 @@ const Details = ({ params }) => {
       // 2. If the post if succedssfully created, then bring back to home
       if (response.ok) {
         router.push("/profile");
+        fetchMyPosts();
       }
     } catch (error) {
       console.log("Error from Create Post Page", error);
