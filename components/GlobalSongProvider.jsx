@@ -11,7 +11,7 @@ const GlobalSongProvider = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
   const [recentlyPlayed, setRecentlyPlayed] = useState(null);
-  const [mySavedSongs, setMySavedSongs] = useState(null);
+  const [mySavedSongs, setMySavedSongs] = useState([]);
 
   // Get user's current playing song
   const getCurrentlyPlaying = async () => {
@@ -25,15 +25,17 @@ const GlobalSongProvider = ({ children }) => {
             },
           }
         );
-        const data = await response.json();
-        const filteredData = {
-          id: data.item.id,
-          name: data.item.name,
-          artist: data.item.artists[0].name,
-          albumImg: data.item.album.images[0].url,
-        };
-        setCurrentlyPlaying(filteredData);
-        if (data.isPlaying) setIsPlaying(true);
+        // console.log(response, await response.json());
+        if (response) {
+          const data = await response.json();
+          const filteredData = {
+            id: data.item.id,
+            name: data.item.name,
+            artist: data.item.artists[0].name,
+            albumImg: data.item.album.images[0].url,
+          };
+          setCurrentlyPlaying(filteredData);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -52,14 +54,16 @@ const GlobalSongProvider = ({ children }) => {
             },
           }
         );
-        const data = await response.json();
-        const filteredData = {
-          id: data.items[0].track.id,
-          name: data.items[0].track.name,
-          artist: data.items[0].track.artists[0].name,
-          albumImg: data.items[0].track.album.images[0].url,
-        };
-        setRecentlyPlayed(filteredData);
+        if (response) {
+          const data = await response.json();
+          const filteredData = {
+            id: data.items[0].track.id,
+            name: data.items[0].track.name,
+            artist: data.items[0].track.artists[0].name,
+            albumImg: data.items[0].track.album.images[0].url,
+          };
+          setRecentlyPlayed(filteredData);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -75,11 +79,14 @@ const GlobalSongProvider = ({ children }) => {
             Authorization: `Bearer ${session.accessToken}`,
           },
         });
-        const data = await response.json();
-        setMySavedSongs(data.items);
+        if (response) {
+          const data = await response.json();
+          setMySavedSongs(data.items);
+        }
       } catch (error) {
         console.log("Error from fetching user's playlist");
       }
+    } else {
     }
   };
 
@@ -203,7 +210,9 @@ const GlobalSongProvider = ({ children }) => {
   }, [currentlyPlaying, recentlyPlayed]);
 
   useEffect(() => {
-    // console.log("globalPlaySong", globalPlaySong);
+    globalPlaySong && globalPlaySong.isPlaying
+      ? setIsPlaying(true)
+      : setIsPlaying(false);
   }, [globalPlaySong]);
 
   return (
