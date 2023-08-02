@@ -13,7 +13,6 @@ const MyProfile = () => {
   const { myPosts, setMyPosts } = useContext(GlobalPostContext);
 
   const handleEdit = (postId) => {
-    console.log("Post to edit", postId);
     router.push(`/post/${postId}`);
   };
 
@@ -35,6 +34,11 @@ const MyProfile = () => {
     }
   };
 
+  const handleSignOut = () => {
+    signOut();
+    router.push("/");
+  };
+
   return (
     <>
       {session && session?.user ? (
@@ -49,7 +53,7 @@ const MyProfile = () => {
           />
           <button
             type="button"
-            onClick={signOut}
+            onClick={handleSignOut}
             className="mt-5 black_btn mb-6"
           >
             Logout
