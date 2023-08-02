@@ -30,9 +30,11 @@ const Home = () => {
   // Fetch all posts
   const fetchAllPosts = async () => {
     try {
-      const reponse = await fetch("/api/post");
-      const data = await reponse.json();
-      setAllPosts(data);
+      const response = await fetch("/api/post");
+      if (response) {
+        const data = await response.json();
+        Array.isArray(data) ? setAllPosts(data) : setAllPosts([]);
+      }
     } catch (error) {
       console.log("Error from page.jsx - fetching all posts", error);
     }
