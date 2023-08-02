@@ -31,7 +31,8 @@ const Home = () => {
   const fetchAllPosts = async () => {
     try {
       const response = await fetch("/api/post");
-      if (response) {
+      console.log("Response from fetching all post", response);
+      if (response.ok && response.status === 200) {
         const data = await response.json();
         Array.isArray(data) ? setAllPosts(data) : setAllPosts([]);
       }
@@ -44,7 +45,8 @@ const Home = () => {
   const fetchMyPosts = async () => {
     try {
       const response = await fetch(`/api/users/${session?.user.id}/posts`);
-      if (response) {
+      console.log("Response from fetching my post", response);
+      if (response.ok && response.status === 200) {
         const data = await response.json();
         Array.isArray(data) ? setMyPosts(data) : setMyPosts([]);
       }
