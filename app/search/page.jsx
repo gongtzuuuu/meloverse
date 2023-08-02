@@ -27,7 +27,8 @@ const SearchResultList = ({ searchResult }) => {
 const SearchResult = () => {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
-  const query = searchParams.getAll("q"); // This is the things passing to the api
+  const query = searchParams.get("q"); // This is the [ array ] passing to the api
+  const [searchResultData, setSearchResultData] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
 
   const handleSearch = async () => {
@@ -40,11 +41,11 @@ const SearchResult = () => {
           },
         }
       );
-      if (response) {
+      if (response.ok && response.status === 200) {
         const data = await response.json();
-        Array.isArray(data)
-          ? setSearchResult(data.tracks.items)
-          : setSearchResult([]);
+        Array.isArray(data.tracks.items)
+          ? setSearchResultData(data.tracks.items)
+          : setSearchResultData([]);
       }
     } catch (error) {
       console.error("Error fetching search results:", error);
@@ -52,10 +53,12 @@ const SearchResult = () => {
   };
 
   useEffect(() => {
-    if (query) {
-      handleSearch();
-    }
-  }, [session]);
+    if (query) handleSearch();
+  }, [query]);
+
+  useEffect(() => {
+    setSearchResult(searchResultData);
+  }, [searchResultData]);
 
   return (
     <section className="w-full">

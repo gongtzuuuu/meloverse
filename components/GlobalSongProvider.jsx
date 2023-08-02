@@ -25,8 +25,7 @@ const GlobalSongProvider = ({ children }) => {
             },
           }
         );
-        // console.log(response, await response.json());
-        if (response) {
+        if (response.ok && response.status === 200) {
           const data = await response.json();
           const filteredData = {
             id: data.item.id,
@@ -35,6 +34,8 @@ const GlobalSongProvider = ({ children }) => {
             albumImg: data.item.album.images[0].url,
           };
           setCurrentlyPlaying(filteredData);
+        } else {
+          setCurrentlyPlaying(null);
         }
       } catch (error) {
         console.log(error);
