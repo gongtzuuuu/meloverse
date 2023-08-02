@@ -28,7 +28,7 @@ const SearchResult = () => {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const query = searchParams.getAll("q"); // This is the things passing to the api
-  const [searchResult, setSearchResult] = useState(null);
+  const [searchResult, setSearchResult] = useState([]);
 
   const handleSearch = async () => {
     try {
@@ -40,8 +40,12 @@ const SearchResult = () => {
           },
         }
       );
-      const data = await response.json();
-      setSearchResult(data.tracks.items);
+      if (response) {
+        const data = await response.json();
+        Array.isArray(data)
+          ? setSearchResult(data.tracks.items)
+          : setSearchResult([]);
+      }
     } catch (error) {
       console.error("Error fetching search results:", error);
     }

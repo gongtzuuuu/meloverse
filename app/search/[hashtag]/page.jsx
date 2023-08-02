@@ -19,12 +19,15 @@ const SearchHashtagResultList = ({ searchResult }) => {
 
 const SearchHashtagResult = ({ params }) => {
   const { data: session } = useSession();
-  const [searchResult, setSearchResult] = useState(null);
+  const [searchResult, setSearchResult] = useState([]);
+
   const handleSearch = async () => {
     try {
       const response = await fetch(`/api/post/hashtag/${params.hashtag}`);
-      const data = await response.json();
-      setSearchResult(data);
+      if (response) {
+        const data = await response.json();
+        Array.isArray(data) ? setSearchResult(data) : setSearchResult([]);
+      }
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
