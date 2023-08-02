@@ -112,19 +112,17 @@ const Player = () => {
           </div>
         ) : (
           <div>
-            <h1 className="inline-flex flex-wrap items-center">
-              This app is seamlessly integrated with{" "}
-              <span>
-                <Image
-                  src={spotifyLogo}
-                  alt="Spotify Logo"
-                  height={40}
-                  width={80}
-                  className="mx-2"
-                />
-              </span>{" "}
+            <p>
+              This is seamlessly integrated with{" "}
+              <Image
+                src={spotifyLogo}
+                alt="Spotify Logo"
+                height={40}
+                width={80}
+                className="inline"
+              />{" "}
               API. Login to unlock the ultimate service.
-            </h1>
+            </p>
           </div>
         )}
       </div>
