@@ -1,34 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## meloverse
 
-## Getting Started
+![website screenshot](/public/assets/images/Screenshot.png)
 
-First, run the development server:
+meloverse is an innovative music app that enables users to craft engaging posts with their favorite songs. Users can seamlessly log in with Spotify account to access their personal collection or explore new tracks by keywords or artists.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+The app also introduce a thriving community of music enthusiasts, where users share their love for songs and discover a harmonious array of posts. Filter content by tags to explore topics of your interest, connecting with like-minded individuals.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[Click here to see deploy version](https://meloverse.vercel.app/)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Description
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Built with technologies, including Next.js, NextAuth, MongoDB, and Tailwind. What's more, by utilizing the Spotify provider and APIs, the app offers secure Spotify account integration, granting access to an extensive library of songs tailored to user's preferences.
 
-## Learn More
+## Models
 
-To learn more about Next.js, take a look at the following resources:
+- User model - represents the user accounts and their associated infomation.
+- Post model - represents the individual posts of songs and their creators.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- /api/auth - views for authentication
+- /api/post - gets all posts
+- /api/post/new - creates new post
+- /api/post/:id - gets post by its id
+- /api/post/edit - edits post
+- /api/post/hashtag - get posts by their hashtags
+- /api/songs/:id/posts - gets posts by id of the song
+- /api/users/:id/posts - gets posts by id of the user
 
-## Deploy on Vercel
+## Links
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [Deployment Link1](https://meloverse.vercel.app/)
+- [Deployment Link2](https://meloverse-gongtzuuuu.vercel.app/)
+- [Next.js](https://nextjs.org/)
+- [NextAuth.js](https://next-auth.js.org/)
+- [Vercel](https://vercel.com/)
+- [Spotify API](https://developer.spotify.com/)
+- [MongoDB Atlas](https://www.mongodb.com/atlas/database)
+- [tailwindcss](https://tailwindcss.com/)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Special Thanks
+
+- [JavaScript Mastery @Youtube](https://www.youtube.com/@javascriptmastery)
+- [Apoorv Nandan @Github](https://github.com/apoorvnandan)
