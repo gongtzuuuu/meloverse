@@ -42,9 +42,15 @@ const Home = () => {
 
   // Fetch my posts
   const fetchMyPosts = async () => {
-    const reponse = await fetch(`/api/users/${session?.user.id}/posts`);
-    const data = await reponse.json();
-    setMyPosts(data);
+    try {
+      const response = await fetch(`/api/users/${session?.user.id}/posts`);
+      if (response) {
+        const data = await response.json();
+        Array.isArray(data) ? setMyPosts(data) : setMyPosts([]);
+      }
+    } catch (error) {
+      console.log("Error from fetching my posts", error);
+    }
   };
 
   // First render, display all posts

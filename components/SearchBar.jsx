@@ -7,12 +7,14 @@ const SearchBar = ({ setToggleDropdown }) => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
 
-  const handleInputQuery = (e) => {
+  const handleInput = (e) => {
     e.preventDefault();
-    setInputValue(e.target.value);
+    const searchQuery = e.target.value;
+    setInputValue((prev) => searchQuery);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     router.push(`/search?q=${inputValue}`);
     setInputValue("");
     setToggleDropdown(false);
@@ -21,7 +23,7 @@ const SearchBar = ({ setToggleDropdown }) => {
   return (
     <form
       action="/search"
-      method="post"
+      method="POST"
       onSubmit={handleSearch}
       className="dropdown relatve w-full flex-center"
     >
@@ -31,10 +33,11 @@ const SearchBar = ({ setToggleDropdown }) => {
         type="text"
         className="search_input peer"
         value={inputValue}
-        onChange={handleInputQuery}
+        onChange={handleInput}
         placeholder="Search for songs or artists"
         required
       />
+      <button type="submit">Search</button>
     </form>
   );
 };
