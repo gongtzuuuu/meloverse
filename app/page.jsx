@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useSession } from "next-auth/react";
+import { GlobalPostContext } from "@components/GlobalPostProvider";
 import PostFeed from "@components/PostFeed";
 
 const Home = () => {
@@ -9,9 +10,7 @@ const Home = () => {
   const [currentGreetings, setCurrentGreetings] = useState("");
 
   // Get posts
-  const [myPosts, setMyPosts] = useState([]);
-  const [otherPosts, setOtherPosts] = useState([]);
-  const [allPosts, setAllPosts] = useState([]);
+  const { myPosts, otherPosts } = useContext(GlobalPostContext);
 
   // Change greetings on homepage
   const greetings = () => {
@@ -27,51 +26,9 @@ const Home = () => {
     }
   };
 
-  // Fetch all posts
-  const fetchAllPosts = async () => {
-    try {
-      const response = await fetch("/api/post");
-      console.log("Response from fetching all post", response);
-      if (response.ok && response.status === 200) {
-        const data = await response.json();
-        Array.isArray(data) ? setAllPosts(data) : setAllPosts([]);
-      }
-    } catch (error) {
-      console.log("Error from page.jsx - fetching all posts", error);
-    }
-  };
-
-  // Fetch my posts
-  const fetchMyPosts = async () => {
-    try {
-      const response = await fetch(`/api/users/${session?.user.id}/posts`);
-      console.log("Response from fetching my post", response);
-      if (response.ok && response.status === 200) {
-        const data = await response.json();
-        Array.isArray(data) ? setMyPosts(data) : setMyPosts([]);
-      }
-    } catch (error) {
-      console.log("Error from fetching my posts", error);
-    }
-  };
-
-  // First render, display all posts
   useEffect(() => {
     greetings();
-    fetchAllPosts();
   }, []);
-
-  // When user logged in, display user's posts
-  useEffect(() => {
-    if (session?.user.id) fetchMyPosts();
-  }, [session?.user.id]);
-
-  useEffect(() => {
-    const filteredPosts = allPosts.filter(
-      (eachPost) => session?.user.id !== eachPost.userId._id
-    );
-    setOtherPosts(filteredPosts);
-  }, [allPosts, myPosts]);
 
   return (
     <section className="w-full flex-center flex-col">
