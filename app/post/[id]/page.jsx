@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { GlobalPostContext } from "@components/GlobalPostProvider";
 import SongDetail from "@components/SongDetail";
 import Form from "@components/Form";
 import NotLogin from "@components/NotLogin";
@@ -10,6 +11,7 @@ import NotLogin from "@components/NotLogin";
 const PostDetails = ({ params }) => {
   const router = useRouter();
   const { data: session } = useSession();
+  const { fetchMyPosts } = useContext(GlobalPostContext);
   // Get post's info
   const [post, setPost] = useState(null);
   const [submitStatus, setSubmitStatus] = useState("Update");
@@ -43,6 +45,7 @@ const PostDetails = ({ params }) => {
         // 2. If the post if succedssfully created, then bring back to home
         if (response.ok) {
           router.push("/profile");
+          fetchMyPosts();
         }
       } catch (error) {
         console.log("Error from Updating the post", error);
@@ -53,9 +56,7 @@ const PostDetails = ({ params }) => {
   };
 
   useEffect(() => {
-    if (session) {
-      fetchPost();
-    }
+    if (session) fetchPost();
   }, []);
 
   if (post)
