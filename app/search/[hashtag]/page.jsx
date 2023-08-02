@@ -22,10 +22,9 @@ const SearchHashtagResult = ({ params }) => {
   const [searchResult, setSearchResult] = useState([]);
 
   const handleSearch = async () => {
-    console.log("something");
     try {
       const response = await fetch(`/api/post/hashtag/${params.hashtag}`);
-      if (response) {
+      if (response.ok && response.status === 200) {
         const data = await response.json();
         Array.isArray(data) ? setSearchResult(data) : setSearchResult([]);
       }

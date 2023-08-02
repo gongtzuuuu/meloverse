@@ -38,6 +38,30 @@ const GlobalPostProvider = ({ children }) => {
     }
   };
 
+  // Handle edit method - used on profile page
+  const handleEdit = (postId) => {
+    router.push(`/post/${postId}`);
+  };
+
+  // Handle delete method used on profile page
+  const handleDelete = async (post) => {
+    // This confirm prompt is built into the browser API
+    const hasConfirmed = confirm("Are you sure you want to delete this post?");
+
+    if (hasConfirmed) {
+      try {
+        await fetch(`/api/post/${post._id.toString()}`, {
+          method: "DELETE",
+        });
+        // Filter the post that has been deleted, and update myPosts
+        const filteredPosts = myPosts.filter((p) => p._id !== post._id);
+        setMyPosts(filteredPosts);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   // First render, display all posts
   useEffect(() => {
     fetchAllPosts();
@@ -60,8 +84,12 @@ const GlobalPostProvider = ({ children }) => {
       value={{
         myPosts,
         setMyPosts,
+        fetchMyPosts,
         otherPosts,
         allPosts,
+        /* */
+        handleEdit,
+        handleDelete,
       }}
     >
       {children}
