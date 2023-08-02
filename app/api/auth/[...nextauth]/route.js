@@ -1,5 +1,4 @@
 /* It's an API route with an API auth Dynamic next auth */
-
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import SpotifyProvider from "next-auth/providers/spotify";
@@ -46,7 +45,7 @@ const refreshAccessToken = async (token) => {
     ...token,
     accessToken: data.access_token,
     refreshToken: data.refresh_token ?? token.refreshToken,
-    accessTokenExpires: Date.now() + data.expires_in * 10000,
+    accessTokenExpires: Date.now() + data.expires_in * 1000,
   };
 };
 
@@ -74,17 +73,16 @@ const handler = NextAuth({
         token.refreshToken = account.refresh_token;
         token.accessTokenExpires = account.expires_at;
         return token;
-      }
-      // access token has not expired
-      if (
+      } else if (
         token.accessTokenExpires &&
         Date.now() < token.accessTokenExpires * 1000
       ) {
+        // access token has not expired
         return token;
+      } else {
+        // access token has expired
+        return await refreshAccessToken(token);
       }
-
-      // access token has expired
-      return await refreshAccessToken(token);
     },
     async session({ session, token, user }) {
       // Store the user id from MongoDB to session

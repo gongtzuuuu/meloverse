@@ -13,9 +13,11 @@ const MyProfile = () => {
 
   // Fetch posts from the user
   const fetchMyPosts = async () => {
-    const reponse = await fetch(`/api/users/${session?.user.id}/posts`);
-    const data = await reponse.json();
-    setMyPosts(data);
+    const response = await fetch(`/api/users/${session?.user.id}/posts`);
+    if (response) {
+      const data = await response.json();
+      Array.isArray(data) ? setMyPosts(data) : setMyPosts([]);
+    }
   };
 
   // Fetch User's posts
@@ -68,7 +70,9 @@ const MyProfile = () => {
           </button>
         </>
       ) : (
-        <NotLogin />
+        <NotLogin
+          text={"Something wrong, please login again or refresh the page."}
+        />
       )}
       <div className="h-32"></div>
     </>

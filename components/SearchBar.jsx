@@ -37,7 +37,6 @@ const SearchBar = ({ setToggleDropdown }) => {
         placeholder="Search for songs or artists"
         required
       />
-      <button type="submit">Search</button>
     </form>
   );
 };

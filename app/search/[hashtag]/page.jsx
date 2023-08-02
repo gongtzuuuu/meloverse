@@ -22,6 +22,7 @@ const SearchHashtagResult = ({ params }) => {
   const [searchResult, setSearchResult] = useState([]);
 
   const handleSearch = async () => {
+    console.log("something");
     try {
       const response = await fetch(`/api/post/hashtag/${params.hashtag}`);
       if (response) {
@@ -34,12 +35,12 @@ const SearchHashtagResult = ({ params }) => {
   };
 
   useEffect(() => {
-    handleSearch();
-  }, []);
+    if (session) handleSearch();
+  }, [session]);
 
   return (
     <section className="w-full">
-      {session?.user ? (
+      {session && session.accessToken ? (
         <>
           <h1 className="head_text text-left">
             <span className="blue_gradient">#{params.hashtag}</span>
@@ -49,7 +50,6 @@ const SearchHashtagResult = ({ params }) => {
       ) : (
         <NotLogin />
       )}
-
       <div className="h-32"></div>
     </section>
   );
