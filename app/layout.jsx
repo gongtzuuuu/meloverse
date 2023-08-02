@@ -10,7 +10,8 @@ import Player from "@components/Player";
 
 export const metadata = {
   title: "meloverse",
-  description: "",
+  description:
+    "Welcome to Meloverse - the app where users write posts with their favorite songs. Connect your Spotify account and dive into a melodic journey today!",
 };
 
 const RootLayout = ({ children }) => {
