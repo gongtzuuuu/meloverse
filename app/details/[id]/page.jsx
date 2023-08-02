@@ -14,9 +14,9 @@ const Details = ({ params }) => {
   const { data: session } = useSession();
   // Get song's info
   const [songInfo, setSongInfo] = useState(null);
-  const [songPosts, setSongPosts] = useState(null);
-  const [myPosts, setMyPosts] = useState(null);
-  const [otherPosts, setOtherPosts] = useState(null);
+  const [songPosts, setSongPosts] = useState([]);
+  const [myPosts, setMyPosts] = useState([]);
+  const [otherPosts, setOtherPosts] = useState([]);
   // Get form's info
   const [toggleShow, setToggleShow] = useState(true);
   const [submitStatus, setSubmitStatus] = useState("Create");
@@ -51,8 +51,10 @@ const Details = ({ params }) => {
   const fetchSongPosts = async () => {
     try {
       const response = await fetch(`/api/songs/${params.id}/posts`);
-      const data = await response.json();
-      setSongPosts(data);
+      if (response) {
+        const data = await response.json();
+        Array.isArray(data) ? setSongPosts(data) : setSongPosts([]);
+      }
     } catch (error) {
       console.log("Error from fetching song's posts", error);
     }

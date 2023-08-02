@@ -9,10 +9,16 @@ const UserProfile = ({ params }) => {
 
   // Fetch posts from the user
   const fetchUserPosts = async () => {
-    const reponse = await fetch(`/api/users/${params.id}/posts`);
-    const data = await reponse.json();
-    setUserPosts(data);
-    setUsername(data[0].userId.username);
+    try {
+      const response = await fetch(`/api/users/${params.id}/posts`);
+      if (response) {
+        const data = await response.json();
+        Array.isArray(data) ? setUserPosts(data) : setUserPosts([]);
+        setUsername(data[0].userId.username);
+      }
+    } catch (error) {
+      console.log("Error from fetching user's posts", error);
+    }
   };
 
   // Fetch User's posts
