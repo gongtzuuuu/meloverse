@@ -6,9 +6,9 @@ meloverse is an innovative music app that enables users to craft engaging posts 
 
 The app also introduce a thriving community of music enthusiasts, where users share their love for songs and discover a harmonious array of posts. Filter content by tags to explore topics of your interest, connecting with like-minded individuals.
 
-[Click here to see deploy version](https://meloverse.vercel.app/)
+[Click here to see deploy version](https://meloverse-gongtzuuuu.vercel.app/)
 
-## Description
+## Tech Stack
 
 Built with technologies, including Next.js, NextAuth, MongoDB, and Tailwind. What's more, by utilizing the Spotify provider and APIs, the app offers secure Spotify account integration, granting access to an extensive library of songs tailored to user's preferences.
 
@@ -30,8 +30,7 @@ Built with technologies, including Next.js, NextAuth, MongoDB, and Tailwind. Wha
 
 ## Links
 
-- [Deployment Link1](https://meloverse.vercel.app/)
-- [Deployment Link2](https://meloverse-gongtzuuuu.vercel.app/)
+- [Deployment Link](https://meloverse-gongtzuuuu.vercel.app/)
 - [Next.js](https://nextjs.org/)
 - [NextAuth.js](https://next-auth.js.org/)
 - [Vercel](https://vercel.com/)
