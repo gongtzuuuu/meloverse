@@ -37,6 +37,7 @@ Built with technologies, including Next.js, NextAuth, MongoDB, and Tailwind. Wha
 - [Spotify API](https://developer.spotify.com/)
 - [MongoDB Atlas](https://www.mongodb.com/atlas/database)
 - [tailwindcss](https://tailwindcss.com/)
+- [FreeLogoDesign](https://www.freelogodesign.org/)
 
 ## Special Thanks
 
