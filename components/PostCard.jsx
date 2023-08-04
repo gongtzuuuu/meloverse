@@ -1,12 +1,50 @@
-import Image from "next/image";
-import Link from "next/link";
-import { v4 as uuidv4 } from "uuid";
+"use client";
+
+import React, { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
+import Image from "next/image";
+import Link from "next/link";
+
+const ShowHideButton = ({ showHide, isTextHidden }) => {
+  const buttonRef = useRef();
+
+  return (
+    <button
+      ref={buttonRef}
+      onClick={showHide}
+      className="text-start text-sm text-slate-500"
+    >
+      {isTextHidden ? "read more" : "read less"}
+    </button>
+  );
+};
 
 const PostCard = ({ postData, handleDelete }) => {
   const { data: session } = useSession();
   const pathName = usePathname();
+  const [isTextHidden, setIsTextHidden] = useState(true);
+  const [isButton, setIsButton] = useState(false);
+  const textRef = useRef(null);
+
+  function showHide() {
+    if (textRef.current.classList.contains("line-clamp-5")) {
+      setIsTextHidden(false);
+      textRef.current.classList.remove("line-clamp-5");
+      textRef.current.classList.add("line-clamp-none");
+    } else {
+      setIsTextHidden(true);
+      textRef.current.classList.remove("line-clamp-none");
+      textRef.current.classList.add("line-clamp-5");
+    }
+  }
+
+  useEffect(() => {
+    textRef.current.scrollHeight > textRef.current.clientHeight
+      ? setIsButton(true)
+      : setIsButton(false);
+  }, []);
 
   if (postData)
     return (
@@ -37,11 +75,21 @@ const PostCard = ({ postData, handleDelete }) => {
           )}
           {/* Post Detail */}
           <div className="my-4 flex flex-col">
-            <p className="my-4 font-satoshi text-gray-700">{postData.post}</p>
-            <div className="flex flex-wrap">
+            <p
+              ref={textRef}
+              className="my-4 font-satoshi text-gray-700 line-clamp-5 transition duration-300"
+            >
+              {postData.post}
+            </p>
+            {isButton ? (
+              <ShowHideButton showHide={showHide} isTextHidden={isTextHidden} />
+            ) : (
+              ""
+            )}
+            <div className="flex flex-wrap my-4">
               {postData.tag.map((eachTag) => (
                 <Link key={uuidv4()} href={`/search/${eachTag}`}>
-                  <p className="my-4 mr-2 font-inter text-sm blue_gradient cursor-pointer">
+                  <p className="mr-2 font-inter text-sm blue_gradient cursor-pointer">
                     #{eachTag}
                   </p>
                 </Link>
@@ -59,7 +107,7 @@ const PostCard = ({ postData, handleDelete }) => {
                 className="rounded-full object-contain"
               />
               <h3 className="my-4 font-satoshi text-sm text-gray-700">
-                Written by: {postData.userId.username}
+                {postData.userId.username}
               </h3>
             </div>
           </Link>
