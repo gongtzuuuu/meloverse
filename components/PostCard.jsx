@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
@@ -27,6 +27,9 @@ const PostCard = ({ postData, handleDelete }) => {
   const [isTextHidden, setIsTextHidden] = useState(true);
   const [isButton, setIsButton] = useState(false);
   const textRef = useRef(null);
+
+  // const [filteredAllPosts, setFilteredAllPosts] = useState([])
+  // const [filteredMyPosts, setFilteredMyPosts] = useState([]);
 
   function showHide() {
     if (textRef.current.classList.contains("line-clamp-5")) {
@@ -115,7 +118,7 @@ const PostCard = ({ postData, handleDelete }) => {
           {/* Check (1) If the current login user is the creator of the post */}
           {/* Check (2) If the user is currently in the profile page */}
           {session?.user.id === postData.userId._id &&
-            pathName === "/profile" && (
+            pathName === `/profile/${postData.userId._id}` && (
               <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
                 <Link href={`/post/${postData._id}`}>
                   <p className="outline_btn cursor-pointer">Edit</p>

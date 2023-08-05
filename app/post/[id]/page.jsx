@@ -11,7 +11,8 @@ import NotLogin from "@components/NotLogin";
 const PostDetails = ({ params }) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { fetchMyPosts } = useContext(GlobalPostContext);
+  const { globalAllPosts, setGlobalAllPosts, globalMyPosts, setGlobalMyPosts } =
+    useContext(GlobalPostContext);
   // Get post's info
   const [post, setPost] = useState(null);
   const [submitStatus, setSubmitStatus] = useState("Update");
@@ -30,22 +31,39 @@ const PostDetails = ({ params }) => {
 
   // Handle submitting
   const updatePost = async (e) => {
+    // Prevent browser default behaviour: reload the page
+    e.preventDefault();
     setIsSubmitting(true);
+    const updatePost = {
+      post: post.post,
+      tag: post.tag,
+    };
+
+    const updatedAllPost = globalAllPosts.map((eachPost) => {
+      if (eachPost.postId === params.id) {
+        eachPost.post = post.post;
+        eachPost.tag = post.tag;
+      }
+    });
+
+    const updatedMyPost = globalMyPosts.map((eachPost) => {
+      if (eachPost.postId === params.id) {
+        eachPost.post = post.post;
+        eachPost.tag = post.tag;
+      }
+    });
+
     if (session?.user.id === post.userId._id) {
-      // Prevent browser default behaviour: reload the page
-      e.preventDefault();
       try {
         const response = await fetch(`/api/post/${params.id}`, {
           method: "PATCH",
-          body: JSON.stringify({
-            post: post.post,
-            tag: post.tag,
-          }),
+          body: JSON.stringify(updatePost),
         });
         // 2. If the post if succedssfully created, then bring back to home
-        if (response.ok) {
-          router.push("/profile");
-          fetchMyPosts();
+        if (response.ok && response.status === 200) {
+          router.push(`/profile/${post.userId._id}`);
+          setGlobalAllPosts(updatedAllPost);
+          setGlobalMyPosts(updatedMyPost);
         }
       } catch (error) {
         console.log("Error from Updating the post", error);
@@ -56,8 +74,8 @@ const PostDetails = ({ params }) => {
   };
 
   useEffect(() => {
-    if (session) fetchPost();
-  }, []);
+    session && session.accessToken && fetchPost();
+  }, [session]);
 
   if (post)
     return (

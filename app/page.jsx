@@ -10,7 +10,10 @@ const Home = () => {
   const [currentGreetings, setCurrentGreetings] = useState("");
 
   // Get posts
-  const { myPosts, otherPosts } = useContext(GlobalPostContext);
+  const { globalAllPosts, setGlobalAllPosts, globalMyPosts, setGlobalMyPosts } =
+    useContext(GlobalPostContext);
+  const [allPost, setAllPosts] = useState([]);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Change greetings on homepage
   const greetings = () => {
@@ -26,9 +29,37 @@ const Home = () => {
     }
   };
 
+  // Handle delete method used on profile page
+  // const handleDelete = async (post) => {
+  //   // This confirm prompt is built into the browser API
+  //   const hasConfirmed = confirm("Are you sure you want to delete this post?");
+
+  //   if (hasConfirmed) {
+  //     try {
+  //       await fetch(`/api/post/${post._id.toString()}`, {
+  //         method: "DELETE",
+  //       });
+  //       const filteredAllPosts
+  //       setGlobalAllPosts()
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       setIsDeleting(false);
+  //     }
+  //   }
+  // };
+
   useEffect(() => {
     greetings();
   }, []);
+
+  useEffect(() => {
+    setAllPosts(globalAllPosts);
+  }, [globalAllPosts]);
+
+  useEffect(() => {
+    isDeleting && setAllPosts(globalAllPosts);
+  }, [isDeleting]);
 
   return (
     <section className="w-full flex-center flex-col">
@@ -40,7 +71,7 @@ const Home = () => {
             <span className="orange_gradient">{session.user.name}</span>
           </h1>
           <p className="desc">
-            Welcome to Meloverse, the ultimate app for music enthusiasts.
+            Good to see you again! Let the melodic journey begins.
           </p>
         </div>
       ) : (
@@ -55,15 +86,8 @@ const Home = () => {
           </p>
         </div>
       )}
-      {session?.user && myPosts.length > 0 ? (
-        <PostFeed postData={myPosts} text={"Your post..."} />
-      ) : (
-        <></>
-      )}
-      {otherPosts.length > 0 ? (
-        <PostFeed postData={otherPosts} text={"Explore more..."} />
-      ) : (
-        <></>
+      {allPost.length > 0 && (
+        <PostFeed text={"Trending Posts"} postData={allPost} />
       )}
       <div className="h-32"></div>
     </section>
