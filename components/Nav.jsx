@@ -52,7 +52,7 @@ const Nav = () => {
               <SearchBar setToggleDropdown={setToggleDropdown} />
             )}
             {/* If the profile picture is clicked */}
-            <Link href="/profile">
+            <Link href={`/profile/${session?.user.id}`}>
               <Image
                 src={session?.user.image}
                 alt="profile"

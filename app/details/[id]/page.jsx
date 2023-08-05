@@ -13,11 +13,12 @@ const Details = ({ params }) => {
   // Get user's info
   const router = useRouter();
   const { data: session } = useSession();
-  const { fetchMyPosts } = useContext(GlobalPostContext);
+  const { globalAllPosts, setGlobalAllPosts, globalMyPosts, setGlobalMyPosts } =
+    useContext(GlobalPostContext);
   // Get song's info
   const [songInfo, setSongInfo] = useState(null);
-  const [songPosts, setSongPosts] = useState([]);
-  const [myPosts, setMyPosts] = useState([]);
+  const [songAllPosts, setSongAllPosts] = useState([]);
+  const [songMyPosts, setSongMyPosts] = useState([]);
   const [otherPosts, setOtherPosts] = useState([]);
   // Get form's info
   const [toggleShow, setToggleShow] = useState(true);
@@ -55,7 +56,7 @@ const Details = ({ params }) => {
       const response = await fetch(`/api/songs/${params.id}/posts`);
       if (response) {
         const data = await response.json();
-        Array.isArray(data) ? setSongPosts(data) : setSongPosts([]);
+        Array.isArray(data) ? setSongAllPosts(data) : setSongAllPosts([]);
       }
     } catch (error) {
       console.log("Error from fetching song's posts", error);
@@ -69,25 +70,28 @@ const Details = ({ params }) => {
     setIsSubmitting(true);
     // Create a post
     try {
+      const newPost = {
+        userId: session?.user.id, // We have to check if there's an user
+        songId: params.id,
+        songDetail: {
+          name: songInfo.name,
+          artist: songInfo.artists[0].name,
+          album_img: songInfo.album.images[0].url,
+        },
+        post: post.post,
+        tag: post.tag,
+      };
+
       // 1. Call API
       const response = await fetch("/api/post/new", {
         method: "POST",
-        body: JSON.stringify({
-          userId: session?.user.id, // We have to check if there's an user
-          songId: params.id,
-          songDetail: {
-            name: songInfo.name,
-            artist: songInfo.artists[0].name,
-            album_img: songInfo.album.images[0].url,
-          },
-          post: post.post,
-          tag: post.tag,
-        }),
+        body: JSON.stringify(newPost),
       });
       // 2. If the post if succedssfully created, then bring back to home
       if (response.ok) {
-        router.push("/profile");
-        fetchMyPosts();
+        router.push(`/profile/${session?.user.id}`);
+        setGlobalMyPosts([newPost, ...globalMyPosts]);
+        setGlobalAllPosts([newPost, ...globalAllPosts]);
       }
     } catch (error) {
       console.log("Error from Create Post Page", error);
@@ -97,24 +101,26 @@ const Details = ({ params }) => {
   };
 
   useEffect(() => {
-    fetchSongInfo();
-    fetchSongPosts();
+    if (session && session.accessToken) {
+      fetchSongInfo();
+      fetchSongPosts();
+    }
   }, [session]);
 
   useEffect(() => {
-    if (songPosts) {
+    if (songAllPosts) {
       // Filter my songs
-      const filteredMyPosts = songPosts.filter(
+      const filteredMyPosts = songAllPosts.filter(
         (post) => post.userId._id === session?.user.id
       );
-      setMyPosts(filteredMyPosts);
+      setSongMyPosts(filteredMyPosts);
       // Filter other songs
-      const filteredOtherPosts = songPosts.filter(
+      const filteredOtherPosts = songAllPosts.filter(
         (post) => post.userId._id !== session?.user.id
       );
       setOtherPosts(filteredOtherPosts);
     }
-  }, [songPosts]);
+  }, [songAllPosts]);
 
   return (
     <section className="w-full">
@@ -140,8 +146,8 @@ const Details = ({ params }) => {
               />
             )}
           </div>
-          <PostFeed postData={myPosts} text={"My stories"} />
-          <PostFeed postData={otherPosts} text={"Other stories"} />
+          <PostFeed postData={songMyPosts} text={"Your Posts"} />
+          <PostFeed postData={otherPosts} text={"Stories from Others"} />
         </>
       ) : (
         <NotLogin />
