@@ -127,54 +127,6 @@ const GlobalSongProvider = ({ children }) => {
     }
   };
 
-  // *********************
-  // Start/Resume Playback
-  // *********************
-  const handlePlay = async () => {
-    if (session && session.accessToken) {
-      try {
-        const response = await fetch(
-          "https://api.spotify.com/v1/me/player/play",
-          {
-            method: "PUT",
-            headers: {
-              Authorization: `Bearer ${session.accessToken}`,
-            },
-          }
-        );
-        if (response.status == 204) {
-          setIsPlaying(true);
-        }
-      } catch (error) {
-        console.log("Error from playing the song", error);
-      }
-    }
-  };
-
-  // **************
-  // Pause Playback
-  // **************
-  const handlePause = async () => {
-    if (session && session.accessToken) {
-      try {
-        const response = await fetch(
-          "https://api.spotify.com/v1/me/player/pause",
-          {
-            method: "PUT",
-            headers: {
-              Authorization: `Bearer ${session.accessToken}`,
-            },
-          }
-        );
-        if (response.status == 204) {
-          setIsPlaying(false);
-        }
-      } catch (error) {
-        console.log("Error from pausing the song", error);
-      }
-    }
-  };
-
   // ***************************
   // Add Track to Playback Queue
   // ***************************
@@ -182,7 +134,7 @@ const GlobalSongProvider = ({ children }) => {
     if (session && session.accessToken) {
       try {
         const response = await fetch(
-          `https://api.spotify.com/v1/me/player/queue?uri=spotify:track:${id}`,
+          `https://api.spotify.com/v1/me/player/queue?uri=spotify%3Atrack%3A${id}`,
           {
             headers: {
               Authorization: `Bearer ${session.accessToken}`,
@@ -190,31 +142,13 @@ const GlobalSongProvider = ({ children }) => {
             method: "POST",
           }
         );
-        return response;
+        if (response.status === 204) {
+          confirm("The song is added to queue!");
+        } else {
+          confirm("Please open Spotify player and try again!");
+        }
       } catch (error) {
         console.log("Error from adding the song to playback queue", error);
-      }
-    }
-  };
-
-  // ***************************************
-  // Skips to next track in the user’s queue
-  // ***************************************
-  const skipToNext = async () => {
-    if (session && session.accessToken) {
-      try {
-        const response = await fetch(
-          "https://api.spotify.com/v1/me/player/next",
-          {
-            headers: {
-              Authorization: `Bearer ${session.accessToken}`,
-            },
-            method: "POST",
-          }
-        );
-        return response;
-      } catch (error) {
-        console.log("Error from skipping to next track", error);
       }
     }
   };
@@ -248,10 +182,7 @@ const GlobalSongProvider = ({ children }) => {
         setMySavedSongs,
         /* */
         handleLikeSong,
-        handlePlay,
-        handlePause,
         addToQueue,
-        skipToNext,
       }}
     >
       {children}

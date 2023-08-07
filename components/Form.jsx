@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const Form = ({
   post,
@@ -13,20 +13,19 @@ const Form = ({
   const [button, setButton] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [tags, setTags] = useState([]);
+  const inputValueRef = useRef();
 
-  // Add tags by pressing space
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 32) {
-      const newValue = e.target.value;
-      if (newValue.trim()) {
-        setPost({ ...post, tag: [...post.tag, newValue.trim()] });
-        e.target.value = "";
-      }
-      setTags(post.tag);
+  // Add tags to tags array
+  const handleClick = () => {
+    const newValue = inputValueRef.current.value;
+    if (newValue.trim()) {
+      setPost({ ...post, tag: [...post.tag, newValue.trim()] });
+      inputValueRef.current.value = "";
     }
+    setTags(post.tag);
   };
 
-  // Remove tags
+  // Remove tags from tags array
   const removeTag = (index) => {
     const newTagArr = post.tag.filter((e, i) => i !== index);
     setPost({ ...post, tag: newTagArr });
@@ -53,29 +52,46 @@ const Form = ({
       onSubmit={handleSubmit}
       className="mt-10 w-full max-w-2xl flex flex-col gap-7 glassmorphism"
     >
+      {/* -------------- */}
+      {/* Story Textarea */}
+      {/* -------------- */}
       <label>
         <span className="font-satoshi font-semibold text-base text-gray-700">
           Your story
         </span>
         <textarea
+          className="form_textarea "
           value={post.post}
           onChange={(e) => setPost({ ...post, post: e.target.value })}
           placeholder="Write your story about this song..."
           required
-          className="form_textarea "
         />
       </label>
+      {/* --------- */}
+      {/* Tag Input */}
+      {/* --------- */}
       <label>
         <span className="font-satoshi font-semibold text-base text-gray-700">
-          Tag{" "}
+          Tag
         </span>
-        <input
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-          type="text"
-          className="form_input"
-          placeholder="Click space to add more tags"
-        />
+        {/* --- Tags Input & Add Button --- */}
+        <div className="flex items-center">
+          <input
+            ref={inputValueRef}
+            onChange={(e) => setInputValue(e.target.value)}
+            type="text"
+            className="form_input"
+            placeholder="Click Add to add more tags"
+          />
+          <button
+            type="button"
+            className="ml-4 text-sm text-gray-700 underline decoration-1 decoration-gray-500 underline-offset-8"
+            onClick={handleClick}
+          >
+            Add
+          </button>
+        </div>
+        {/* --- Tags Display Area --- */}
         <div className="form_tag_display">
           {post.tag.map((eachTag, index) => (
             <p key={index} className="form_tag">
@@ -87,9 +103,11 @@ const Form = ({
           ))}
         </div>
       </label>
-
-      {/*Buttons for cancellation & submitting */}
+      {/* ------------------------- */}
+      {/* Cancel and Submit Buttons */}
+      {/* ------------------------- */}
       <div className="flex-end mx-3 mb-5 gap-4">
+        {/* --- Cancel Button --- */}
         <button
           onClick={() => {
             setToggleShow(false);
@@ -98,6 +116,7 @@ const Form = ({
         >
           Cancel
         </button>
+        {/* --- Submit Button --- */}
         <button
           type="submit"
           disabled={isSubmitting}

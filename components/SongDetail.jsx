@@ -1,39 +1,55 @@
 import { useContext } from "react";
 import { GlobalSongContext } from "./GlobalSongProvider";
-import {
-  PlayCircleIcon,
-  PlusCircleIcon,
-  HeartIcon,
-} from "@heroicons/react/24/solid";
+import { BarsArrowUpIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
+import { HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
 const SongDetail = ({ id, name, artist, albumImg, setToggleShow }) => {
-  const {
-    setGlobalPlaySong,
-    setIsPlaying,
-    handleLikeSong,
-    handlePlay,
-    addToQueue,
-    skipToNext,
-  } = useContext(GlobalSongContext);
+  const { setGlobalPlaySong, handleLikeSong, addToQueue } =
+    useContext(GlobalSongContext);
 
   return (
-    <div className="flex items-center">
+    <div className="w-full max-w-2xl flex flex-row items-center">
       {/* ------------ */}
-      {/* Song details */}
+      {/* Picture Area */}
       {/* ------------ */}
       <div>
-        <Image src={albumImg} alt="album image" width={150} height={150} />
+        <Image
+          src={albumImg}
+          alt="album image"
+          width={150}
+          height={150}
+          className="rounded-lg"
+        />
       </div>
       <div className="prompt_card ml-2">
+        {/* ------------------- */}
+        {/* Text & Buttons Area */}
+        {/* ------------------- */}
         <p className="my-2 font-satoshi text-md font-semibold">{name}</p>
         <p className="my-2 font-satoshi text-md text-gray-700">{artist}</p>
-        {/* ----------- */}
-        {/* Button area */}
-        {/* ----------- */}
-        <div className="flex my-2 sm:gap-3">
+        <div className="my-2 gap-3 flex items-center">
+          {/* --- Add to queue --- */}
+          <div
+            title="Open editor"
+            onClick={() => {
+              setToggleShow((prev) => !prev);
+            }}
+          >
+            <PlusCircleIcon width={30} height={30} className="copy_btn" />
+          </div>
+          {/* --- Like the song --- */}
           <div
             className="copy_btn"
+            title="Save the song"
+            onClick={() => handleLikeSong(id)}
+          >
+            <HeartIcon width={30} height={30} />
+          </div>
+          {/* --- Add to queue --- */}
+          <div
+            className="copy_btn"
+            title="Add to Queue"
             onClick={() => {
               setGlobalPlaySong({
                 id: id,
@@ -42,23 +58,9 @@ const SongDetail = ({ id, name, artist, albumImg, setToggleShow }) => {
                 albumImg: albumImg,
               });
               addToQueue(id);
-              skipToNext();
-              handlePlay();
-              setIsPlaying(true);
             }}
           >
-            <PlayCircleIcon width={30} height={30} className="cursor-pointer" />
-          </div>
-          <div
-            className="copy_btn"
-            onClick={() => {
-              setToggleShow((prev) => !prev);
-            }}
-          >
-            <PlusCircleIcon width={30} height={30} className="cursor-pointer" />
-          </div>
-          <div className="copy_btn" onClick={() => handleLikeSong(id)}>
-            <HeartIcon width={30} height={30} className="cursor-pointer" />
+            <BarsArrowUpIcon width={30} height={30} />
           </div>
         </div>
       </div>

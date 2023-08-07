@@ -20,7 +20,7 @@ const Details = ({ params }) => {
   const [songMyPosts, setSongMyPosts] = useState([]);
   const [otherPosts, setOtherPosts] = useState([]);
   // Get form's info
-  const [toggleShow, setToggleShow] = useState(true);
+  const [toggleShow, setToggleShow] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("Create");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [post, setPost] = useState({
@@ -102,10 +102,8 @@ const Details = ({ params }) => {
   };
 
   useEffect(() => {
-    if (session && session.accessToken) {
-      fetchSongInfo();
-      fetchSongPosts();
-    }
+    fetchSongInfo();
+    fetchSongPosts();
   }, [session]);
 
   useEffect(() => {
@@ -125,26 +123,28 @@ const Details = ({ params }) => {
 
   return (
     <section className="w-full">
-      <div className="flex flex-col justify-center items-center">
-        <SongDetail
-          session={session}
-          id={params.id}
-          name={songInfo.name}
-          artist={songInfo.artists[0].name}
-          albumImg={songInfo.album.images[0].url}
-          setToggleShow={setToggleShow}
-        />
-        {toggleShow && (
-          <Form
-            post={post}
-            setPost={setPost}
-            submitStatus={submitStatus}
-            isSubmitting={isSubmitting}
-            handleSubmit={createPost}
+      {songInfo && (
+        <div className="flex flex-col justify-center items-center">
+          <SongDetail
+            session={session}
+            id={params.id}
+            name={songInfo.name}
+            artist={songInfo.artists[0].name}
+            albumImg={songInfo.album.images[0].url}
             setToggleShow={setToggleShow}
           />
-        )}
-      </div>
+          {toggleShow && (
+            <Form
+              post={post}
+              setPost={setPost}
+              submitStatus={submitStatus}
+              isSubmitting={isSubmitting}
+              handleSubmit={createPost}
+              setToggleShow={setToggleShow}
+            />
+          )}
+        </div>
+      )}
       <PostFeed postData={songMyPosts} text={"Your Posts"} />
       <PostFeed postData={otherPosts} text={"Stories from Others"} />
       <div className="h-32"></div>
