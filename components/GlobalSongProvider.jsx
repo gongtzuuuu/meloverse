@@ -13,7 +13,9 @@ const GlobalSongProvider = ({ children }) => {
   const [recentlyPlayed, setRecentlyPlayed] = useState(null);
   const [mySavedSongs, setMySavedSongs] = useState([]);
 
-  // Get user's current playing song
+  // ***************************
+  // Get Currently Playing Track
+  // ***************************
   const getCurrentlyPlaying = async () => {
     if (session && session.accessToken) {
       try {
@@ -25,15 +27,19 @@ const GlobalSongProvider = ({ children }) => {
             },
           }
         );
-        if (response.ok && response.status === 200) {
+        if (response.status === 200) {
           const data = await response.json();
-          const filteredData = {
-            id: data.item.id,
-            name: data.item.name,
-            artist: data.item.artists[0].name,
-            albumImg: data.item.album.images[0].url,
-          };
-          setCurrentlyPlaying(filteredData);
+          if (data.item) {
+            const filteredData = {
+              id: data.item.id,
+              name: data.item.name,
+              artist: data.item.artists[0].name,
+              albumImg: data.item.album.images[0].url,
+            };
+            setCurrentlyPlaying(filteredData);
+          } else {
+            setCurrentlyPlaying(null);
+          }
         } else {
           setCurrentlyPlaying(null);
         }
@@ -43,7 +49,9 @@ const GlobalSongProvider = ({ children }) => {
     }
   };
 
-  // Get user's recently played song
+  // **************************
+  // Get Recently Played Tracks
+  // **************************
   const getRecentlyPlayed = async () => {
     if (session && session.accessToken) {
       try {
@@ -55,7 +63,7 @@ const GlobalSongProvider = ({ children }) => {
             },
           }
         );
-        if (response) {
+        if (response.status === 200 && response.ok) {
           const data = await response.json();
           const filteredData = {
             id: data.items[0].track.id,
@@ -71,7 +79,9 @@ const GlobalSongProvider = ({ children }) => {
     }
   };
 
-  // Get user's saved songs
+  // ***********************
+  // Get User's Saved Tracks
+  // ***********************
   const fetchMySavedSongs = async () => {
     if (session && session.accessToken) {
       try {
@@ -80,9 +90,10 @@ const GlobalSongProvider = ({ children }) => {
             Authorization: `Bearer ${session.accessToken}`,
           },
         });
-        if (response) {
+        // - check response status & if data.items exists
+        if (response.status === 200 && response.ok) {
           const data = await response.json();
-          setMySavedSongs(data.items);
+          data.items && setMySavedSongs(data.items);
         }
       } catch (error) {
         console.log("Error from fetching user's playlist");
@@ -91,28 +102,34 @@ const GlobalSongProvider = ({ children }) => {
     }
   };
 
-  // handle to like the song
+  // ****************************
+  // Save Tracks for Current User
+  // ****************************
   const handleLikeSong = async (id) => {
-    try {
-      const response = await fetch(
-        `https://api.spotify.com/v1/me/tracks?ids=${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-            "Content-Type": "application/json",
-          },
-          method: "PUT",
+    if (session && session.accessToken) {
+      try {
+        const response = await fetch(
+          `https://api.spotify.com/v1/me/tracks?ids=${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${session.accessToken}`,
+              "Content-Type": "application/json",
+            },
+            method: "PUT",
+          }
+        );
+        if (response.status === 200) {
+          confirm("The song is liked!");
         }
-      );
-      if (response.status === 200) {
-        confirm("The song is liked! Check out your profile page.");
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
-  // Handle to play the song
+  // *********************
+  // Start/Resume Playback
+  // *********************
   const handlePlay = async () => {
     if (session && session.accessToken) {
       try {
@@ -134,7 +151,9 @@ const GlobalSongProvider = ({ children }) => {
     }
   };
 
-  // Handle to pause the song
+  // **************
+  // Pause Playback
+  // **************
   const handlePause = async () => {
     if (session && session.accessToken) {
       try {
@@ -156,7 +175,9 @@ const GlobalSongProvider = ({ children }) => {
     }
   };
 
-  // Add the song to playback queue
+  // ***************************
+  // Add Track to Playback Queue
+  // ***************************
   const addToQueue = async (id) => {
     if (session && session.accessToken) {
       try {
@@ -176,7 +197,9 @@ const GlobalSongProvider = ({ children }) => {
     }
   };
 
+  // ***************************************
   // Skips to next track in the user’s queue
+  // ***************************************
   const skipToNext = async () => {
     if (session && session.accessToken) {
       try {
@@ -197,11 +220,9 @@ const GlobalSongProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (session && session.accessToken) {
-      getCurrentlyPlaying();
-      getRecentlyPlayed();
-      fetchMySavedSongs();
-    }
+    getCurrentlyPlaying();
+    getRecentlyPlayed();
+    fetchMySavedSongs();
   }, [session]);
 
   useEffect(() => {

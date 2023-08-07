@@ -24,7 +24,7 @@ const UserProfile = ({ params }) => {
         data ? setUserInfo(data) : setUserInfo(null);
       }
     } catch (error) {
-      onsole.log("Error from fetching user's info", error);
+      console.log("Error from fetching user's info", error);
     }
   };
 

@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { GlobalPostContext } from "@components/GlobalPostProvider";
 import SongDetail from "@components/SongDetail";
 import Form from "@components/Form";
-import NotLogin from "@components/NotLogin";
 
 const PostDetails = ({ params }) => {
   const router = useRouter();
@@ -22,8 +21,10 @@ const PostDetails = ({ params }) => {
   const fetchPost = async () => {
     try {
       const response = await fetch(`/api/post/${params.id}`);
-      const data = await response.json();
-      setPost(data);
+      if (response.ok && response.status === 200) {
+        const data = await response.json();
+        setPost(data);
+      }
     } catch (error) {
       console.log("Error from fetching the post", error);
     }
@@ -80,26 +81,22 @@ const PostDetails = ({ params }) => {
   if (post)
     return (
       <section className="feed">
-        {session?.user ? (
-          <>
-            <SongDetail
-              session={session}
-              id={post.songId}
-              name={post.songDetail.name}
-              artist={post.songDetail.artist}
-              albumImg={post.songDetail.album_img}
-            />
-            <Form
-              post={post}
-              setPost={setPost}
-              submitStatus={submitStatus}
-              isSubmitting={isSubmitting}
-              handleSubmit={updatePost}
-            />
-          </>
-        ) : (
-          <NotLogin />
-        )}
+        <>
+          <SongDetail
+            session={session}
+            id={post.songId}
+            name={post.songDetail.name}
+            artist={post.songDetail.artist}
+            albumImg={post.songDetail.album_img}
+          />
+          <Form
+            post={post}
+            setPost={setPost}
+            submitStatus={submitStatus}
+            isSubmitting={isSubmitting}
+            handleSubmit={updatePost}
+          />
+        </>
         <div className="h-32"></div>
       </section>
     );
