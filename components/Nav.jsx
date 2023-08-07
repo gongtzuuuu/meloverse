@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { signIn, useSession, getProviders } from "next-auth/react";
+import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import SearchBar from "@components/SearchBar";
@@ -16,25 +16,28 @@ const Nav = () => {
   //Set toggle Dropdown function for mobile nav menu
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
-  useEffect(() => {
-    const setUpProviders = async () => {
-      const response = await getProviders(); //Data: array
-      response && setProviders(response);
-    };
-    setUpProviders();
-  }, []);
+  // useEffect(() => {
+  //   const setUpProviders = async () => {
+  //     const response = await getProviders(); //Data: array
+  //     response && setProviders(response);
+  //   };
+  //   setUpProviders();
+  // }, []);
 
-  useEffect(() => {
-    if (session?.error === "RefreshAccessTokenError" && providers) {
-      Object.values(providers).map(
-        (provider) => signIn(provider.id) // Force sign in to hopefully resolve error
-      );
-      signIn();
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (session?.error === "RefreshAccessTokenError" && providers) {
+  //     Object.values(providers).map(
+  //       (provider) => signIn(provider.id) // Force sign in to hopefully resolve error
+  //     );
+  //     signIn();
+  //   }
+  // }, [session]);
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
+      {/* --------- */}
+      {/* Logo Area */}
+      {/* --------- */}
       <Link href="/" className="flex gap-2 flex-center">
         <Image
           src={logo}
@@ -45,23 +48,13 @@ const Nav = () => {
         />
         <p className="logo_text black_gradient">meloverse</p>
       </Link>
-
-      {/* Desktop Navigation */}
+      {/* --------------- */}
+      {/* Navigation Area */}
+      {/* --------------- */}
       <div className="sm:flex">
         {session?.user ? (
           <div className="flex gap-3 md:gap-5 relative">
-            <button
-              className="outline_btn"
-              onClick={() => {
-                setToggleDropdown((prev) => !prev);
-              }}
-            >
-              Search
-            </button>
-            {toggleDropdown && (
-              <SearchBar setToggleDropdown={setToggleDropdown} />
-            )}
-            {/* If the profile picture is clicked */}
+            {/* --- Profile Picture --- */}
             <Link href={`/profile/${session?.user.id}`}>
               <Image
                 src={session?.user.image}
@@ -71,11 +64,28 @@ const Nav = () => {
                 className="rounded-full"
               />
             </Link>
+            {/* --- Search Button --- */}
+            <button
+              className="outline_btn"
+              onClick={() => {
+                setToggleDropdown((prev) => !prev);
+              }}
+            >
+              Search
+            </button>
+            {/* --- Search Bar --- */}
+            {toggleDropdown && (
+              <SearchBar setToggleDropdown={setToggleDropdown} />
+            )}
+            {/* --- Logout Button --- */}
+            <button type="button" onClick={signOut} className="outline_btn">
+              Logout
+            </button>
           </div>
         ) : (
           <>
             {/* Check if we have provider */}
-            {providers &&
+            {/*providers &&
               Object.values(providers).map((provider) => (
                 <button
                   type="button"
@@ -85,7 +95,15 @@ const Nav = () => {
                 >
                   Login
                 </button>
-              ))}
+              )) */}
+            {/* --- Login Button --- */}
+            <button
+              type="button"
+              onClick={() => signIn("spotify", { callbackUrl: "/" })}
+              className="black_btn"
+            >
+              Login
+            </button>
           </>
         )}
       </div>

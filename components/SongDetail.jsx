@@ -9,11 +9,11 @@ const SongDetail = ({ id, name, artist, albumImg, setToggleShow }) => {
     useContext(GlobalSongContext);
 
   return (
-    <div className="w-full max-w-2xl flex flex-row items-center">
+    <div className="w-full max-w-2xl flex items-center sm:flex-wrap ">
       {/* ------------ */}
       {/* Picture Area */}
       {/* ------------ */}
-      <div>
+      <div className="">
         <Image
           src={albumImg}
           alt="album image"
