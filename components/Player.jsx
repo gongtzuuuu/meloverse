@@ -5,23 +5,13 @@ import { useRouter } from "next/navigation";
 import { GlobalSongContext } from "@components/GlobalSongProvider";
 import spotifyLogo from "../public/assets/images/Spotify_Logo.png";
 import Image from "next/image";
-import {
-  PlayCircleIcon,
-  PauseCircleIcon,
-  PlusCircleIcon,
-  HeartIcon,
-} from "@heroicons/react/24/solid";
+import { BarsArrowUpIcon, DocumentPlusIcon } from "@heroicons/react/24/solid";
+import { HeartIcon } from "@heroicons/react/24/outline";
 
 const Player = () => {
   const router = useRouter();
-  const {
-    globalPlaySong,
-    isPlaying,
-    setIsPlaying,
-    handleLikeSong,
-    handlePlay,
-    handlePause,
-  } = useContext(GlobalSongContext);
+  const { globalPlaySong, handleLikeSong, addToQueue } =
+    useContext(GlobalSongContext);
 
   const handleAddPost = () => {
     router.push(`/details/${globalPlaySong.id}`);
@@ -31,7 +21,7 @@ const Player = () => {
     <section className="player">
       <div className="w-full flex items-start gap-5">
         {globalPlaySong ? (
-          <div className="w-full flex-1 flex justify-between items-center gap-3 cursor-pointer">
+          <div className="w-full flex-1 flex justify-between items-center gap-3">
             {/* ---------------- */}
             {/* Song Detail Area */}
             {/* ---------------- */}
@@ -45,7 +35,7 @@ const Player = () => {
                 />
               </div>
               <div className="flex flex-col">
-                <h3 className="font-satoshi font-semibold text-gray-900">
+                <h3 className="font-satoshi font-semibold text-gray-900 line-clamp-1">
                   {globalPlaySong.name}
                 </h3>
                 <p className="font-inter text-sm text-gray-700">
@@ -56,57 +46,38 @@ const Player = () => {
             {/* ----------- */}
             {/* Button Area */}
             {/* ----------- */}
-            <div className="flex justify-center items-center sm:gap-3">
-              {/* ---------------------- */}
-              {/* Play or pause the song */}
-              {/* ---------------------- */}
-              {isPlaying ? (
-                <div
-                  className="copy_btn"
-                  onClick={() => {
-                    handlePause();
-                    setIsPlaying(false);
-                  }}
-                >
-                  <PauseCircleIcon
-                    width={30}
-                    height={30}
-                    className="cursor-pointer"
-                  />
-                </div>
-              ) : (
-                <div
-                  className="copy_btn"
-                  onClick={() => {
-                    handlePlay();
-                    setIsPlaying(true);
-                  }}
-                >
-                  <PlayCircleIcon
-                    width={30}
-                    height={30}
-                    className="cursor-pointer"
-                  />
-                </div>
-              )}
+            <div className="flex justify-center items-center gap-3">
               {/* --------------- */}
               {/* Add Post Button */}
               {/* --------------- */}
-              <div className="copy_btn" onClick={handleAddPost}>
-                <PlusCircleIcon
-                  width={30}
-                  height={30}
-                  className="cursor-pointer"
-                />
+              <div
+                onClick={handleAddPost}
+                title="Add Post"
+                className="copy_btn"
+              >
+                <DocumentPlusIcon width={30} height={30} />
               </div>
               {/* ------------- */}
               {/* Like the song */}
               {/* ------------- */}
               <div
                 className="copy_btn"
+                title="Save the song"
                 onClick={() => handleLikeSong(globalPlaySong.id)}
               >
-                <HeartIcon width={30} height={30} className="cursor-pointer" />
+                <HeartIcon width={30} height={30} />
+              </div>
+              {/* -------------------------- */}
+              {/* Add track to Spotify queue */}
+              {/* -------------------------- */}
+              <div
+                className="copy_btn"
+                title="Add to Queue"
+                onClick={() => {
+                  addToQueue(globalPlaySong.id);
+                }}
+              >
+                <BarsArrowUpIcon width={30} height={30} />
               </div>
             </div>
           </div>
