@@ -40,13 +40,17 @@ const refreshAccessToken = async (token) => {
     },
     body: params,
   });
-  const data = await response.json();
-  return {
-    ...token,
-    accessToken: data.access_token,
-    refreshToken: data.refresh_token ?? token.refreshToken,
-    accessTokenExpires: Date.now() + data.expires_in * 1000,
-  };
+  console.log("response from refresh token @server side", response);
+  if (response) {
+    const data = await response.json();
+    console.log("data from refresh token @server side", data);
+    return {
+      ...token,
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token ?? token.refreshToken,
+      accessTokenExpires: Date.now() + data.expires_in * 1000,
+    };
+  }
 };
 
 const handler = NextAuth({
@@ -78,10 +82,13 @@ const handler = NextAuth({
         Date.now() < token.accessTokenExpires * 1000
       ) {
         // access token has not expired
+        console.log("token from jwt @server side", token);
         return token;
       } else {
         // access token has expired
-        return await refreshAccessToken(token);
+        const refreshToken = await refreshAccessToken(token);
+        console.log("token from jwt @server side", refreshToken);
+        return refreshToken;
       }
     },
     async session({ session, token, user }) {
@@ -94,6 +101,7 @@ const handler = NextAuth({
       session.user.id = sessionUser._id.toString();
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken;
+      console.log("session @server side", session);
       return session;
     },
     async signIn({ profile }) {
