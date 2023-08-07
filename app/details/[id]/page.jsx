@@ -7,7 +7,6 @@ import { GlobalPostContext } from "@components/GlobalPostProvider";
 import SongDetail from "@components/SongDetail";
 import PostFeed from "@components/PostFeed";
 import Form from "@components/Form";
-import NotLogin from "@components/NotLogin";
 
 const Details = ({ params }) => {
   // Get user's info
@@ -42,8 +41,10 @@ const Details = ({ params }) => {
             },
           }
         );
-        const data = await response.json();
-        setSongInfo(data);
+        if (response.ok && response.status === 200) {
+          const data = await response.json();
+          setSongInfo(data);
+        }
       } catch (error) {
         console.log("Error from fetching song detail", error);
       }
@@ -54,7 +55,7 @@ const Details = ({ params }) => {
   const fetchSongPosts = async () => {
     try {
       const response = await fetch(`/api/songs/${params.id}/posts`);
-      if (response) {
+      if (response.ok && response.status === 200) {
         const data = await response.json();
         Array.isArray(data) ? setSongAllPosts(data) : setSongAllPosts([]);
       }
@@ -88,7 +89,7 @@ const Details = ({ params }) => {
         body: JSON.stringify(newPost),
       });
       // 2. If the post if succedssfully created, then bring back to home
-      if (response.ok) {
+      if (response.ok && response.status === 201) {
         router.push(`/profile/${session?.user.id}`);
         setGlobalMyPosts([newPost, ...globalMyPosts]);
         setGlobalAllPosts([newPost, ...globalAllPosts]);
@@ -124,34 +125,28 @@ const Details = ({ params }) => {
 
   return (
     <section className="w-full">
-      {session?.user && songInfo ? (
-        <>
-          <div className="flex flex-col justify-center items-center">
-            <SongDetail
-              session={session}
-              id={params.id}
-              name={songInfo.name}
-              artist={songInfo.artists[0].name}
-              albumImg={songInfo.album.images[0].url}
-              setToggleShow={setToggleShow}
-            />
-            {toggleShow && (
-              <Form
-                post={post}
-                setPost={setPost}
-                submitStatus={submitStatus}
-                isSubmitting={isSubmitting}
-                handleSubmit={createPost}
-                setToggleShow={setToggleShow}
-              />
-            )}
-          </div>
-          <PostFeed postData={songMyPosts} text={"Your Posts"} />
-          <PostFeed postData={otherPosts} text={"Stories from Others"} />
-        </>
-      ) : (
-        <NotLogin />
-      )}
+      <div className="flex flex-col justify-center items-center">
+        <SongDetail
+          session={session}
+          id={params.id}
+          name={songInfo.name}
+          artist={songInfo.artists[0].name}
+          albumImg={songInfo.album.images[0].url}
+          setToggleShow={setToggleShow}
+        />
+        {toggleShow && (
+          <Form
+            post={post}
+            setPost={setPost}
+            submitStatus={submitStatus}
+            isSubmitting={isSubmitting}
+            handleSubmit={createPost}
+            setToggleShow={setToggleShow}
+          />
+        )}
+      </div>
+      <PostFeed postData={songMyPosts} text={"Your Posts"} />
+      <PostFeed postData={otherPosts} text={"Stories from Others"} />
       <div className="h-32"></div>
     </section>
   );

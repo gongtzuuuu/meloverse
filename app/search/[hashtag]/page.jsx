@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
 import PostCard from "@components/PostCard";
-import NotLogin from "@components/NotLogin";
 
 const SearchHashtagResultList = ({ searchResult }) => {
   if (searchResult)
@@ -39,16 +37,10 @@ const SearchHashtagResult = ({ params }) => {
 
   return (
     <section className="w-full">
-      {session && session.accessToken ? (
-        <>
-          <h1 className="head_text text-left">
-            <span className="blue_gradient">#{params.hashtag}</span>
-          </h1>
-          <SearchHashtagResultList searchResult={searchResult} />
-        </>
-      ) : (
-        <NotLogin />
-      )}
+      <h1 className="head_text text-left">
+        <span className="blue_gradient">#{params.hashtag}</span>
+      </h1>
+      <SearchHashtagResultList searchResult={searchResult} />
       <div className="h-32"></div>
     </section>
   );

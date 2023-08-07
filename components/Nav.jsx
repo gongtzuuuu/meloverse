@@ -10,6 +10,7 @@ import logo from "../public/favicon.png";
 const Nav = () => {
   //Show different nav links according to login status with session
   const { data: session } = useSession();
+  console.log("session from nav", session);
   //Get the currently configured authentication providers from /api/auth/providers
   const [providers, setProviders] = useState(null);
   //Set toggle Dropdown function for mobile nav menu
@@ -18,10 +19,19 @@ const Nav = () => {
   useEffect(() => {
     const setUpProviders = async () => {
       const response = await getProviders(); //Data: array
-      setProviders(response);
+      response && setProviders(response);
     };
     setUpProviders();
   }, []);
+
+  useEffect(() => {
+    if (session?.error === "RefreshAccessTokenError" && providers) {
+      Object.values(providers).map(
+        (provider) => signIn(provider.id) // Force sign in to hopefully resolve error
+      );
+      signIn();
+    }
+  }, [session]);
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
