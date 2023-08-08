@@ -42,7 +42,7 @@ export const middleware = async (req) => {
     new URLSearchParams(params).toString();
 
   if (pathname.includes("/api/auth") || token) return NextResponse.next();
-  if (!token) return NextResponse.redirect(LOGIN_URL, req.url);
+  if (!token) return NextResponse.redirect(new URL("/", req.url));
   return NextResponse.next();
 };
 
