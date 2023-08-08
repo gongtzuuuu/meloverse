@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { GlobalSongContext } from "@components/GlobalSongProvider";
+import { GlobalSongContext } from "@context/GlobalSongProvider";
 import SongCard from "@components//SongCard";
 
 const SongCardList = () => {

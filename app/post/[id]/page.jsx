@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { GlobalPostContext } from "@components/GlobalPostProvider";
+import { GlobalPostContext } from "@context/GlobalPostProvider";
 import SongDetail from "@components/SongDetail";
 import Form from "@components/Form";
 

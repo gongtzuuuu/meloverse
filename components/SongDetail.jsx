@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { GlobalSongContext } from "./GlobalSongProvider";
+import { GlobalSongContext } from "../context/GlobalSongProvider";
 import { BarsArrowUpIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
 import { HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";

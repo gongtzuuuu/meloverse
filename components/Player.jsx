@@ -2,11 +2,12 @@
 
 import { useContext } from "react";
 import { useRouter } from "next/navigation";
-import { GlobalSongContext } from "@components/GlobalSongProvider";
-import spotifyLogo from "../public/assets/images/Spotify_Logo.png";
-import Image from "next/image";
+import { GlobalSongContext } from "@context/GlobalSongProvider";
+
 import { BarsArrowUpIcon, DocumentPlusIcon } from "@heroicons/react/24/solid";
 import { HeartIcon } from "@heroicons/react/24/outline";
+import spotifyLogo from "../public/assets/images/Spotify_Logo.png";
+import Image from "next/image";
 
 const Player = () => {
   const router = useRouter();
