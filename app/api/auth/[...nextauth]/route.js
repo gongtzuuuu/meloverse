@@ -1,24 +1,21 @@
 /* It's an API route with an API auth Dynamic next auth */
 import NextAuth from "next-auth/next";
-import GoogleProvider from "next-auth/providers/google";
 import SpotifyProvider from "next-auth/providers/spotify";
 
 import User from "@models/user.model";
 import { connectToDB } from "@utils/database";
 
-const scopes = [
-  "user-read-email",
-  "user-read-private",
-  "user-library-read",
-  "user-library-modify",
-  "user-read-currently-playing",
-  "user-read-recently-played",
-  "user-modify-playback-state",
-  "streaming",
-].join(",");
-
 const params = {
-  scope: scopes,
+  scope: [
+    "user-read-email",
+    "user-read-private",
+    "user-library-read",
+    "user-library-modify",
+    "user-read-currently-playing",
+    "user-read-recently-played",
+    "user-modify-playback-state",
+    "streaming",
+  ].join(","),
 };
 
 const LOGIN_URL =
@@ -60,15 +57,8 @@ const handler = NextAuth({
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       authorization: LOGIN_URL,
     }),
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // }),
   ],
   secret: process.env.JWT_SECRET,
-  pages: {
-    signIn: "/login",
-  },
   callbacks: {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin

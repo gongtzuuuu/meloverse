@@ -1,8 +1,8 @@
 import "@styles/globals.css";
 
-import Provider from "@components/Provider";
-import GlobalSongProvider from "@components/GlobalSongProvider";
-import GlobalPostProvider from "@components/GlobalPostProvider";
+import AuthProvider from "@context/AuthProvider";
+import GlobalSongProvider from "@context/GlobalSongProvider";
+import GlobalPostProvider from "@context/GlobalPostProvider";
 import Nav from "@components/Nav";
 import Player from "@components/Player";
 
@@ -22,7 +22,7 @@ const RootLayout = ({ children }) => {
         <link rel="icon" href="/favicon.png" />
       </head>
       <body>
-        <Provider>
+        <AuthProvider>
           <div className="main">
             <div className="gradient"></div>
           </div>
@@ -33,7 +33,7 @@ const RootLayout = ({ children }) => {
               <Player />
             </GlobalSongProvider>
           </main>
-        </Provider>
+        </AuthProvider>
       </body>
     </html>
   );

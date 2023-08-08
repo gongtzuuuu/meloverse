@@ -1,14 +1,12 @@
 "use client";
 
 import { useState, useEffect, useContext } from "react";
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { GlobalPostContext } from "@components/GlobalPostProvider";
+import { useSession } from "next-auth/react";
+import { GlobalPostContext } from "@context/GlobalPostProvider";
 import Profile from "@components/Profile";
 import SongFeed from "@components/SongFeed";
 
 const UserProfile = ({ params }) => {
-  const router = useRouter();
   const { data: session } = useSession();
   const [userInfo, setUserInfo] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
@@ -65,10 +63,6 @@ const UserProfile = ({ params }) => {
     }
   };
 
-  const handleSignOut = async () => {
-    await signOut();
-  };
-
   // Fetch User's posts
   useEffect(() => {
     fetchUserInfo();
@@ -83,16 +77,7 @@ const UserProfile = ({ params }) => {
         handleDelete={handleDelete}
       />
       {session && session?.user.id === params.id && (
-        <>
-          <SongFeed text="Liked Songs" />
-          <button
-            type="button"
-            onClick={handleSignOut}
-            className="mt-5 black_btn mb-6"
-          >
-            Logout
-          </button>
-        </>
+        <SongFeed text="Liked Songs" />
       )}
       <div className="h-32"></div>
     </>
