@@ -7,7 +7,7 @@ import PostFeed from "@components/PostFeed";
 const getPosts = async () => {
   try {
     // Fetch initial data
-    const res = await fetch(`/api/post`, {
+    const res = await fetch(`${NEXTAUTH_URL}/api/post`, {
       cache: "no-store",
     });
 
