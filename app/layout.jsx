@@ -21,18 +21,18 @@ const RootLayout = ({ children }) => {
         <link rel="icon" href="/favicon.png" />
       </head>
       <body>
-        <AuthProvider>
-          <div className="main">
-            <div className="gradient"></div>
-          </div>
-          <main className="app">
+        <div className="main">
+          <div className="gradient"></div>
+        </div>
+        <main className="app">
+          <AuthProvider>
             <Nav />
             <GlobalSongProvider>
               {children}
               <Player />
             </GlobalSongProvider>
-          </main>
-        </AuthProvider>
+          </AuthProvider>
+        </main>
       </body>
     </html>
   );

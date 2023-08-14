@@ -8,24 +8,25 @@ import SearchBar from "@components/SearchBar";
 import SignInButton from "./SignInButton";
 
 const getServerSession = async () => {
-  const req = {
-    headers: Object.fromEntries(headers()),
-    cookies: Object.fromEntries(
-      cookies()
-        .getAll()
-        .map((c) => [c.name, c.value])
-    ),
-  };
-  const res = { getHeader() {}, setCookie() {}, setHeader() {} };
-
-  const session = await originalGetServerSession(req, res, authOptions);
-  return session;
+  try {
+    const req = {
+      headers: Object.fromEntries(headers()),
+      cookies: Object.fromEntries(
+        cookies()
+          .getAll()
+          .map((c) => [c.name, c.value])
+      ),
+    };
+    const res = { getHeader() {}, setCookie() {}, setHeader() {} };
+    const session = await originalGetServerSession(req, res, authOptions);
+    return session;
+  } catch (error) {
+    console.log("error from getAllSongPost func. on Nav", error);
+  }
 };
 
 const Nav = async () => {
   const session = await getServerSession(authOptions);
-  let toggleDropdown = false;
-
   return (
     <nav className="flex-between w-full mb-16 pt-3">
       {/* --------- */}

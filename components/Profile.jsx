@@ -6,18 +6,21 @@ import PostFeed from "@components/PostFeed";
 import SongFeed from "@components/SongFeed";
 
 const getServerSession = async () => {
-  const req = {
-    headers: Object.fromEntries(headers()),
-    cookies: Object.fromEntries(
-      cookies()
-        .getAll()
-        .map((c) => [c.name, c.value])
-    ),
-  };
-  const res = { getHeader() {}, setCookie() {}, setHeader() {} };
-
-  const session = await originalGetServerSession(req, res, authOptions);
-  return session;
+  try {
+    const req = {
+      headers: Object.fromEntries(headers()),
+      cookies: Object.fromEntries(
+        cookies()
+          .getAll()
+          .map((c) => [c.name, c.value])
+      ),
+    };
+    const res = { getHeader() {}, setCookie() {}, setHeader() {} };
+    const session = await originalGetServerSession(req, res, authOptions);
+    return session;
+  } catch (error) {
+    console.log("error from getServerSession func. on Profile", error);
+  }
 };
 
 /* ----------------------- */
@@ -25,14 +28,18 @@ const getServerSession = async () => {
 /* ----------------------- */
 const getLikedSong = async (session, userId) => {
   if (session?.user.id === userId) {
-    const res = await fetch("https://api.spotify.com/v1/me/tracks", {
-      headers: {
-        Authorization: `Bearer ${session.accessToken}`,
-      },
-    });
-    if (res.status === 200 && res.ok) {
-      const data = await res.json();
-      return data;
+    try {
+      const res = await fetch("https://api.spotify.com/v1/me/tracks", {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      });
+      if (res.status === 200 && res.ok) {
+        const data = await res.json();
+        return data;
+      }
+    } catch (error) {
+      console.log("error from getLikedSong func. on Profile", error);
     }
   }
 };

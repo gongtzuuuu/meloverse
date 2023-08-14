@@ -31,7 +31,6 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
   // Create Post
   // ***********
   const createPost = async (e) => {
-    console.log("createPost invoked!!!!");
     e.preventDefault();
     setIsSubmitting(true);
     const newPost = {
@@ -45,38 +44,42 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
       post: formPost.post,
       tag: formPost.tag,
     };
-    const response = await fetch(`/api/post/new`, {
-      method: "POST",
-      body: JSON.stringify(newPost),
-    });
-    if (response.ok && response.status === 201) {
-      router.push(`/profile/${session?.user.id}`);
+    try {
+      const response = await fetch(`/api/post/new`, {
+        method: "POST",
+        body: JSON.stringify(newPost),
+      });
+      if (response.ok && response.status === 201) {
+        router.push(`/profile/${session?.user.id}`).refresh();
+      }
+      setIsSubmitting(false);
+    } catch (error) {
+      console.log("error from createPost on Song Form");
     }
-    setIsSubmitting(false);
   };
 
   // ***********
   // Update Post
   // ***********
   const updatePost = async (e) => {
-    console.log("updatePost invoked!!!!");
-    console.log("updatePost postId", postDetail);
     e.preventDefault();
     setIsSubmitting(true);
     const updatePost = {
       post: formPost.post,
       tag: formPost.tag,
     };
-
-    const response = await fetch(`/api/post/${postId}`, {
-      method: "PATCH",
-      body: JSON.stringify(updatePost),
-    });
-    // 2. If the post if succedssfully created, then bring back to home
-    if (response.ok && response.status === 200) {
-      router.push(`/profile/${session.user.id}`);
+    try {
+      const response = await fetch(`/api/post/${postId}`, {
+        method: "PATCH",
+        body: JSON.stringify(updatePost),
+      });
+      if (response.ok && response.status === 200) {
+        router.push(`/profile/${session.user.id}`);
+      }
+      setIsSubmitting(false);
+    } catch (error) {
+      console.log("error from updatePost on Song Form");
     }
-    setIsSubmitting(false);
   };
 
   if (songInfo)

@@ -14,7 +14,7 @@ const getPosts = async () => {
       return res.json();
     }
   } catch (error) {
-    console.error("Error from getting posts on homepage", error);
+    console.log("Error from getting posts on homepage", error);
   }
 };
 

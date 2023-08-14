@@ -1,7 +1,6 @@
 import SongCard from "@components//SongCard";
 
 const SongCardList = ({ songs }) => {
-  // const { mySavedSongs } = useContext(GlobalSongContext);
   if (songs)
     return (
       <div className="mt-10 prompt_layout">

@@ -4,20 +4,31 @@ import Profile from "@components/Profile";
 // Get User's Info
 // ***************
 const getUserInfo = async (userId) => {
-  const res = await fetch(process.env.BASE_URL + `/api/users/${userId}`, {
-    cache: "no-store",
-  });
-  return res.json();
+  try {
+    const res = await fetch(process.env.BASE_URL + `/api/users/${userId}`, {
+      cache: "no-store",
+    });
+    return res.json();
+  } catch (error) {
+    console.log("Error from getUserInfo func. on profile page", error);
+  }
 };
 
 // ****************
 // Get User's Posts
 // ****************
 const getUserPost = async (userId) => {
-  const res = await fetch(process.env.BASE_URL + `/api/users/${userId}/posts`, {
-    cache: "no-store",
-  });
-  return res.json();
+  try {
+    const res = await fetch(
+      process.env.BASE_URL + `/api/users/${userId}/posts`,
+      {
+        cache: "no-store",
+      }
+    );
+    return res.json();
+  } catch (error) {
+    console.log("Error from getUserPost func. on profile page", error);
+  }
 };
 
 // ************

@@ -5,18 +5,21 @@ import PostFeed from "@components/PostFeed";
 import SongForm from "@components/SongForm";
 
 const getServerSession = async () => {
-  const req = {
-    headers: Object.fromEntries(headers()),
-    cookies: Object.fromEntries(
-      cookies()
-        .getAll()
-        .map((c) => [c.name, c.value])
-    ),
-  };
-  const res = { getHeader() {}, setCookie() {}, setHeader() {} };
-
-  const session = await originalGetServerSession(req, res, authOptions);
-  return session;
+  try {
+    const req = {
+      headers: Object.fromEntries(headers()),
+      cookies: Object.fromEntries(
+        cookies()
+          .getAll()
+          .map((c) => [c.name, c.value])
+      ),
+    };
+    const res = { getHeader() {}, setCookie() {}, setHeader() {} };
+    const session = await originalGetServerSession(req, res, authOptions);
+    return session;
+  } catch (error) {
+    console.log("error from getServerSession func. on each Song Page", error);
+  }
 };
 
 /* ----------------------- */
@@ -24,13 +27,17 @@ const getServerSession = async () => {
 /* ----------------------- */
 const getSongInfo = async (songId, session) => {
   if (session && session.accessToken) {
-    const res = await fetch(`https://api.spotify.com/v1/tracks/${songId}`, {
-      headers: {
-        Authorization: `Bearer ${session.accessToken}`,
-      },
-    });
-    if (res.ok && res.status === 200) {
-      return res.json();
+    try {
+      const res = await fetch(`https://api.spotify.com/v1/tracks/${songId}`, {
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      });
+      if (res.ok && res.status === 200) {
+        return res.json();
+      }
+    } catch (error) {
+      console.log("error from getSongInfo func. on each Song Page", error);
     }
   }
 };
@@ -38,12 +45,19 @@ const getSongInfo = async (songId, session) => {
 /* --- Get Song's Posts --- */
 /* ------------------------ */
 const getAllSongPost = async (songId) => {
-  const res = await fetch(process.env.BASE_URL + `/api/songs/${songId}/posts`, {
-    cache: "no-store",
-  });
-  if (res.ok && res.status === 200) {
-    const data = await res.json();
-    return data;
+  try {
+    const res = await fetch(
+      process.env.BASE_URL + `/api/songs/${songId}/posts`,
+      {
+        cache: "no-store",
+      }
+    );
+    if (res.ok && res.status === 200) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (error) {
+    console.log("error from getAllSongPost func. on each Song Page", error);
   }
 };
 /* ----------------------- */
