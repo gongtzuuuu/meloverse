@@ -53,9 +53,12 @@ const PostCard = ({ postData }) => {
     const hasConfirmed = confirm("Are you sure you want to delete this post?");
     if (hasConfirmed) {
       try {
-        await fetch(`http://localhost:3000/api/post/${post._id.toString()}`, {
-          method: "DELETE",
-        });
+        await fetch(
+          `${process.env.NEXTAUTH_URL}/api/post/${post._id.toString()}`,
+          {
+            method: "DELETE",
+          }
+        );
         router.refresh();
         // const filteredPosts = userPosts.filter((p) => p._id !== post._id);
         // const filteredAllPosts = globalAllPosts.filter(
