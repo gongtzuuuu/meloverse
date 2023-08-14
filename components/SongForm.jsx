@@ -45,7 +45,7 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
       post: formPost.post,
       tag: formPost.tag,
     };
-    const response = await fetch(process.env.BASE_URL + `/api/post/new`, {
+    const response = await fetch(`/api/post/new`, {
       method: "POST",
       body: JSON.stringify(newPost),
     });
@@ -60,13 +60,15 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
   // ***********
   const updatePost = async (e) => {
     console.log("updatePost invoked!!!!");
+    console.log("updatePost postId", postDetail);
     e.preventDefault();
     setIsSubmitting(true);
     const updatePost = {
       post: formPost.post,
       tag: formPost.tag,
     };
-    const response = await fetch(process.env.BASE_URL + `/api/post/${postId}`, {
+
+    const response = await fetch(`/api/post/${postId}`, {
       method: "PATCH",
       body: JSON.stringify(updatePost),
     });

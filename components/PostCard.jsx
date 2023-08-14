@@ -53,17 +53,10 @@ const PostCard = ({ postData }) => {
     const hasConfirmed = confirm("Are you sure you want to delete this post?");
     if (hasConfirmed) {
       try {
-        await fetch(process.env.BASE_URL + `/api/post/${post._id.toString()}`, {
+        await fetch(`/api/post/${post._id.toString()}`, {
           method: "DELETE",
         });
         router.refresh();
-        // const filteredPosts = userPosts.filter((p) => p._id !== post._id);
-        // const filteredAllPosts = globalAllPosts.filter(
-        //   (p) => p._id !== post._id
-        // );
-        // setUserPosts(filteredPosts);
-        // setGlobalMyPosts(filteredPosts);
-        // setGlobalAllPosts(filteredAllPosts);
       } catch (error) {
         console.log(error);
       }
