@@ -4,7 +4,7 @@ import Profile from "@components/Profile";
 // Get User's Info
 // ***************
 const getUserInfo = async (userId) => {
-  const res = await fetch(process.env.URL + `/api/users/${userId}`, {
+  const res = await fetch(process.env.BASE_URL + `/api/users/${userId}`, {
     cache: "no-store",
   });
   return res.json();
@@ -14,7 +14,7 @@ const getUserInfo = async (userId) => {
 // Get User's Posts
 // ****************
 const getUserPost = async (userId) => {
-  const res = await fetch(process.env.URL + `/api/users/${userId}/posts`, {
+  const res = await fetch(process.env.BASE_URL + `/api/users/${userId}/posts`, {
     cache: "no-store",
   });
   return res.json();

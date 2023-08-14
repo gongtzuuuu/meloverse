@@ -39,7 +39,7 @@ const getSongInfo = async (songId, session) => {
 /* --- Get Post's Detail --- */
 /* ------------------------- */
 const getPostDetail = async (postId) => {
-  const res = await fetch(process.env.URL + `/api/post/${postId}`);
+  const res = await fetch(process.env.BASE_URL + `/api/post/${postId}`);
   return res.json();
 };
 
