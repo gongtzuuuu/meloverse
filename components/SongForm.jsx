@@ -74,7 +74,7 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
         body: JSON.stringify(updatePost),
       });
       if (response.ok && response.status === 200) {
-        router.push(`/profile/${session.user.id}`);
+        router.push(`/profile/${session.user.id}`).refresh();
       }
       setIsSubmitting(false);
     } catch (error) {
