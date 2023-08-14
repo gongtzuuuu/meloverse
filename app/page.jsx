@@ -7,15 +7,12 @@ import PostFeed from "@components/PostFeed";
 const getPosts = async () => {
   try {
     // Fetch initial data
-    const res = await fetch(`${NEXTAUTH_URL}/api/post`, {
+    const res = await fetch(process.env.URL + "/api/post", {
       cache: "no-store",
     });
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch data");
+    if (res.status === 200) {
+      return res.json();
     }
-
-    return res.json();
   } catch (error) {
     console.error("Error from getting posts on homepage", error);
   }

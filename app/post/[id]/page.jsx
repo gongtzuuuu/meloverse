@@ -1,6 +1,22 @@
-import { getServerSession } from "next-auth";
+import { cookies, headers } from "next/headers";
+import { getServerSession as originalGetServerSession } from "next-auth";
 import { authOptions } from "@app/api/auth/[...nextauth]/route";
 import SongForm from "@components/SongForm";
+
+const getServerSession = async () => {
+  const req = {
+    headers: Object.fromEntries(headers()),
+    cookies: Object.fromEntries(
+      cookies()
+        .getAll()
+        .map((c) => [c.name, c.value])
+    ),
+  };
+  const res = { getHeader() {}, setCookie() {}, setHeader() {} };
+
+  const session = await originalGetServerSession(req, res, authOptions);
+  return session;
+};
 
 /* ----------------------- */
 /* --- Get Song's Info --- */
@@ -23,7 +39,7 @@ const getSongInfo = async (songId, session) => {
 /* --- Get Post's Detail --- */
 /* ------------------------- */
 const getPostDetail = async (postId) => {
-  const res = await fetch(`${process.env.BASE_URL}/api/post/${postId}`);
+  const res = await fetch(process.env.URL + `/api/post/${postId}`);
   return res.json();
 };
 

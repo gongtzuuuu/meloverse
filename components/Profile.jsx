@@ -1,8 +1,25 @@
-import { getServerSession } from "next-auth";
+import { cookies, headers } from "next/headers";
+import { getServerSession as originalGetServerSession } from "next-auth";
 import { authOptions } from "@app/api/auth/[...nextauth]/route";
 import UserInfo from "@components/UserInfo";
 import PostFeed from "@components/PostFeed";
 import SongFeed from "@components/SongFeed";
+
+const getServerSession = async () => {
+  const req = {
+    headers: Object.fromEntries(headers()),
+    cookies: Object.fromEntries(
+      cookies()
+        .getAll()
+        .map((c) => [c.name, c.value])
+    ),
+  };
+  const res = { getHeader() {}, setCookie() {}, setHeader() {} };
+
+  const session = await originalGetServerSession(req, res, authOptions);
+  return session;
+};
+
 /* ----------------------- */
 /* --- Get Liked Songs --- */
 /* ----------------------- */

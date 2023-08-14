@@ -53,7 +53,7 @@ const PostCard = ({ postData }) => {
     const hasConfirmed = confirm("Are you sure you want to delete this post?");
     if (hasConfirmed) {
       try {
-        await fetch(`${process.env.BASE_URL}/api/post/${post._id.toString()}`, {
+        await fetch(process.env.URL + `/api/post/${post._id.toString()}`, {
           method: "DELETE",
         });
         router.refresh();

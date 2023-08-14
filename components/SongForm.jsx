@@ -45,12 +45,12 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
       post: formPost.post,
       tag: formPost.tag,
     };
-    const response = await fetch(`${process.env.BASE_URL}/api/post/new`, {
+    const response = await fetch(process.env.URL + `/api/post/new`, {
       method: "POST",
       body: JSON.stringify(newPost),
     });
     if (response.ok && response.status === 201) {
-      router.push(`${process.env.BASE_URL}/profile/${session.user.id}`);
+      router.push(process.env.URL + `/profile/${session.user.id}`);
     }
     setIsSubmitting(false);
   };
@@ -66,7 +66,7 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
       post: formPost.post,
       tag: formPost.tag,
     };
-    const response = await fetch(`${process.env.BASE_URL}/api/post/${postId}`, {
+    const response = await fetch(process.env.URL + `/api/post/${postId}`, {
       method: "PATCH",
       body: JSON.stringify(updatePost),
     });

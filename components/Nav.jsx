@@ -1,10 +1,26 @@
-import { getServerSession } from "next-auth";
+import { cookies, headers } from "next/headers";
+import { getServerSession as originalGetServerSession } from "next-auth";
 import { authOptions } from "@app/api/auth/[...nextauth]/route";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../public/favicon.png";
 import SearchBar from "@components/SearchBar";
 import SignInButton from "./SignInButton";
+
+const getServerSession = async () => {
+  const req = {
+    headers: Object.fromEntries(headers()),
+    cookies: Object.fromEntries(
+      cookies()
+        .getAll()
+        .map((c) => [c.name, c.value])
+    ),
+  };
+  const res = { getHeader() {}, setCookie() {}, setHeader() {} };
+
+  const session = await originalGetServerSession(req, res, authOptions);
+  return session;
+};
 
 const Nav = async () => {
   const session = await getServerSession(authOptions);
