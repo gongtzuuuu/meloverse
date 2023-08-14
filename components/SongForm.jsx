@@ -50,7 +50,7 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
       body: JSON.stringify(newPost),
     });
     if (response.ok && response.status === 201) {
-      router.push(process.env.BASE_URL + `/profile/${session.user.id}`);
+      router.push(`/profile/${session?.user.id}`);
     }
     setIsSubmitting(false);
   };
@@ -72,7 +72,7 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
     });
     // 2. If the post if succedssfully created, then bring back to home
     if (response.ok && response.status === 200) {
-      router.push(`${process.env.BASE_URL}/profile/${session.user.id}`);
+      router.push(`/profile/${session.user.id}`);
     }
     setIsSubmitting(false);
   };
