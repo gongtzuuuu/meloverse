@@ -23,12 +23,9 @@ const getSongInfo = async (songId, session) => {
 /* --- Get Song's Posts --- */
 /* ------------------------ */
 const getAllSongPost = async (songId) => {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/songs/${songId}/posts`,
-    {
-      cache: "no-store",
-    }
-  );
+  const res = await fetch(`${process.env.BASE_URL}/api/songs/${songId}/posts`, {
+    cache: "no-store",
+  });
   if (res.ok && res.status === 200) {
     const data = await res.json();
     return data;

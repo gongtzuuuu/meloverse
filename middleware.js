@@ -32,7 +32,7 @@ export const middleware = async (req) => {
       "streaming",
     ].join(","),
     response_type: "code",
-    redirect_uri: `${process.env.NEXTAUTH_URL}/api/auth/callback/spotify`,
+    redirect_uri: `${process.env.BASE_URL}/api/auth/callback/spotify`,
     client_id: process.env.SPOTIFY_CLIENT_ID,
     state: randomState,
   };

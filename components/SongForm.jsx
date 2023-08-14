@@ -45,12 +45,12 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
       post: formPost.post,
       tag: formPost.tag,
     };
-    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/post/new`, {
+    const response = await fetch(`${process.env.BASE_URL}/api/post/new`, {
       method: "POST",
       body: JSON.stringify(newPost),
     });
     if (response.ok && response.status === 201) {
-      router.push(`${process.env.NEXTAUTH_URL}/profile/${session.user.id}`);
+      router.push(`${process.env.BASE_URL}/profile/${session.user.id}`);
     }
     setIsSubmitting(false);
   };
@@ -66,16 +66,13 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
       post: formPost.post,
       tag: formPost.tag,
     };
-    const response = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/post/${postId}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(updatePost),
-      }
-    );
+    const response = await fetch(`${process.env.BASE_URL}/api/post/${postId}`, {
+      method: "PATCH",
+      body: JSON.stringify(updatePost),
+    });
     // 2. If the post if succedssfully created, then bring back to home
     if (response.ok && response.status === 200) {
-      router.push(`${process.env.NEXTAUTH_URL}/profile/${session.user.id}`);
+      router.push(`${process.env.BASE_URL}/profile/${session.user.id}`);
     }
     setIsSubmitting(false);
   };
