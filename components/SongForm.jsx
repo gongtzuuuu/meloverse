@@ -50,7 +50,8 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
         body: JSON.stringify(newPost),
       });
       if (response.ok && response.status === 201) {
-        router.push(`/profile/${session?.user.id}`).refresh();
+        router.push(`/profile/${session?.user.id}`);
+        router.refresh();
       }
       setIsSubmitting(false);
     } catch (error) {
@@ -74,7 +75,8 @@ const SongForm = ({ songId, songInfo, postId, postDetail, submitStatus }) => {
         body: JSON.stringify(updatePost),
       });
       if (response.ok && response.status === 200) {
-        router.push(`/profile/${session.user.id}`).refresh();
+        router.push(`/profile/${session.user.id}`);
+        router.refresh();
       }
       setIsSubmitting(false);
     } catch (error) {
