@@ -37,10 +37,8 @@ const refreshAccessToken = async (token) => {
     },
     body: params,
   });
-  console.log("response from refresh token @server side", response);
   if (response) {
     const data = await response.json();
-    console.log("data from refresh token @server side", data);
     return {
       ...token,
       accessToken: data.access_token,
@@ -50,7 +48,7 @@ const refreshAccessToken = async (token) => {
   }
 };
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
     SpotifyProvider({
       clientId: process.env.SPOTIFY_CLIENT_ID,
@@ -62,8 +60,6 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
-      console.log("token @server side", token);
-      console.log("account @server side", account);
       if (account) {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
@@ -74,12 +70,10 @@ const handler = NextAuth({
         Date.now() < token.accessTokenExpires * 1000
       ) {
         // access token has not expired
-        console.log("token from jwt @server side", token);
         return token;
       } else {
         // access token has expired
         const refreshToken = await refreshAccessToken(token);
-        console.log("token from jwt @server side", refreshToken);
         return refreshToken;
       }
     },
@@ -93,7 +87,6 @@ const handler = NextAuth({
       session.user.id = sessionUser._id.toString();
       // Send properties to the client, like an access_token from a provider.
       session.accessToken = token.accessToken;
-      console.log("session @server side", session);
       return session;
     },
     async signIn({ profile }) {
@@ -120,6 +113,8 @@ const handler = NextAuth({
       }
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

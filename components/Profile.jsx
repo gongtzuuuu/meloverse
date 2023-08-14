@@ -1,35 +1,40 @@
-import Image from "next/image";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@app/api/auth/[...nextauth]/route";
+import UserInfo from "@components/UserInfo";
 import PostFeed from "@components/PostFeed";
+import SongFeed from "@components/SongFeed";
+/* ----------------------- */
+/* --- Get Liked Songs --- */
+/* ----------------------- */
+const getLikedSong = async (session, userId) => {
+  if (session?.user.id === userId) {
+    const res = await fetch("https://api.spotify.com/v1/me/tracks", {
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+    });
+    if (res.status === 200 && res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  }
+};
+/* ------------------------- */
+/* --- Profile Component --- */
+/* ------------------------- */
+const Profile = async ({ userId, userInfo, postData }) => {
+  const session = await getServerSession(authOptions);
+  const likedSongs = await getLikedSong(session, userId);
 
-const Profile = ({ userInfo, postData, handleDelete }) => {
-  if (userInfo)
-    return (
-      <section className="w-full">
-        {/* Title and description */}
-        <div className="feed">
-          <div className="flex items-end">
-            <div>
-              <Image
-                src={userInfo.image}
-                alt="user image"
-                width={60}
-                height={60}
-                className="rounded-full mr-2"
-              />
-            </div>
-            <h1 className="head_text text-left">
-              <span className="blue_gradient">{userInfo.username}</span>
-            </h1>
-          </div>
-
-          <p className="desc text-left">
-            Shared {postData.length} melodic stories ♬
-          </p>
-        </div>
-        {/* Feeds */}
-        <PostFeed postData={postData} handleDelete={handleDelete} />
-      </section>
-    );
+  return (
+    <section className="w-full">
+      <UserInfo userInfo={userInfo} postData={postData} />
+      <PostFeed postData={postData} />
+      {session.user.id === userId && (
+        <SongFeed text="Liked Songs" songs={likedSongs.items} />
+      )}
+    </section>
+  );
 };
 
 export default Profile;

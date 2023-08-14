@@ -1,20 +1,36 @@
-"use client";
-
-import { useContext } from "react";
-import { GlobalPostContext } from "@context/GlobalPostProvider";
 import Greetings from "@components/Greetings";
 import PostFeed from "@components/PostFeed";
 
-const Home = () => {
-  // Get posts
-  const { globalAllPosts } = useContext(GlobalPostContext);
+/* --------------------- */
+/* --- Get All Posts --- */
+/* --------------------- */
+const getPosts = async () => {
+  try {
+    // Fetch initial data
+    const res = await fetch("http:localhost:3000/api/post", {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("Error from getting posts on homepage", error);
+  }
+};
+
+/* ----------------- */
+/* --- Home Page --- */
+/* ----------------- */
+const Home = async () => {
+  const allPosts = await getPosts();
 
   return (
     <section className="w-full flex-center flex-col">
       <Greetings />
-      {globalAllPosts.length > 0 && (
-        <PostFeed text={"Trending Posts"} postData={globalAllPosts} />
-      )}
+      {allPosts && <PostFeed text={"Trending Posts"} postData={allPosts} />}
       <div className="h-32"></div>
     </section>
   );

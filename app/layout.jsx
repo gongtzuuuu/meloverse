@@ -2,7 +2,6 @@ import "@styles/globals.css";
 
 import AuthProvider from "@context/AuthProvider";
 import GlobalSongProvider from "@context/GlobalSongProvider";
-import GlobalPostProvider from "@context/GlobalPostProvider";
 import Nav from "@components/Nav";
 import Player from "@components/Player";
 
@@ -29,7 +28,7 @@ const RootLayout = ({ children }) => {
           <main className="app">
             <Nav />
             <GlobalSongProvider>
-              <GlobalPostProvider>{children}</GlobalPostProvider>
+              {children}
               <Player />
             </GlobalSongProvider>
           </main>

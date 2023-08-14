@@ -3,21 +3,21 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const SearchBar = ({ setToggleDropdown }) => {
+const SearchBar = ({ toggleDropdown }) => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
 
   const handleInput = (e) => {
     e.preventDefault();
     const searchQuery = e.target.value;
-    setInputValue((prev) => searchQuery);
+    handleToggle();
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
     router.push(`/search?q=${inputValue}`);
     setInputValue("");
-    setToggleDropdown(false);
+    handleToggle();
   };
 
   return (

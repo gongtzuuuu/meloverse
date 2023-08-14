@@ -1,13 +1,11 @@
-import { useContext } from "react";
-import { GlobalSongContext } from "@context/GlobalSongProvider";
 import SongCard from "@components//SongCard";
 
-const SongCardList = () => {
-  const { mySavedSongs } = useContext(GlobalSongContext);
-  if (mySavedSongs)
+const SongCardList = ({ songs }) => {
+  // const { mySavedSongs } = useContext(GlobalSongContext);
+  if (songs)
     return (
       <div className="mt-10 prompt_layout">
-        {mySavedSongs.map((eachTrack) => (
+        {songs.map((eachTrack) => (
           <SongCard
             key={eachTrack.track.id}
             id={eachTrack.track.id}
@@ -20,15 +18,14 @@ const SongCardList = () => {
     );
 };
 
-/* Feed: text + postcards */
-const SongFeed = ({ text }) => {
+const SongFeed = async ({ text, songs }) => {
   return (
-    <section id="liked_songs" className="feed">
+    <div id="liked_songs" className="feed">
       <h1 className="font-satoshi font-semibold text-lg orange_gradient">
         {text}
       </h1>
-      <SongCardList />
-    </section>
+      <SongCardList songs={songs} />
+    </div>
   );
 };
 
