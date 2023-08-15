@@ -153,7 +153,7 @@
   }
 
   .dropdown {
-    @apply absolute right-0 top-full mt-3 w-[50vw] rounded-lg bg-white min-w-[250px] flex flex-col justify-end items-end;
+    @apply absolute right-0 top-full mt-3 w-[400px] rounded-lg bg-white min-w-[250px] flex flex-col justify-end items-end;
   }
 
   .dropdown_link {

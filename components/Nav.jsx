@@ -59,9 +59,7 @@ const Nav = async () => {
               />
             </Link>
             {/* --- Search Button --- */}
-            {/*<button className="outline_btn">Search</button>*/}
-            {/* --- Search Bar --- */}
-            {/*<SearchBar toggleDropdown={toggleDropdown} />*/}
+            <SearchBar />
           </>
         )}
         {/* --- Logout Button --- */}
