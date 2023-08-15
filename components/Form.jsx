@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 
 const Form = ({
-  post,
-  setPost,
+  formPost,
+  setFormPost,
   submitStatus,
   isSubmitting,
   handleSubmit,
@@ -16,24 +16,24 @@ const Form = ({
   const inputValueRef = useRef();
 
   // Add tags to tags array
-  const handleClick = () => {
+  const handleAddTag = () => {
     const newValue = inputValueRef.current.value;
     if (newValue.trim()) {
-      setPost({ ...post, tag: [...post.tag, newValue.trim()] });
+      setFormPost({ ...formPost, tag: [...formPost.tag, newValue.trim()] });
       inputValueRef.current.value = "";
     }
-    setTags(post.tag);
+    setTags(formPost.tag);
   };
 
   // Remove tags from tags array
   const removeTag = (index) => {
-    const newTagArr = post.tag.filter((e, i) => i !== index);
-    setPost({ ...post, tag: newTagArr });
+    const newTagArr = formPost.tag.filter((e, i) => i !== index);
+    setFormPost({ ...formPost, tag: newTagArr });
   };
 
   useEffect(() => {
-    setTags(post.tag);
-  }, [post]);
+    setTags(formPost.tag);
+  }, [formPost]);
 
   useEffect(() => {
     if (submitStatus === "Create" && isSubmitting) {
@@ -61,8 +61,8 @@ const Form = ({
         </span>
         <textarea
           className="form_textarea "
-          value={post.post}
-          onChange={(e) => setPost({ ...post, post: e.target.value })}
+          value={formPost.post}
+          onChange={(e) => setFormPost({ ...formPost, post: e.target.value })}
           placeholder="Write your story about this song..."
           required
         />
@@ -86,14 +86,14 @@ const Form = ({
           <button
             type="button"
             className="ml-4 text-sm text-gray-700 underline decoration-1 decoration-gray-500 underline-offset-8"
-            onClick={handleClick}
+            onClick={handleAddTag}
           >
             Add
           </button>
         </div>
         {/* --- Tags Display Area --- */}
         <div className="form_tag_display">
-          {post.tag.map((eachTag, index) => (
+          {formPost.tag.map((eachTag, index) => (
             <p key={index} className="form_tag">
               #{eachTag}
               <span className="form_span" onClick={() => removeTag(index)}>

@@ -2,7 +2,6 @@ import "@styles/globals.css";
 
 import AuthProvider from "@context/AuthProvider";
 import GlobalSongProvider from "@context/GlobalSongProvider";
-import GlobalPostProvider from "@context/GlobalPostProvider";
 import Nav from "@components/Nav";
 import Player from "@components/Player";
 
@@ -22,18 +21,18 @@ const RootLayout = ({ children }) => {
         <link rel="icon" href="/favicon.png" />
       </head>
       <body>
-        <AuthProvider>
-          <div className="main">
-            <div className="gradient"></div>
-          </div>
-          <main className="app">
+        <div className="main">
+          <div className="gradient"></div>
+        </div>
+        <main className="app">
+          <AuthProvider>
             <Nav />
             <GlobalSongProvider>
-              <GlobalPostProvider>{children}</GlobalPostProvider>
+              {children}
               <Player />
             </GlobalSongProvider>
-          </main>
-        </AuthProvider>
+          </AuthProvider>
+        </main>
       </body>
     </html>
   );

@@ -1,12 +1,15 @@
 "use client";
-
 import { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 import Link from "next/link";
 
+/* ----------------------- */
+/* --- ShowHide Button --- */
+/* ----------------------- */
 const ShowHideButton = ({ showHide, isTextHidden }) => {
   const buttonRef = useRef();
 
@@ -21,16 +24,18 @@ const ShowHideButton = ({ showHide, isTextHidden }) => {
   );
 };
 
-const PostCard = ({ postData, handleDelete }) => {
+/* -------------------------- */
+/* --- PostCard Component --- */
+/* -------------------------- */
+const PostCard = ({ postData }) => {
   const { data: session } = useSession();
   const pathName = usePathname();
+  const router = useRouter();
   const [isTextHidden, setIsTextHidden] = useState(true);
   const [isButton, setIsButton] = useState(false);
   const textRef = useRef(null);
 
-  // const [filteredAllPosts, setFilteredAllPosts] = useState([])
-  // const [filteredMyPosts, setFilteredMyPosts] = useState([]);
-
+  /* --- showHide Function --- */
   function showHide() {
     if (textRef.current.classList.contains("line-clamp-5")) {
       setIsTextHidden(false);
@@ -43,6 +48,21 @@ const PostCard = ({ postData, handleDelete }) => {
     }
   }
 
+  /* --- handleDelete Function --- */
+  const handleDelete = async (post) => {
+    const hasConfirmed = confirm("Are you sure you want to delete this post?");
+    if (hasConfirmed) {
+      try {
+        await fetch(`/api/post/${post._id.toString()}`, {
+          method: "DELETE",
+        });
+        router.refresh();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   useEffect(() => {
     textRef.current.scrollHeight > textRef.current.clientHeight
       ? setIsButton(true)
@@ -53,7 +73,9 @@ const PostCard = ({ postData, handleDelete }) => {
     return (
       <div className="prompt_card">
         <div className="flex flex-col item-center">
+          {/* ----------- */}
           {/* Song Detail */}
+          {/* ----------- */}
           {pathName !== `/details/${postData.songId}` && (
             <Link href={`/details/${postData.songId}`}>
               <div className="flex items-center relative">
@@ -76,7 +98,9 @@ const PostCard = ({ postData, handleDelete }) => {
               </div>
             </Link>
           )}
+          {/* ----------- */}
           {/* Post Detail */}
+          {/* ----------- */}
           <div className="my-4 flex flex-col">
             <p
               ref={textRef}
@@ -99,8 +123,15 @@ const PostCard = ({ postData, handleDelete }) => {
               ))}
             </div>
           </div>
+          {/* ------------ */}
           {/* Post creator */}
-          <Link href={`/profile/${postData.userId._id}`}>
+          {/* ------------ */}
+          <Link
+            href={{
+              pathname: `/profile/${postData.userId._id}`,
+              query: { slug: postData.userId._id },
+            }}
+          >
             <div className="flex-1 flex justify-start items-center gap-3">
               <Image
                 src={postData.userId.image}
