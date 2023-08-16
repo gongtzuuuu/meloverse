@@ -10,7 +10,11 @@ The app also introduce a thriving community of music enthusiasts, where users sh
 
 ## Tech Stack
 
-Built with technologies, including Next.js, NextAuth, MongoDB, and Tailwind. What's more, by utilizing the Spotify provider and APIs, the app offers secure Spotify account integration, granting access to an extensive library of songs tailored to user's preferences.
+- Built with Next.js
+- Powered by NextAuth with Spotify provider
+- Leveraging Spotify API and MongoDB Atlas
+- Styled with Tailwind CSS
+- Deployed on Vercel and Netlify
 
 ## Models
 
