@@ -9,7 +9,6 @@ const useUserStore = create()(
       isLoggedIn: false,
       userId: undefined,
       login: ({ id }) => {
-        console.log('login here????', id);
         set((state) => ({
           ...state,
           isLoggedIn: true,
