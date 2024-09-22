@@ -1,11 +1,11 @@
-import { cookies, headers } from "next/headers";
-import { getServerSession as originalGetServerSession } from "next-auth";
-import { authOptions } from "@app/api/auth/[...nextauth]/route";
-import Link from "next/link";
-import Image from "next/image";
-import logo from "../public/favicon.png";
-import SearchBar from "@components/SearchBar";
-import SignInButton from "./SignInButton";
+import { cookies, headers } from 'next/headers';
+import { getServerSession as originalGetServerSession } from 'next-auth';
+import { authOptions } from '@app/api/auth/[...nextauth]/route';
+import Link from 'next/link';
+import Image from 'next/image';
+import logo from '../public/favicon.png';
+import SignInButton from './SignInButton';
+import UserAuthUpdater from './UserAuthUpdater';
 
 const getServerSession = async () => {
   try {
@@ -21,12 +21,13 @@ const getServerSession = async () => {
     const session = await originalGetServerSession(req, res, authOptions);
     return session;
   } catch (error) {
-    console.log("error from getAllSongPost func. on Nav", error);
+    console.log('error from getAllSongPost func. on Nav', error);
   }
 };
 
 const Nav = async () => {
   const session = await getServerSession(authOptions);
+
   return (
     <nav className="flex-between w-full mb-16 pt-3">
       {/* --------- */}
@@ -46,24 +47,14 @@ const Nav = async () => {
       {/* Navigation Area */}
       {/* --------------- */}
       <div className="flex gap-3 md:gap-5 relative">
-        {session && session.user && (
-          <>
-            {/* --- Profile Picture --- */}
-            <Link href={`/profile/${session?.user.id}`}>
-              <Image
-                src={session?.user.image}
-                alt="profile"
-                width={37}
-                height={37}
-                className="rounded-full"
-              />
-            </Link>
-            {/* --- Search Button --- */}
-            <SearchBar />
-          </>
+        {session && session.user ? (
+          <UserAuthUpdater
+            userId={session.user.id}
+            userImage={session.user.image}
+          />
+        ) : (
+          <SignInButton />
         )}
-        {/* --- Logout Button --- */}
-        <SignInButton />
       </div>
     </nav>
   );

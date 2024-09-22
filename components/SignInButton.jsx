@@ -4,8 +4,7 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 
 const SignInButton = () => {
   const session = useSession();
-  const handleClick = () => {
-    console.log('Clicked!');
+  const handleSignIn = () => {
     signIn('spotify', { callbackUrl: '/' });
   };
   return (
@@ -15,7 +14,7 @@ const SignInButton = () => {
           Logout
         </button>
       ) : (
-        <button type="button" onClick={handleClick} className="black_btn">
+        <button type="button" onClick={handleSignIn} className="black_btn">
           Login
         </button>
       )}
