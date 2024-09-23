@@ -1,6 +1,7 @@
 'use client';
 
 import React, { Fragment, useEffect } from 'react';
+// import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 import Image from 'next/image';
 import useUserStore from '@store/auth-store';
@@ -9,6 +10,7 @@ import SearchBar from './SearchBar';
 
 const UserAuthUpdater = ({ userId, userImage }) => {
   const login = useUserStore((state) => state.login);
+  // const session = getServerSession();
 
   useEffect(() => {
     if (userId) {
@@ -16,13 +18,11 @@ const UserAuthUpdater = ({ userId, userImage }) => {
     }
   }, [userId, login]);
 
-  if (!userId) return <SignInButton />;
-
   return (
     <Fragment>
       <Link href={`/profile/${userId}`}>
         <Image
-          src={userImage ? userImage : 'not found'}
+          src={userImage}
           alt="profile"
           width={37}
           height={37}
