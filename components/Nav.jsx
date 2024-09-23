@@ -71,17 +71,7 @@ const Nav = async () => {
         ) : (
           <SignInButton />
         )} */}
-          {session && session.user && (
-            <>
-              {/* --- Profile Picture --- */}
-              <Avatar
-                userId={session.user?.id}
-                userImage={session.user?.image}
-              />
-              {/* --- Search Button --- */}
-              <SearchBar />
-            </>
-          )}
+          {session && session.user && <>{/* --- Profile Picture --- */}</>}
           {/* --- Logout Button --- */}
           <SignInButton />
         </div>
