@@ -1,7 +1,9 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, Fragment } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import useUserStore from '@store/auth-store';
+import Avatar from './Avatar';
+import SearchBar from './SearchBar';
 
 const SignInButton = () => {
   const { data: session } = useSession();
@@ -28,10 +30,15 @@ const SignInButton = () => {
 
   return (
     <div>
-      {isLoggedIn ? (
-        <button type="button" onClick={handleLogout} className="outline_btn">
-          Logout
-        </button>
+      {session && session.user ? (
+        <div className="flex space-x-2">
+          <Avatar userId={session.user?.id} userImage={session.user?.image} />
+          {/* --- Search Button --- */}
+          <SearchBar />
+          <button type="button" onClick={handleLogout} className="outline_btn">
+            Logout
+          </button>
+        </div>
       ) : (
         <button type="button" onClick={handleLogin} className="black_btn">
           Login
