@@ -1,9 +1,9 @@
-import { cookies, headers } from "next/headers";
-import { getServerSession as originalGetServerSession } from "next-auth";
-import { authOptions } from "@app/api/auth/[...nextauth]/route";
-import UserInfo from "@components/UserInfo";
-import PostFeed from "@components/PostFeed";
-import SongFeed from "@components/SongFeed";
+import { cookies, headers } from 'next/headers';
+import { getServerSession as originalGetServerSession } from 'next-auth';
+import { authOptions } from '@app/api/auth/[...nextauth]/route';
+import UserInfo from '@components/UserInfo';
+import PostFeed from '@components/PostFeed';
+import SongFeed from '@components/SongFeed';
 
 const getServerSession = async () => {
   try {
@@ -19,7 +19,7 @@ const getServerSession = async () => {
     const session = await originalGetServerSession(req, res, authOptions);
     return session;
   } catch (error) {
-    console.log("error from getServerSession func. on Profile", error);
+    console.log('error from getServerSession func. on Profile', error);
   }
 };
 
@@ -29,7 +29,7 @@ const getServerSession = async () => {
 const getLikedSong = async (session, userId) => {
   if (session?.user.id === userId) {
     try {
-      const res = await fetch("https://api.spotify.com/v1/me/tracks", {
+      const res = await fetch('https://api.spotify.com/v1/me/tracks', {
         headers: {
           Authorization: `Bearer ${session.accessToken}`,
         },
@@ -39,7 +39,7 @@ const getLikedSong = async (session, userId) => {
         return data;
       }
     } catch (error) {
-      console.log("error from getLikedSong func. on Profile", error);
+      console.log('error from getLikedSong func. on Profile', error);
     }
   }
 };
@@ -54,9 +54,9 @@ const Profile = async ({ userId, userInfo, postData }) => {
     <section className="w-full">
       <UserInfo userInfo={userInfo} postData={postData} />
       <PostFeed postData={postData} />
-      {session.user.id === userId && (
+      {/* {session && session.user.id === userId && (
         <SongFeed text="Liked Songs" songs={likedSongs.items} />
-      )}
+      )} */}
     </section>
   );
 };
