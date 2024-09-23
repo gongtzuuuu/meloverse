@@ -1,7 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import useUserStore from '@store/auth-store';
 
 const SignInButton = () => {
   const session = useSession();
@@ -22,11 +20,19 @@ const SignInButton = () => {
   return (
     <div>
       {session.data && session.data.user ? (
-        <button type="button" onClick={handleSignOut} className="outline_btn">
+        <button
+          type="button"
+          onClick={() => signOut('spotify', { callbackUrl: '/' })}
+          className="outline_btn"
+        >
           Logout
         </button>
       ) : (
-        <button type="button" onClick={handleSignIn} className="black_btn">
+        <button
+          type="button"
+          onClick={() => signIn('spotify', { callbackUrl: '/' })}
+          className="black_btn"
+        >
           Login
         </button>
       )}
