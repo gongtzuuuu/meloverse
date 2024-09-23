@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../public/favicon.png';
 import SignInButton from './SignInButton';
+import SearchBar from './SearchBar';
 import UserAuthUpdater from './UserAuthUpdater';
 
 const getServerSession = async () => {
@@ -27,6 +28,7 @@ const getServerSession = async () => {
 
 const Nav = async () => {
   const session = await getServerSession(authOptions);
+  console.log('session', session);
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -47,14 +49,32 @@ const Nav = async () => {
       {/* Navigation Area */}
       {/* --------------- */}
       <div className="flex gap-3 md:gap-5 relative">
-        {session && session.user ? (
+        {/* {session && session.user ? (
           <UserAuthUpdater
             userId={session.user.id}
             userImage={session.user.image}
           />
         ) : (
           <SignInButton />
+        )} */}
+        {session && session.user && (
+          <>
+            {/* --- Profile Picture --- */}
+            <Link href={`/profile/${session?.user.id}`}>
+              <Image
+                src={session?.user.image}
+                alt="profile"
+                width={37}
+                height={37}
+                className="rounded-full"
+              />
+            </Link>
+            {/* --- Search Button --- */}
+            <SearchBar />
+          </>
         )}
+        {/* --- Logout Button --- */}
+        <SignInButton />
       </div>
     </nav>
   );

@@ -3,19 +3,6 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 
 const SignInButton = () => {
   const session = useSession();
-  // const setLogin = useUserStore((state) => state.login);
-  // const setLogout = useUserStore((state) => state.logout);
-
-  // const handleSignIn = () => {
-  //   signIn('spotify', { callbackUrl: '/' });
-  //   setLogin(session.user.id);
-  // };
-
-  // const handleSignOut = () => {
-  //   signOut();
-  //   setLogout();
-  //   router.push('/');
-  // };
   return (
     <div>
       {session.data && session.data.user ? (
