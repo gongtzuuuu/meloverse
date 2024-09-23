@@ -1,24 +1,39 @@
 'use client';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useEffect } from 'react';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import useUserStore from '@store/auth-store';
 
 const SignInButton = () => {
-  const session = useSession();
+  const { data: session } = useSession();
+  const isLoggedIn = useUserStore.getState().isLoggedIn;
+  const { login, logout } = useUserStore();
+
+  useEffect(() => {
+    if (session) {
+      login(session);
+    } else {
+      logout();
+    }
+  }, [session, login, logout]);
+
+  const handleLogin = () => {
+    signIn('spotify', { callbackUrl: '/' });
+    login(session);
+  };
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: '/' });
+    logout();
+  };
+
   return (
     <div>
-      {session.data && session.data.user ? (
-        <button
-          type="button"
-          onClick={() => signOut('spotify', { callbackUrl: '/' })}
-          className="outline_btn"
-        >
+      {isLoggedIn ? (
+        <button type="button" onClick={handleLogout} className="outline_btn">
           Logout
         </button>
       ) : (
-        <button
-          type="button"
-          onClick={() => signIn('spotify', { callbackUrl: '/' })}
-          className="black_btn"
-        >
+        <button type="button" onClick={handleLogin} className="black_btn">
           Login
         </button>
       )}

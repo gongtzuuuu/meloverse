@@ -7,19 +7,19 @@ const useUserStore = create()(
   persist(
     (set) => ({
       isLoggedIn: false,
-      userId: undefined,
-      login: ({ id }) => {
+      session: undefined,
+      login: ({ session }) => {
         set((state) => ({
           ...state,
           isLoggedIn: true,
-          userId: id,
+          session,
         }));
       },
       logout: () =>
         set((state) => ({
           ...state,
           isLoggedIn: false,
-          userId: undefined,
+          session: undefined,
         })),
     }),
     {
