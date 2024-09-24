@@ -1,7 +1,7 @@
-import { cookies, headers } from "next/headers";
-import { getServerSession as originalGetServerSession } from "next-auth";
-import { authOptions } from "@app/api/auth/[...nextauth]/route";
-import SongForm from "@components/SongForm";
+import { cookies, headers } from 'next/headers';
+import { getServerSession as originalGetServerSession } from 'next-auth';
+import { authOptions } from '@app/api/auth/[...nextauth]/route';
+import SongForm from '@components/SongForm';
 
 const getServerSession = async () => {
   try {
@@ -17,7 +17,7 @@ const getServerSession = async () => {
     const session = await originalGetServerSession(req, res, authOptions);
     return session;
   } catch (error) {
-    console.warn("error from getServerSession func. on each Post Page", error);
+    console.warn('error from getServerSession func. on each Post Page', error);
   }
 };
 
@@ -37,7 +37,7 @@ const getSongInfo = async (songId, session) => {
       }
     }
   } catch (error) {
-    console.warn("error from getSongInfo func. on each Post Page", error);
+    console.warn('error from getSongInfo func. on each Post Page', error);
   }
 };
 
@@ -49,16 +49,17 @@ const getPostDetail = async (postId) => {
     const res = await fetch(process.env.BASE_URL + `/api/post/${postId}`);
     return res.json();
   } catch (error) {
-    console.warn("error from getPostDetail func. on each Post Page", error);
+    console.warn('error from getPostDetail func. on each Post Page', error);
   }
 };
 
 /* ------------------------- */
 /* --- Post Details Page --- */
 /* ------------------------- */
-const PostDetails = async (context) => {
+const PostDetails = async (props) => {
+  const postId = props.params.id;
   const session = await getServerSession(authOptions);
-  const postId = context.params.id;
+
   const postDetail = await getPostDetail(postId);
   const songId = postDetail.songId;
   const songInfo = await getSongInfo(songId, session);
@@ -70,7 +71,7 @@ const PostDetails = async (context) => {
         songInfo={songInfo}
         postId={postId}
         postDetail={postDetail}
-        submitStatus={"Update"}
+        submitStatus={'Update'}
       />
       <div className="h-32"></div>
     </section>
