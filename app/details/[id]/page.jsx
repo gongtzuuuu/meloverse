@@ -1,8 +1,8 @@
-import { cookies, headers } from "next/headers";
-import { getServerSession as originalGetServerSession } from "next-auth";
-import { authOptions } from "@app/api/auth/[...nextauth]/route";
-import PostFeed from "@components/PostFeed";
-import SongForm from "@components/SongForm";
+import { cookies, headers } from 'next/headers';
+import { getServerSession as originalGetServerSession } from 'next-auth';
+import { authOptions } from '@app/api/auth/[...nextauth]/route';
+import PostFeed from '@components/PostFeed';
+import SongForm from '@components/SongForm';
 
 const getServerSession = async () => {
   try {
@@ -18,7 +18,7 @@ const getServerSession = async () => {
     const session = await originalGetServerSession(req, res, authOptions);
     return session;
   } catch (error) {
-    console.log("error from getServerSession func. on each Song Page", error);
+    console.log('error from getServerSession func. on each Song Page', error);
   }
 };
 
@@ -37,7 +37,7 @@ const getSongInfo = async (songId, session) => {
         return res.json();
       }
     } catch (error) {
-      console.log("error from getSongInfo func. on each Song Page", error);
+      console.log('error from getSongInfo func. on each Song Page', error);
     }
   }
 };
@@ -49,7 +49,7 @@ const getAllSongPost = async (songId) => {
     const res = await fetch(
       process.env.BASE_URL + `/api/songs/${songId}/posts`,
       {
-        cache: "no-store",
+        cache: 'no-store',
       }
     );
     if (res.ok && res.status === 200) {
@@ -57,7 +57,7 @@ const getAllSongPost = async (songId) => {
       return data;
     }
   } catch (error) {
-    console.log("error from getAllSongPost func. on each Song Page", error);
+    console.log('error from getAllSongPost func. on each Song Page', error);
   }
 };
 /* ----------------------- */
@@ -79,9 +79,10 @@ const getOtherSongPost = (allSongPosts, session) => {
 /* -------------------------- */
 /* --- Song's Detail Page --- */
 /* -------------------------- */
-const Details = async (context) => {
+const Details = async (props) => {
+  const songId = props.params.id;
   const session = await getServerSession(authOptions);
-  const songId = context.params.id;
+
   const songInfo = await getSongInfo(songId, session);
   const allSongPosts = await getAllSongPost(songId);
   const mySongPosts = await getMySongPost(allSongPosts, session);
@@ -89,9 +90,9 @@ const Details = async (context) => {
 
   return (
     <section className="w-full flex-center flex-col">
-      <SongForm songId={songId} songInfo={songInfo} submitStatus={"Create"} />
-      <PostFeed postData={mySongPosts} text={"Your Posts"} />
-      <PostFeed postData={otherSongPosts} text={"Stories from Others"} />
+      <SongForm songId={songId} songInfo={songInfo} submitStatus={'Create'} />
+      <PostFeed postData={mySongPosts} text={'Your Posts'} />
+      <PostFeed postData={otherSongPosts} text={'Stories from Others'} />
       <div className="h-32"></div>
     </section>
   );
